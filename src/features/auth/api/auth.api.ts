@@ -1,5 +1,6 @@
-import { axiosInstance } from "../../../lib/axios";
+import { axiosInstance, BASE_URL } from "../../../lib/axios";
 import type { AccessToken, LoginDto, RegisterDto, User } from "../types/auth.ts";
+import axios from "axios";
 
 export const authApi = {
   login: (data: LoginDto) => {
@@ -10,17 +11,24 @@ export const authApi = {
       .post<AccessToken>("/v1/auth/login", form, {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
       })
-      .then((r) => r.data);
+      .then((response) => response.data);
   },
 
   register: (data: RegisterDto) =>
-    axiosInstance.post<User>("/v1/auth/register", data).then((r) => r.data),
+    axiosInstance.post<User>("/v1/auth/register", data).then((response) => response.data),
 
-  me: () => axiosInstance.get<User>("/v1/users/me").then((r) => r.data),
+  me: () => axiosInstance.get<User>("/v1/users/me").then((response) => response.data),
 
   logout: () => axiosInstance.post("/v1/auth/logout"),
 
+  refresh: () =>
+    axios
+      .post<AccessToken>(`${BASE_URL}/v1/auth/refresh`, null, {
+        withCredentials: true,
+      })
+      .then((response) => response.data),
+
   googleLogin: () => {
-    window.location.href = `${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/google/authorize`;
+    window.location.href = `${BASE_URL}/v1/auth/google/authorize`;
   },
 };

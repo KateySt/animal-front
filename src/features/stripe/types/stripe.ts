@@ -5,13 +5,11 @@ export const PaymentStatus = {
   Error: "error",
 } as const;
 
-export type PaymentStatusType = (typeof PaymentStatus)[keyof typeof PaymentStatus];
-
 export const InvoiceStatus = {
   Pending: "pending",
   Paid: "paid",
   Failed: "failed",
-  Proceeding: "proceeding",
+  Processing: "processing",
 } as const;
 
 export const Currency = {

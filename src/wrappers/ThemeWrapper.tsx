@@ -3,7 +3,6 @@ import { RouterProvider } from "react-router";
 import { ConfigProvider, theme as antTheme } from "antd";
 import { useThemeStore } from "../store/theme.store";
 import { styleConfig } from "../style.config.ts";
-import AppInitializer from "./AppInitializer.tsx";
 import { router } from "../router";
 
 const ThemeWrapper = () => {
@@ -39,9 +38,7 @@ const ThemeWrapper = () => {
         },
       }}
     >
-      <AppInitializer>
-        <RouterProvider router={router} />
-      </AppInitializer>
+      <RouterProvider router={router} />
     </ConfigProvider>
   );
 };

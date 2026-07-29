@@ -3,7 +3,7 @@ import { Alert, Button, Space, Spin, Typography } from "antd";
 import { useTranslation } from "react-i18next";
 import { useConfirmPayment } from "../hooks/use-confirm-payment";
 import { PaymentStatus } from "../types/stripe";
-import React from "react";
+import React, { useState } from "react";
 
 const { Text } = Typography;
 
@@ -15,10 +15,8 @@ export const PaymentForm = ({ invoiceId }: PaymentFormProps) => {
   const { t } = useTranslation("payment");
   const stripe = useStripe();
   const elements = useElements();
-  const { confirm, status, errorMessage } = useConfirmPayment({ invoiceId });
-
-  const isLoading = status === PaymentStatus.Processing;
-  const isDone = status === PaymentStatus.Succeeded;
+  const { confirm, status, errorMessage, isDone, isProcessing } = useConfirmPayment({ invoiceId });
+  const [isReady, setIsReady] = useState(false);
 
   const handleSubmit = async (e: React.BaseSyntheticEvent) => {
     e.preventDefault();
@@ -31,12 +29,12 @@ export const PaymentForm = ({ invoiceId }: PaymentFormProps) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Space direction="vertical" style={{ width: "100%" }} size="middle">
-        <PaymentElement />
+      <Space orientation="vertical" style={{ width: "100%" }} size="middle">
+        <PaymentElement onReady={() => setIsReady(true)} />
 
         {statusMessage && (
           <Space>
-            {isLoading && <Spin size="small" />}
+            {isProcessing && <Spin size="small" />}
             <Text type="secondary">{statusMessage}</Text>
           </Space>
         )}
@@ -55,7 +53,7 @@ export const PaymentForm = ({ invoiceId }: PaymentFormProps) => {
         <Button
           type="primary"
           htmlType="submit"
-          loading={isLoading}
+          loading={isProcessing || !isReady}
           disabled={!stripe || !elements || isDone}
           block
         >

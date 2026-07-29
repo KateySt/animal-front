@@ -15,7 +15,7 @@ const { Title, Text } = Typography;
 
 export const STATUS_COLOR = {
   [InvoiceStatus.Pending]: "orange",
-  [InvoiceStatus.Proceeding]: "yellow",
+  [InvoiceStatus.Processing]: "yellow",
   [InvoiceStatus.Paid]: "green",
   [InvoiceStatus.Failed]: "red",
 } satisfies Record<InvoiceStatusType, string>;

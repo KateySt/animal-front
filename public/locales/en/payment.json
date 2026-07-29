@@ -5,7 +5,7 @@
     "pending": "Pending",
     "paid": "Paid",
     "failed": "Failed",
-    "proceeding": "Proceeding"
+    "processing": "Proceeding"
   },
   "alreadyPaid": "Invoice already paid",
   "failed": "Payment failed. Please try again.",

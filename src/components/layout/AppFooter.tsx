@@ -4,7 +4,7 @@ import {
   GithubOutlined,
   HeartOutlined,
   InstagramOutlined,
-  TwitterOutlined,
+  LinkedinOutlined,
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { Routes } from "../../router/routes";
@@ -75,12 +75,24 @@ export const AppFooter = () => {
             <Space size={16} style={{ marginTop: 8 }}>
               <GithubOutlined
                 style={{ fontSize: 18, color: colors.textSecondary, cursor: "pointer" }}
+                onMouseEnter={(e) =>
+                  ((e.target as HTMLElement).style.color = styleConfig.colorPrimary)
+                }
+                onMouseLeave={(e) => ((e.target as HTMLElement).style.color = colors.textSecondary)}
               />
-              <TwitterOutlined
+              <LinkedinOutlined
                 style={{ fontSize: 18, color: colors.textSecondary, cursor: "pointer" }}
+                onMouseEnter={(e) =>
+                  ((e.target as HTMLElement).style.color = styleConfig.colorPrimary)
+                }
+                onMouseLeave={(e) => ((e.target as HTMLElement).style.color = colors.textSecondary)}
               />
               <InstagramOutlined
                 style={{ fontSize: 18, color: colors.textSecondary, cursor: "pointer" }}
+                onMouseEnter={(e) =>
+                  ((e.target as HTMLElement).style.color = styleConfig.colorPrimary)
+                }
+                onMouseLeave={(e) => ((e.target as HTMLElement).style.color = colors.textSecondary)}
               />
             </Space>
           </Space>

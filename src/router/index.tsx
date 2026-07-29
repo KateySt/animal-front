@@ -13,6 +13,11 @@ export const router = createBrowserRouter([
     lazy: () => import("../pages/RegisterPage").then((m) => ({ Component: m.RegisterPage })),
   },
   {
+    path: Routes.GoogleCallback,
+    lazy: () =>
+      import("../pages/GoogleCallbackPage").then((m) => ({ Component: m.GoogleCallbackPage })),
+  },
+  {
     element: <AuthWrapper />,
     children: [
       {

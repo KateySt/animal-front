@@ -83,13 +83,11 @@ export function useConfirmPayment({ invoiceId }: UseConfirmPaymentOptions) {
     [invoiceId, queryClient, state.status],
   );
 
-  const reset = useCallback(() => dispatch({ type: "RESET" }), []);
-
   return {
     confirm,
-    reset,
     status: state.status,
     errorMessage: state.status === PaymentStatus.Error ? state.message : null,
     isProcessing: state.status === PaymentStatus.Processing,
+    isDone: state.status === PaymentStatus.Succeeded,
   };
 }

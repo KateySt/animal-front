@@ -6,4 +6,5 @@ export const Routes = {
   Payment: "/payment",
   Login: "/login",
   Register: "/register",
+  GoogleCallback: "/auth/google/callback",
 } as const;

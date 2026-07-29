@@ -1,11 +1,11 @@
 import { Avatar, Dropdown, type MenuProps, Space, Typography } from "antd";
 import { SettingOutlined, UserOutlined } from "@ant-design/icons";
 import { styleConfig } from "../../style.config.ts";
-import { useAuthStore } from "../../store/auth.store.ts";
 import { useThemeStore } from "../../store/theme.store.ts";
 import { Link } from "react-router";
 import { Routes } from "../../router/routes.ts";
 import { useTranslation } from "react-i18next";
+import { useAuthStore } from "../../store/auth.store.ts";
 
 const { Text } = Typography;
 
@@ -46,7 +46,7 @@ const UserButton = () => {
             whiteSpace: "nowrap",
           }}
         >
-          {user?.email ?? "Account"}
+          {user?.email ?? "-"}
         </Text>
       </Space>
     </Dropdown>
