@@ -1,0 +1,17 @@
+.env
+.env.*
+*.env
+config.py
+secrets/
+certs/
+*.pem
+*.key
+
+.idea/
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*

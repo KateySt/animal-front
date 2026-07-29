@@ -1,0 +1,74 @@
+{
+  "nav": {
+    "home": "Home",
+    "animals": "Animals",
+    "payment": "Payments",
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+  "footer": {
+    "description": "Caring for animals, connecting communities. Your trusted platform for pet health and wellness.",
+    "sections": {
+      "navigation": "Navigation",
+      "account": "Account",
+      "support": "Support"
+    },
+    "links": {
+      "home": "Home",
+      "animals": "Animals",
+      "profile": "Profile",
+      "settings": "Settings",
+      "payments": "Payments",
+      "helpCenter": "Help Center",
+      "privacyPolicy": "Privacy Policy",
+      "termsOfService": "Terms of Service"
+    },
+    "copyright": "All rights reserved.",
+    "madeWith": "Made with",
+    "forAnimals": "for animals"
+  },
+  "errorPage": {
+    "title": "Something went wrong",
+    "message": "An unexpected error occurred. Please try again.",
+    "retry": "Try Again",
+    "goHome": "Go Home"
+  },
+  "auth": {
+    "register": {
+      "title": "Registration",
+      "subtitle": "Create a new account",
+      "googleBtn": "Sign up with Google",
+      "divider": "or",
+      "nameLabel": "Name",
+      "namePlaceholder": "John Doe",
+      "nameRequired": "Please enter your name",
+      "emailRequired": "Please enter your email",
+      "emailInvalid": "Invalid email format",
+      "passwordLabel": "Password",
+      "passwordRequired": "Please enter your password",
+      "passwordMin": "Minimum 8 characters",
+      "confirmLabel": "Confirm Password",
+      "confirmRequired": "Please confirm your password",
+      "confirmMismatch": "Passwords do not match",
+      "submitBtn": "Register",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Sign in",
+      "error": "Registration failed. Please try again"
+    },
+    "login": {
+      "title": "Sign In",
+      "subtitle": "Welcome back",
+      "googleBtn": "Sign in with Google",
+      "divider": "or",
+      "emailRequired": "Please enter your email",
+      "emailInvalid": "Invalid email format",
+      "passwordLabel": "Password",
+      "passwordRequired": "Please enter your password",
+      "submitBtn": "Sign In",
+      "noAccount": "Don't have an account?",
+      "registerLink": "Register",
+      "error": "Login failed. Please try again"
+    }
+  }
+}

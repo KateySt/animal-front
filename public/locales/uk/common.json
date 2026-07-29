@@ -1,0 +1,74 @@
+{
+  "nav": {
+    "home": "Головна",
+    "animals": "Тварини",
+    "payment": "Платежі",
+    "profile": "Профіль",
+    "settings": "Налаштування",
+    "logout": "Вийти"
+  },
+  "footer": {
+    "description": "Турбота про тварин, об'єднання спільнот. Ваша платформа для здоров'я та благополуччя улюбленців.",
+    "sections": {
+      "navigation": "Навігація",
+      "account": "Акаунт",
+      "support": "Підтримка"
+    },
+    "links": {
+      "home": "Головна",
+      "animals": "Тварини",
+      "profile": "Профіль",
+      "settings": "Налаштування",
+      "payments": "Платежі",
+      "helpCenter": "Центр допомоги",
+      "privacyPolicy": "Політика конфіденційності",
+      "termsOfService": "Умови використання"
+    },
+    "copyright": "Всі права захищені.",
+    "madeWith": "Зроблено з",
+    "forAnimals": "для тварин"
+  },
+  "errorPage": {
+    "title": "Щось пішло не так",
+    "message": "Сталася непередбачена помилка. Будь ласка, спробуйте ще раз.",
+    "retry": "Спробувати знову",
+    "goHome": "На головну"
+  },
+  "auth": {
+    "register": {
+      "title": "Реєстрація",
+      "subtitle": "Створіть новий акаунт",
+      "googleBtn": "Зареєструватись через Google",
+      "divider": "або",
+      "nameLabel": "Ім'я",
+      "namePlaceholder": "Іван Іваненко",
+      "nameRequired": "Введіть ім'я",
+      "emailRequired": "Введіть email",
+      "emailInvalid": "Невірний формат email",
+      "passwordLabel": "Пароль",
+      "passwordRequired": "Введіть пароль",
+      "passwordMin": "Мінімум 8 символів",
+      "confirmLabel": "Підтвердження пароля",
+      "confirmRequired": "Підтвердіть пароль",
+      "confirmMismatch": "Паролі не співпадають",
+      "submitBtn": "Зареєструватись",
+      "hasAccount": "Вже є акаунт?",
+      "loginLink": "Увійти",
+      "error": "Помилка реєстрації. Спробуйте ще раз"
+    },
+    "login": {
+      "title": "Вхід",
+      "subtitle": "З поверненням",
+      "googleBtn": "Увійти через Google",
+      "divider": "або",
+      "emailRequired": "Введіть email",
+      "emailInvalid": "Невірний формат email",
+      "passwordLabel": "Пароль",
+      "passwordRequired": "Введіть пароль",
+      "submitBtn": "Увійти",
+      "noAccount": "Немає акаунту?",
+      "registerLink": "Зареєструватись",
+      "error": "Помилка входу. Спробуйте ще раз"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+export const ProfilePage = () => {
+  return (
+    <div style={{ padding: "24px" }}>
+      <h1>Profile</h1>
+    </div>
+  );
+};

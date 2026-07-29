@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "cleanupPeriodDays": 30,
+  "env": {
+    "ENABLE_TOOL_SEARCH": "auto",
+    "BASH_DEFAULT_TIMEOUT_MS": "300000",
+    "MAX_MCP_OUTPUT_TOKENS": "25000",
+    "CLAUDE_CODE_ENABLE_TASKS": "1"
+  },
+  "attribution": {
+    "commit": "Co-Authored-By: Claude <noreply@anthropic.com>",
+    "pr": ""
+  },
+  "permissions": {
+    "allow": [
+      "Read",
+      "Edit",
+      "Write",
+      "Glob",
+      "Grep",
+      "Bash(npm run test:*)",
+      "Bash(npm run lint)",
+      "Bash(npm run typecheck)",
+      "Bash(git status)",
+      "Bash(git diff:*)"
+    ],
+    "deny": [
+      "Bash(rm -rf:*)",
+      "Bash(curl:*)",
+      "Bash(sudo:*)",
+      "Read(./.env)",
+      "Read(./packages/**/.env)",
+      "Read(./secrets/**)",
+      "mcp__postgres__execute"
+    ],
+    "ask": ["Edit", "Write"],
+    "defaultMode": "default",
+    "disableBypassPermissionsMode": "disable",
+    "additionalDirectories": ["../shared-fixtures"]
+  },
+  "skills": [
+    {
+      "name": "naming",
+      "description": "Enforce Clean Code naming conventions: no abbreviations, every name answers WHY it exists, full descriptive identifiers.",
+      "file": "skills/naming.md"
+    },
+    {
+      "name": "i18n-check",
+      "description": "Verify that every new i18n key exists in all three locale files (en/ru/uk) before finishing a task.",
+      "file": "skills/i18n-check.md"
+    },
+    {
+      "name": "routes-guard",
+      "description": "Enforce Routes.* usage — no hardcoded path strings in navigate(), Link, NavLink, or route definitions.",
+      "file": "skills/routes-guard.md"
+    }
+  ],
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/lint-and-format.js",
+            "timeout": 30,
+            "statusMessage": "Running Prettier & ESLint..."
+          },
+          {
+            "type": "command",
+            "command": "node .claude/hooks/typecheck.js",
+            "timeout": 60,
+            "statusMessage": "Running TypeScript typecheck..."
+          },
+          {
+            "type": "command",
+            "command": "node .claude/hooks/security-check.js",
+            "timeout": 10,
+            "statusMessage": "Running security checks..."
+          }
+        ]
+      }
+    ]
+  },
+  "outputStyle": "default",
+  "enabledPlugins": {
+    "code-review@claude-plugins-official": true
+  }
+}

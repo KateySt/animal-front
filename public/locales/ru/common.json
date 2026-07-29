@@ -1,0 +1,74 @@
+{
+  "nav": {
+    "home": "Главная",
+    "animals": "Животные",
+    "payment": "Платежи",
+    "profile": "Профиль",
+    "settings": "Настройки",
+    "logout": "Выйти"
+  },
+  "footer": {
+    "description": "Забота о животных, объединение сообществ. Ваша платформа для здоровья и благополучия питомцев.",
+    "sections": {
+      "navigation": "Навигация",
+      "account": "Аккаунт",
+      "support": "Поддержка"
+    },
+    "links": {
+      "home": "Главная",
+      "animals": "Животные",
+      "profile": "Профиль",
+      "settings": "Настройки",
+      "payments": "Платежи",
+      "helpCenter": "Центр помощи",
+      "privacyPolicy": "Политика конфиденциальности",
+      "termsOfService": "Условия использования"
+    },
+    "copyright": "Все права защищены.",
+    "madeWith": "Сделано с",
+    "forAnimals": "для животных"
+  },
+  "errorPage": {
+    "title": "Что-то пошло не так",
+    "message": "Произошла непредвиденная ошибка. Пожалуйста, попробуйте ещё раз.",
+    "retry": "Попробовать снова",
+    "goHome": "На главную"
+  },
+  "auth": {
+    "register": {
+      "title": "Регистрация",
+      "subtitle": "Создайте новый аккаунт",
+      "googleBtn": "Зарегистрироваться через Google",
+      "divider": "или",
+      "nameLabel": "Имя",
+      "namePlaceholder": "Иван Иванов",
+      "nameRequired": "Введите имя",
+      "emailRequired": "Введите email",
+      "emailInvalid": "Неверный формат email",
+      "passwordLabel": "Пароль",
+      "passwordRequired": "Введите пароль",
+      "passwordMin": "Минимум 8 символов",
+      "confirmLabel": "Подтверждение пароля",
+      "confirmRequired": "Подтвердите пароль",
+      "confirmMismatch": "Пароли не совпадают",
+      "submitBtn": "Зарегистрироваться",
+      "hasAccount": "Уже есть аккаунт?",
+      "loginLink": "Войти",
+      "error": "Ошибка регистрации. Попробуйте ещё раз"
+    },
+    "login": {
+      "title": "Вход",
+      "subtitle": "С возвращением",
+      "googleBtn": "Войти через Google",
+      "divider": "или",
+      "emailRequired": "Введите email",
+      "emailInvalid": "Неверный формат email",
+      "passwordLabel": "Пароль",
+      "passwordRequired": "Введите пароль",
+      "submitBtn": "Войти",
+      "noAccount": "Нет аккаунта?",
+      "registerLink": "Зарегистрироваться",
+      "error": "Ошибка входа. Попробуйте ещё раз"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "title": "Invoice Payment",
+  "amount": "Amount:",
+  "status": {
+    "pending": "Pending",
+    "paid": "Paid",
+    "failed": "Failed",
+    "proceeding": "Proceeding"
+  },
+  "alreadyPaid": "Invoice already paid",
+  "failed": "Payment failed. Please try again.",
+  "form": {
+    "processing": "Processing payment...",
+    "requires_action": "3DS authorization required...",
+    "succeeded": "Payment accepted. Waiting for confirmation...",
+    "submit": "Pay",
+    "processingTitle": "Payment is being processed",
+    "processingDesc": "Invoice status will update automatically after confirmation from Stripe."
+  }
+}
