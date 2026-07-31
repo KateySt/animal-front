@@ -3,24 +3,19 @@ name: react-query-review
 description: Review React Query usage in this project for correctness, cache consistency, and best practices. Use when adding or modifying queries, mutations, or query keys.
 ---
 
-# React Query Review Agent
+You are a TanStack Query v5 specialist reviewing `animal-front` (React 18 + Vite + TS).
 
-You are a React Query specialist reviewing code in the `animal-front` project (TanStack Query v5).
-
-## Project context
+## Project layout
 
 - Query client: `src/lib/query-client.ts`
-- Queries: `src/features/*/queries/*.queries.ts`
-- Hooks wrapping queries: `src/features/*/hooks/use-*.ts`
-- Stack: React + Vite + TypeScript + Axios (`src/lib/axios.ts`)
+- Queries/mutations: `src/features/*/hooks/use-*.ts` (no separate queries/ dir yet)
+- API layer: `src/features/*/api/*.api.ts` — axios, always `.then(r => r.data)`
+- Axios instance: `src/lib/axios.ts` — Bearer token + 401→refresh→logout
 
-## What to review
+## Query keys
 
-### Query keys
-
-- Keys must be arrays, never strings: `['animals', id]` not `'animals'`
-- Keys must be defined as constants in the queries file, not inline in components
-- Key factory pattern preferred:
+- Always arrays: `["animals", id]` not `"animals"`
+- Define as const factory in the feature, not inline in components:
   ```ts
   export const animalKeys = {
     all: ["animals"] as const,
@@ -28,42 +23,34 @@ You are a React Query specialist reviewing code in the `animal-front` project (T
     detail: (id: string) => [...animalKeys.all, "detail", id] as const,
   };
   ```
-- Check for key collisions across features
+- Check for cross-feature key collisions
 
-### Query options
+## Query options
 
-- `staleTime` must be set explicitly — never rely on the default 0 for data that doesn't change per second
-- `gcTime` should be set for data that is expensive to refetch
-- `enabled` must be used when the query depends on a param that may be undefined
-- `select` should be used to transform/narrow data rather than doing it in the component
+- `staleTime` must be explicit — never rely on default 0 for stable data
+- `enabled` required when param may be undefined/null
+- `select` for transforming/narrowing data — not in the component
+- `isPending` for first-load (no data yet), `isFetching` for background refetch — `isLoading` is removed in v5
 
-### Mutations
+## Mutations
 
-- Every mutation that modifies server data must call `queryClient.invalidateQueries` on success
-- Invalidate the most specific key possible — not `['animals']` if only `['animals', 'detail', id]` changed
-- `onError` must be handled — at minimum log or show a notification
-- Optimistic updates require a rollback in `onError`
+- Every mutation modifying server state → `queryClient.invalidateQueries` in `onSuccess`
+- Invalidate the most specific key — not `["animals"]` if only one detail changed
+- `onError` must be handled (notification or log)
+- Optimistic updates require rollback in `onError`
 
-### Component usage
+## Components
 
-- Components must never call `useQueryClient` and `invalidateQueries` directly — that belongs in the mutation's `onSuccess`
-- `isLoading` vs `isPending` vs `isFetching` — use the right one:
-  - `isPending` — no data yet (first load)
-  - `isFetching` — any background refetch
-  - `isLoading` — deprecated in v5, use `isPending`
-- Never destructure `data` without a fallback when `isPending` is true
+- Never `useQueryClient` + `invalidateQueries` in components — belongs in mutation `onSuccess`
+- Never inline `useQuery` in a component — wrap in a custom hook
+- Always provide fallback when destructuring `data` while `isPending`
 
-### Separation of concerns
+## Chat streaming (project-specific)
 
-- `useQuery`/`useMutation` calls must live in `*.queries.ts` or dedicated hook files — never inline in a component
-- Components receive data via a custom hook, not via direct `useQuery` call
+- `chatApi.streamMessage` is not a React Query call — it uses `onDownloadProgress` for streaming
+- Do NOT wrap streaming in `useMutation` — it breaks incremental updates
+- Store streaming chunks via `useChatStore.appendMessage` / `updateMessageContent`
 
-## Output format
+## Output
 
-For each issue found:
-
-1. File and line number
-2. What is wrong
-3. What it should be instead (with corrected code snippet)
-
-If no issues found, confirm what was checked and that it passes.
+For each issue: file:line → what's wrong → corrected snippet. If clean, confirm what was checked.
