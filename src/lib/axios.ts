@@ -1,11 +1,16 @@
 import axios from "axios";
 import { useAuthStore } from "../store/auth.store";
 import { Routes } from "../router/routes.ts";
-import { authApi } from "../features/auth/api/auth.api.ts";
 
 export const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api`;
 
 export const axiosInstance = axios.create({
+  baseURL: BASE_URL,
+  headers: { "Content-Type": "application/json" },
+  withCredentials: true,
+});
+
+export const refreshInstance = axios.create({
   baseURL: BASE_URL,
   headers: { "Content-Type": "application/json" },
   withCredentials: true,
@@ -20,10 +25,16 @@ axiosInstance.interceptors.request.use((config) => {
 });
 
 let isRefreshing = false;
-let queue: Array<(token: string) => void> = [];
+let queue: Array<{ resolve: (token: string) => void; reject: (error: any) => void }> = [];
 
-function processQueue(token: string) {
-  queue.forEach((resolve) => resolve(token));
+function processQueue(error: any, token: string | null = null) {
+  queue.forEach((promise) => {
+    if (error) {
+      promise.reject(error);
+    } else if (token) {
+      promise.resolve(token);
+    }
+  });
   queue = [];
 }
 
@@ -37,10 +48,15 @@ axiosInstance.interceptors.response.use(
     }
 
     if (isRefreshing) {
-      return new Promise((resolve) => {
-        queue.push((token) => {
-          original.headers.Authorization = `Bearer ${token}`;
-          resolve(axiosInstance(original));
+      return new Promise((resolve, reject) => {
+        queue.push({
+          resolve: (token) => {
+            original.headers.Authorization = `Bearer ${token}`;
+            resolve(axiosInstance(original));
+          },
+          reject: (err) => {
+            reject(err);
+          },
         });
       });
     }
@@ -49,21 +65,20 @@ axiosInstance.interceptors.response.use(
     isRefreshing = true;
 
     try {
-      const data = await authApi.refresh();
+      const response = await refreshInstance.post("/auth/refresh");
+      const data = response.data;
 
       useAuthStore.getState().setAccessToken(data.access_token);
-      useAuthStore.getState().setHasHydrated(true);
-      axiosInstance.defaults.headers.common.Authorization = `Bearer ${data.access_token}`;
-      processQueue(data.access_token);
+      processQueue(null, data.access_token);
 
       original.headers.Authorization = `Bearer ${data.access_token}`;
       return axiosInstance(original);
-    } catch (error) {
-      queue = [];
+    } catch (refreshError) {
+      processQueue(refreshError, null);
+
       useAuthStore.getState().logout();
-      useAuthStore.getState().setHasHydrated(true);
       window.location.href = Routes.Login;
-      return Promise.reject(error);
+      return Promise.reject(refreshError);
     } finally {
       isRefreshing = false;
     }

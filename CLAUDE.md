@@ -47,3 +47,4 @@ const { t } = useTranslation("common");
 - SOLID + Clean Code (see memory).
 - No hardcoded strings in JSX — always translate.
 - No hardcoded route paths — always use `Routes.*`.
+- **Always use `type` instead of `interface`** for all TypeScript type declarations.

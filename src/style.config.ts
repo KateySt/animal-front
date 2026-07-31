@@ -1,11 +1,33 @@
 import { theme } from "antd";
+import { presetPalettes } from "@ant-design/colors";
+
+const { purple, magenta } = presetPalettes;
+
+// Purple — primary (70%), Magenta — bright accent (30%)
+export const palette = {
+  // --- Purple base ---
+  primary: purple[5], // #531dab — brand primary
+  primaryLight: purple[3], // #d3adf7 — light hover
+  primaryDark: purple[7], // #22075e — pressed / dark
+  primaryAlpha15: `${purple[5]}26`, // active item bg (dark theme)
+  primaryAlpha08: `${purple[5]}14`, // active item bg (light theme)
+  primaryAlpha30: `${purple[5]}4D`, // active item border
+
+  // --- Magenta accent (French Magenta) ---
+  accent: magenta[5], // #eb2f96 — bright accent
+  accentLight: magenta[3], // #ffadd2 — soft hover
+  accentDark: magenta[7], // #9e1068 — pressed
+  accentAlpha15: `${magenta[5]}26`,
+  accentAlpha08: `${magenta[5]}14`,
+} as const;
 
 export const styleConfig = {
   defaultTheme: theme.darkAlgorithm,
   stripeTheme: "night" as const,
 
   // Brand
-  colorPrimary: "#b905c7",
+  colorPrimary: palette.primary,
+  colorAccent: palette.accent,
   borderRadius: 6,
 
   // Layout
@@ -21,7 +43,6 @@ export const styleConfig = {
   fontSizeXL: 20,
   lineHeight: 1.6,
 
-  // Text colors (dark theme)
   dark: {
     bg: "#0f0f16",
     bgHeader: "rgba(20, 20, 30, 0.92)",
@@ -33,7 +54,6 @@ export const styleConfig = {
     mobileBg: "rgba(20, 20, 30, 0.98)",
   },
 
-  // Text colors (light theme)
   light: {
     bg: "#f5f5f5",
     bgHeader: "rgba(255,255,255,0.92)",

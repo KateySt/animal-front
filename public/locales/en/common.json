@@ -5,7 +5,8 @@
     "payment": "Payments",
     "profile": "Profile",
     "settings": "Settings",
-    "logout": "Logout"
+    "logout": "Logout",
+    "chat": "Chat"
   },
   "footer": {
     "description": "Caring for animals, connecting communities. Your trusted platform for pet health and wellness.",

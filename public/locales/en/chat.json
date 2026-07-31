@@ -1,0 +1,19 @@
+{
+  "sidebar": {
+    "newChat": "New chat",
+    "history": "Sessions",
+    "empty": "No sessions yet",
+    "delete": "Delete"
+  },
+  "window": {
+    "emptyHint": "Send a message to start the session"
+  },
+  "input": {
+    "placeholder": "Type a message… (Enter to send, Shift+Enter for new line)",
+    "send": "Send"
+  },
+  "page": {
+    "welcomeTitle": "AI Assistant",
+    "welcomeHint": "Create a new chat or select an existing session"
+  }
+}

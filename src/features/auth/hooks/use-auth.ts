@@ -8,27 +8,26 @@ import type { LoginDto, RegisterDto, User } from "../types/auth";
 export function useLogin() {
   const setAccessToken = useAuthStore((state) => state.setAccessToken);
   const navigate = useNavigate();
-  const { mutate: getMe } = useMe();
+  const { mutateAsync: getMe } = useMe();
 
   return useMutation({
     mutationFn: (data: LoginDto) => authApi.login(data),
     onSuccess: async ({ access_token }) => {
       setAccessToken(access_token);
-      getMe();
+      await getMe();
       navigate(Routes.Home);
     },
   });
 }
 
 export function useMe(onSuccess?: () => void | Promise<void>) {
-  const { setUser, setHasHydrated } = useAuthStore((state) => state);
+  const { setUser } = useAuthStore((state) => state);
   const navigate = useNavigate();
 
   return useMutation({
     mutationFn: () => authApi.me(),
     onSuccess: (user: User) => {
       setUser(user);
-      setHasHydrated(true);
 
       if (onSuccess) onSuccess();
     },

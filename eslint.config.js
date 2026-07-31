@@ -61,6 +61,7 @@ export default [
       "no-console": ["warn", { allow: ["warn", "error"] }],
       "no-duplicate-imports": "error",
       "prefer-const": "error",
+      "no-undef": "off",
       eqeqeq: ["error", "always"],
     },
   },

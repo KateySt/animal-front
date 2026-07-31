@@ -1,10 +1,10 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
-interface ThemeState {
+type ThemeState = {
   isDark: boolean;
   toggleTheme: () => void;
-}
+};
 
 export const useThemeStore = create<ThemeState>()(
   devtools(

@@ -1,6 +1,5 @@
 import { axiosInstance, BASE_URL } from "../../../lib/axios";
 import type { AccessToken, LoginDto, RegisterDto, User } from "../types/auth.ts";
-import axios from "axios";
 
 export const authApi = {
   login: (data: LoginDto) => {
@@ -20,13 +19,6 @@ export const authApi = {
   me: () => axiosInstance.get<User>("/v1/users/me").then((response) => response.data),
 
   logout: () => axiosInstance.post("/v1/auth/logout"),
-
-  refresh: () =>
-    axios
-      .post<AccessToken>(`${BASE_URL}/v1/auth/refresh`, null, {
-        withCredentials: true,
-      })
-      .then((response) => response.data),
 
   googleLogin: () => {
     window.location.href = `${BASE_URL}/v1/auth/google/authorize`;

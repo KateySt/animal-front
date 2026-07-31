@@ -44,6 +44,15 @@ export const router = createBrowserRouter([
             path: Routes.Payment + "/:invoiceId",
             lazy: () => import("../pages/PaymentPage").then((m) => ({ Component: m.PaymentPage })),
           },
+          {
+            path: Routes.Chat,
+            lazy: () =>
+              import("../pages/EmptyChatPage").then((m) => ({ Component: m.EmptyChatPage })),
+          },
+          {
+            path: Routes.ChatSession,
+            lazy: () => import("../pages/ChatPage").then((m) => ({ Component: m.ChatPage })),
+          },
         ],
       },
     ],

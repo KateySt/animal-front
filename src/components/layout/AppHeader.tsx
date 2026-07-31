@@ -4,10 +4,10 @@ import { Link, useLocation } from "react-router";
 import { Button, Layout, Menu, type MenuProps, Space, Typography } from "antd";
 import {
   CloseOutlined,
-  CreditCardOutlined,
   HeartOutlined,
   HomeOutlined,
   MenuOutlined,
+  MessageOutlined,
   TeamOutlined,
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
@@ -58,12 +58,23 @@ export const AppHeader = () => {
         </Link>
       ),
     },
-    {
+    /*{todo crud
       key: Routes.Payment,
       icon: <CreditCardOutlined />,
       label: (
-        <Link to={`${Routes.Payment}/new`} onClick={() => setDrawerOpen(false)}>
+        <Link to={Routes.Payment} onClick={() => setDrawerOpen(false)}>
           {t("nav.payment")}
+        </Link>
+      ),
+    },
+
+     */
+    {
+      key: Routes.Chat,
+      icon: <MessageOutlined />,
+      label: (
+        <Link to={Routes.Chat} onClick={() => setDrawerOpen(false)}>
+          {t("nav.chat")}
         </Link>
       ),
     },

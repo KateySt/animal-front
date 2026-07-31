@@ -30,10 +30,7 @@ export const AppFooter = () => {
     },
     {
       title: t("footer.sections.account"),
-      links: [
-        { label: t("footer.links.settings"), to: Routes.Settings },
-        { label: t("footer.links.payments"), to: `${Routes.Payment}/new` },
-      ],
+      links: [{ label: t("footer.links.settings"), to: Routes.Settings }],
     },
     {
       title: t("footer.sections.support"),

@@ -2,8 +2,8 @@ import { useCallback, useReducer } from "react";
 import type { Stripe, StripeElements } from "@stripe/stripe-js";
 import { useQueryClient } from "@tanstack/react-query";
 import { stripeApi } from "../api/stripe.api";
-import { invoiceKeys } from "../queries/stripe.queries";
 import { PaymentStatus } from "../types/stripe";
+import { invoiceKeys } from "./use-invoice.ts";
 
 type PaymentState =
   | { status: typeof PaymentStatus.Idle }

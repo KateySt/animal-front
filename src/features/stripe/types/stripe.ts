@@ -1,3 +1,5 @@
+import type { TimeStamp } from "../../../types/base.ts";
+
 export const PaymentStatus = {
   Idle: "idle",
   Processing: "processing",
@@ -23,22 +25,18 @@ export type HealthLog = {
   animal_id: string;
   procedure_name: string;
   examination_findings: string;
-  created_at: string;
-  updated_at: string;
-};
+} & TimeStamp;
 
 export type InvoiceStatusType = (typeof InvoiceStatus)[keyof typeof InvoiceStatus];
 
 export type CurrencyType = (typeof Currency)[keyof typeof Currency];
 
-export interface Invoice {
+export type Invoice = {
   id: string;
   status: InvoiceStatusType;
   animal_id: string;
   user_id: string;
   amount_in_cents: number;
   currency: CurrencyType;
-  created_at: string;
-  updated_at: string;
   health_logs: HealthLog[];
-}
+} & TimeStamp;

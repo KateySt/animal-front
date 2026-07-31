@@ -2,28 +2,28 @@ import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import type { User } from "../features/auth/types/auth.ts";
 
-interface AuthState {
+type AuthState = {
+  isInitialized: boolean;
   user: User | null;
   accessToken: string | null;
-  hasHydrated: boolean;
   setUser: (user: User) => void;
   setAccessToken: (token: string) => void;
-  setHasHydrated: (value: boolean) => void;
+  setInitialized: (value: boolean) => void;
   logout: () => void;
-}
+};
 
 export const useAuthStore = create<AuthState>()(
   devtools(
     (set) => ({
       user: null,
       accessToken: null,
-      hasHydrated: false,
+      isInitialized: false,
 
       setUser: (user) => set({ user }, false, "setUser"),
 
       setAccessToken: (token) => set({ accessToken: token }, false, "setAccessToken"),
 
-      setHasHydrated: (value) => set({ hasHydrated: value }, false, "setHasHydrated"),
+      setInitialized: (value) => set({ isInitialized: value }, false, "setInitialized"),
 
       logout: () => set({ user: null, accessToken: null }, false, "logout"),
     }),

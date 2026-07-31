@@ -4,7 +4,9 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { queryClient } from "./lib/query-client";
 import "./lib/i18n";
+import "./styles/global.scss";
 import ThemeWrapper from "./wrappers/ThemeWrapper.tsx";
+import InitializeApp from "./wrappers/InitializeApp.tsx";
 
 const container = document.getElementById("app");
 
@@ -14,7 +16,9 @@ if (container) {
     <React.StrictMode>
       <Suspense>
         <QueryClientProvider client={queryClient}>
-          <ThemeWrapper />
+          <ThemeWrapper>
+            <InitializeApp />
+          </ThemeWrapper>
           {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={false} />}
         </QueryClientProvider>
       </Suspense>

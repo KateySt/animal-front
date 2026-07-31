@@ -1,25 +1,18 @@
-import { useEffect } from "react";
-import { RouterProvider } from "react-router";
+import { type ReactNode, useEffect } from "react";
 import { ConfigProvider, theme as antTheme } from "antd";
 import { useThemeStore } from "../store/theme.store";
-import { styleConfig } from "../style.config.ts";
-import { router } from "../router";
+import { palette, styleConfig } from "../style.config.ts";
 
-const ThemeWrapper = () => {
+type ThemeWrapperProps = {
+  children: ReactNode;
+};
+
+const ThemeWrapper = ({ children }: ThemeWrapperProps) => {
   const isDark = useThemeStore((state) => state.isDark);
   const colors = isDark ? styleConfig.dark : styleConfig.light;
 
   useEffect(() => {
-    document.body.style.background = colors.bg;
-    document.body.style.color = colors.textPrimary;
-    document.body.style.margin = "0";
-    document.body.style.padding = "0";
-    document.documentElement.style.background = colors.bg;
-    const app = document.getElementById("app");
-    if (app) {
-      app.style.background = colors.bg;
-      app.style.minHeight = "100vh";
-    }
+    document.documentElement.dataset.theme = isDark ? "dark" : "light";
   }, [isDark, colors.bg, colors.textPrimary]);
 
   return (
@@ -27,7 +20,12 @@ const ThemeWrapper = () => {
       theme={{
         algorithm: isDark ? antTheme.darkAlgorithm : antTheme.defaultAlgorithm,
         token: {
-          colorPrimary: styleConfig.colorPrimary,
+          colorPrimary: palette.primary,
+          colorLink: palette.accent,
+          colorLinkHover: palette.accentLight,
+          colorLinkActive: palette.accentDark,
+          colorError: palette.accent,
+          colorErrorHover: palette.accentLight,
           borderRadius: styleConfig.borderRadius,
           fontFamily: styleConfig.fontFamily,
           fontSize: styleConfig.fontSizeBase,
@@ -36,9 +34,22 @@ const ThemeWrapper = () => {
           colorTextSecondary: colors.textSecondary,
           colorBgBase: colors.bg,
         },
+        components: {
+          Button: {
+            colorPrimaryHover: palette.accentLight,
+            defaultActiveBorderColor: palette.accent,
+          },
+          Tag: {
+            colorPrimary: palette.primary,
+          },
+          Slider: {
+            colorPrimaryBorder: palette.accentLight,
+            colorPrimaryBorderHover: palette.accent,
+          },
+        },
       }}
     >
-      <RouterProvider router={router} />
+      {children}
     </ConfigProvider>
   );
 };
