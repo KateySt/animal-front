@@ -1,0 +1,42 @@
+{
+  "title": "Тварини",
+  "add": "Додати тварину",
+  "edit": "Редагувати",
+  "delete": "Видалити",
+  "deleteConfirm": "Видалити цю тварину?",
+  "empty": "Тварин поки немає",
+  "columns": {
+    "name": "Ім'я",
+    "gender": "Стать",
+    "birthDate": "Дата народження",
+    "actions": "Дії"
+  },
+  "gender": {
+    "male": "Самець",
+    "female": "Самка",
+    "unknown": "Невідомо"
+  },
+  "form": {
+    "name": "Ім'я",
+    "caretakerNotes": "Нотатки доглядача",
+    "gender": "Стать",
+    "birthDate": "Дата народження",
+    "procedureName": "Процедура",
+    "examinationFindings": "Результати огляду",
+    "healthLogs": "Медичні записи",
+    "addLog": "Додати запис",
+    "removeLog": "Видалити запис",
+    "submit": "Зберегти",
+    "cancel": "Скасувати"
+  },
+  "validation": {
+    "nameRequired": "Введіть ім'я",
+    "nameMax": "Ім'я має бути не довше 100 символів",
+    "notesMax": "Нотатки мають бути не довше 255 символів",
+    "genderRequired": "Вкажіть стать",
+    "birthDateRequired": "Вкажіть дату народження",
+    "procedureRequired": "Введіть назву процедури",
+    "procedureMax": "Назва процедури має бути не довше 100 символів",
+    "findingsMax": "Результати мають бути не довше 255 символів"
+  }
+}

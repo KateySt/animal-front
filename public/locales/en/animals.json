@@ -1,0 +1,42 @@
+{
+  "title": "Animals",
+  "add": "Add animal",
+  "edit": "Edit",
+  "delete": "Delete",
+  "deleteConfirm": "Delete this animal?",
+  "empty": "No animals yet",
+  "columns": {
+    "name": "Name",
+    "gender": "Gender",
+    "birthDate": "Birth date",
+    "actions": "Actions"
+  },
+  "gender": {
+    "male": "Male",
+    "female": "Female",
+    "unknown": "Unknown"
+  },
+  "form": {
+    "name": "Name",
+    "caretakerNotes": "Caretaker notes",
+    "gender": "Gender",
+    "birthDate": "Birth date",
+    "procedureName": "Procedure",
+    "examinationFindings": "Findings",
+    "healthLogs": "Health logs",
+    "addLog": "Add health log",
+    "removeLog": "Remove health log",
+    "submit": "Save",
+    "cancel": "Cancel"
+  },
+  "validation": {
+    "nameRequired": "Name is required",
+    "nameMax": "Name must be at most 100 characters",
+    "notesMax": "Notes must be at most 255 characters",
+    "genderRequired": "Gender is required",
+    "birthDateRequired": "Birth date is required",
+    "procedureRequired": "Procedure name is required",
+    "procedureMax": "Procedure name must be at most 100 characters",
+    "findingsMax": "Findings must be at most 255 characters"
+  }
+}
