@@ -1,7 +1,8 @@
-import { Button, Flex, Result } from "antd";
+import { Button, Result } from "antd";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { Routes } from "../../router/routes";
+import styles from "./ErrorPage.module.scss";
 
 type ErrorPageProps = {
   title?: string;
@@ -14,7 +15,7 @@ export const ErrorPage = ({ title, message, onRetry }: ErrorPageProps) => {
   const navigate = useNavigate();
 
   return (
-    <Flex justify="center" align="center" style={{ minHeight: "100vh", width: "100%" }}>
+    <div className={styles.wrapper}>
       <Result
         status="error"
         title={title ?? t("errorPage.title")}
@@ -30,6 +31,6 @@ export const ErrorPage = ({ title, message, onRetry }: ErrorPageProps) => {
           </Button>,
         ].filter(Boolean)}
       />
-    </Flex>
+    </div>
   );
 };

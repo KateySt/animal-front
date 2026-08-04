@@ -1,0 +1,73 @@
+.footer {
+  background: var(--bg-footer);
+  border-top: 1px solid var(--border);
+  padding: 40px 48px 24px;
+}
+
+.brandIcon {
+  font-size: 20px;
+  color: var(--color-primary);
+}
+
+.brandTitle {
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.brandDesc {
+  max-width: 240px;
+  display: block;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.socialIcons {
+  margin-top: 8px;
+}
+
+.socialIcon {
+  font-size: 18px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color 0.2s;
+
+  &:hover {
+    color: var(--color-primary);
+  }
+}
+
+.sectionTitle {
+  font-size: var(--font-size-sm);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-primary);
+}
+
+.navLink {
+  color: var(--text-secondary);
+  display: block;
+  transition: color 0.2s;
+
+  &:hover {
+    color: var(--color-primary);
+  }
+}
+
+.divider {
+  border-color: var(--border);
+  margin: 32px 0 20px;
+}
+
+.copyright {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.madeWith {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.heartIcon {
+  color: var(--color-primary);
+}

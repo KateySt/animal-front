@@ -9,6 +9,7 @@ import { AnimalsList } from "./AnimalsList.tsx";
 import { AnimalFormModal } from "./AnimalFormModal.tsx";
 import type { Animal } from "../types/animals.types.ts";
 import { ITEMS_PER_PAGE } from "../../../constants";
+import styles from "./AnimalsWidget.module.scss";
 
 const { Title } = Typography;
 
@@ -43,9 +44,9 @@ export const AnimalsWidget = () => {
   }
 
   return (
-    <div style={{ padding: 24 }}>
-      <Flex justify="space-between" align="center" style={{ marginBottom: 16 }}>
-        <Title level={3} style={{ margin: 0 }}>
+    <div className={styles.widget}>
+      <Flex justify="space-between" align="center" className={styles.header}>
+        <Title level={3} className={styles.title}>
           {t("title")}
         </Title>
         <Button type="primary" icon={<PlusOutlined />} onClick={openCreate}>

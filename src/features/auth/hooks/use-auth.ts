@@ -63,3 +63,7 @@ export function useLogout() {
     },
   });
 }
+
+export function useGoogleLogin() {
+  return () => authApi.googleLogin();
+}

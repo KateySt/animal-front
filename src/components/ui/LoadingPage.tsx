@@ -1,11 +1,12 @@
-import { Flex, Spin } from "antd";
+import { Spin } from "antd";
+import styles from "./LoadingPage.module.scss";
 
 export const LoadingPage = () => {
   return (
-    <Flex justify="center" align="center" style={{ minHeight: "100vh", width: "100%" }}>
+    <div className={styles.wrapper}>
       <Spin size="large">
-        <div style={{ padding: 48 }} />
+        <div className={styles.spinPad} />
       </Spin>
-    </Flex>
+    </div>
   );
 };

@@ -2,20 +2,19 @@ import { Button, Card, Divider, Form, Input, message, Typography } from "antd";
 import { GoogleOutlined } from "@ant-design/icons";
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
-import { authApi } from "../features/auth/api/auth.api";
 import { Routes } from "../router/routes";
-import { useRegister } from "../features/auth/hooks/use-auth";
+import { useGoogleLogin, useRegister } from "../features/auth/hooks/use-auth";
 import type { RegisterDto } from "../features/auth/types/auth";
 import { registerSchema } from "../features/auth/schemas/register.schema";
+import styles from "./RegisterPage.module.scss";
 
 const { Title, Text } = Typography;
 
 export const RegisterPage = () => {
   const { t } = useTranslation("common");
-
   const [form] = Form.useForm();
-
   const { mutate: register, isPending } = useRegister();
+  const googleLogin = useGoogleLogin();
 
   const onFinish = (values: RegisterDto & { confirmPassword: string }) => {
     register(
@@ -25,19 +24,12 @@ export const RegisterPage = () => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: "100vh",
-      }}
-    >
-      <Card style={{ width: 400, boxShadow: "0 4px 24px rgba(0,0,0,0.08)" }}>
-        <Title level={3} style={{ textAlign: "center", marginBottom: 8 }}>
+    <div className={styles.wrapper}>
+      <Card className={styles.card}>
+        <Title level={3} className={styles.title}>
           {t("auth.register.title")}
         </Title>
-        <Text type="secondary" style={{ display: "block", textAlign: "center", marginBottom: 24 }}>
+        <Text type="secondary" className={styles.subtitle}>
           {t("auth.register.subtitle")}
         </Text>
 
@@ -45,8 +37,8 @@ export const RegisterPage = () => {
           icon={<GoogleOutlined />}
           size="large"
           block
-          onClick={authApi.googleLogin}
-          style={{ marginBottom: 16 }}
+          onClick={googleLogin}
+          className={styles.googleBtn}
         >
           {t("auth.register.googleBtn")}
         </Button>
@@ -75,14 +67,14 @@ export const RegisterPage = () => {
             <Input.Password size="large" placeholder="••••••••" />
           </Form.Item>
 
-          <Form.Item style={{ marginBottom: 8 }}>
+          <Form.Item className={styles.submitItem}>
             <Button type="primary" htmlType="submit" size="large" block loading={isPending}>
               {t("auth.register.submitBtn")}
             </Button>
           </Form.Item>
         </Form>
 
-        <Text style={{ display: "flex", gap: 4, justifyContent: "center" }}>
+        <Text className={styles.footer}>
           {t("auth.register.hasAccount")}
           <Link to={Routes.Login}>{t("auth.register.loginLink")}</Link>
         </Text>

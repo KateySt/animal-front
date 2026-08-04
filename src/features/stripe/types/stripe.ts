@@ -40,3 +40,8 @@ export type Invoice = {
   currency: CurrencyType;
   health_logs: HealthLog[];
 } & TimeStamp;
+
+export type ConfirmPaymentResponse = {
+  status: InvoiceStatusType;
+  clientSecret?: string;
+};

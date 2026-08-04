@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useIsMobile } from "../../hooks/use-media-query.ts";
 import { Link, useLocation } from "react-router";
-import { Button, Layout, Menu, type MenuProps, Space, Typography } from "antd";
+import { Button, Layout, Menu, type MenuProps, Space } from "antd";
 import {
   CloseOutlined,
   HeartOutlined,
@@ -11,22 +11,18 @@ import {
   TeamOutlined,
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
-import { useThemeStore } from "../../store/theme.store";
 import { Routes } from "../../router/routes";
-import { styleConfig } from "../../style.config.ts";
 import LanguageDropdown from "../ui/LanguageDropdown.tsx";
 import ThemeSwitch from "../ui/ThemeSwitch.tsx";
 import LogoutButton from "../ui/LogoutButton.tsx";
 import UserButton from "../ui/UserButton.tsx";
+import styles from "./AppHeader.module.scss";
 
 const { Header } = Layout;
-const { Text } = Typography;
 
 export const AppHeader = () => {
   const { t } = useTranslation("common");
   const location = useLocation();
-  const { isDark } = useThemeStore();
-  const colors = isDark ? styleConfig.dark : styleConfig.light;
   const [drawerOpen, setDrawerOpen] = useState(false);
   const isMobile = useIsMobile();
 
@@ -58,17 +54,6 @@ export const AppHeader = () => {
         </Link>
       ),
     },
-    /*{todo crud
-      key: Routes.Payment,
-      icon: <CreditCardOutlined />,
-      label: (
-        <Link to={Routes.Payment} onClick={() => setDrawerOpen(false)}>
-          {t("nav.payment")}
-        </Link>
-      ),
-    },
-
-     */
     {
       key: Routes.Chat,
       icon: <MessageOutlined />,
@@ -82,44 +67,10 @@ export const AppHeader = () => {
 
   return (
     <>
-      <Header
-        style={{
-          position: "sticky",
-          top: 0,
-          zIndex: 100,
-          width: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "0 16px",
-          borderBottom: `1px solid ${colors.border}`,
-          backdropFilter: "blur(8px)",
-          background: colors.bgHeader,
-          height: 56,
-          lineHeight: "56px",
-        }}
-      >
-        <Link
-          to={Routes.Home}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-            textDecoration: "none",
-            flexShrink: 0,
-          }}
-        >
-          <HeartOutlined style={{ fontSize: 20, color: styleConfig.colorPrimary }} />
-          <Text
-            strong
-            style={{
-              fontSize: styleConfig.fontSizeLG,
-              color: colors.textPrimary,
-              letterSpacing: 0.5,
-            }}
-          >
-            AnimalCare
-          </Text>
+      <Header className={styles.header}>
+        <Link to={Routes.Home} className={styles.logo}>
+          <HeartOutlined className={styles.logoIcon} />
+          <span className={styles.logoText}>{import.meta.env.APP_NAME}</span>
         </Link>
 
         {!isMobile && (
@@ -128,17 +79,10 @@ export const AppHeader = () => {
               mode="horizontal"
               selectedKeys={[selectedKey]}
               items={navItems}
-              style={{
-                flex: 1,
-                justifyContent: "center",
-                background: "transparent",
-                border: "none",
-                minWidth: 0,
-              }}
-              className="app-header-nav"
+              className={styles.nav}
             />
 
-            <Space size={8} style={{ flexShrink: 0 }} className="app-header-controls">
+            <Space size={8} className={styles.controls}>
               <ThemeSwitch />
               <LanguageDropdown />
               <UserButton />
@@ -151,43 +95,22 @@ export const AppHeader = () => {
           <Button
             type="text"
             icon={drawerOpen ? <CloseOutlined /> : <MenuOutlined />}
-            className="app-header-mobile-btn"
-            style={{ color: colors.textPrimary, flexShrink: 0 }}
+            className={styles.mobileBtn}
             onClick={() => setDrawerOpen((v) => !v)}
           />
         )}
       </Header>
 
       {isMobile && drawerOpen && (
-        <div
-          className="app-header-drawer"
-          style={{
-            position: "fixed",
-            top: 56,
-            left: 0,
-            right: 0,
-            zIndex: 99,
-            background: colors.mobileBg,
-            borderBottom: `1px solid ${colors.border}`,
-            boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-          }}
-        >
+        <div className={styles.drawer}>
           <Menu
             mode="inline"
             selectedKeys={[selectedKey]}
             items={navItems}
-            style={{ background: "transparent", border: "none" }}
+            className={styles.drawerMenu}
           />
 
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              padding: "10px 16px",
-              borderTop: `1px solid ${colors.border}`,
-            }}
-          >
+          <div className={styles.drawerControls}>
             <UserButton />
             <Space size={6}>
               <ThemeSwitch />

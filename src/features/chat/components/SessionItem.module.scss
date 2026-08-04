@@ -1,0 +1,44 @@
+.item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s;
+
+  &:hover {
+    background: var(--session-active-bg);
+  }
+}
+
+.itemActive {
+  background: var(--session-active-bg);
+  border-color: #531dab4d;
+}
+
+.icon {
+  flex-shrink: 0;
+  color: var(--text-secondary);
+}
+
+.iconActive {
+  color: var(--color-accent);
+}
+
+.title {
+  flex: 1;
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+}
+
+.titleActive {
+  color: var(--color-primary);
+}
+
+.deleteBtn {
+  color: var(--text-secondary);
+  flex-shrink: 0;
+  opacity: 0.6;
+}

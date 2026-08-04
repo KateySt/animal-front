@@ -2,11 +2,10 @@ import { Button, Typography } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router";
-import { useThemeStore } from "../../../store/theme.store";
-import { styleConfig } from "../../../style.config";
 import SessionItem from "./SessionItem.tsx";
 import { useCreateSession, useDeleteSession, useSessions } from "../hooks/use-sessions.ts";
 import { Routes } from "../../../router/routes.ts";
+import styles from "./ChatSidebar.module.scss";
 
 const { Text } = Typography;
 
@@ -18,8 +17,6 @@ export const ChatSidebar = () => {
   const sessions = data?.sessions ?? [];
 
   const navigate = useNavigate();
-  const { isDark } = useThemeStore();
-  const colors = isDark ? styleConfig.dark : styleConfig.light;
 
   const { mutate: createSession } = useCreateSession();
   const { mutate: deleteSession } = useDeleteSession();
@@ -42,18 +39,7 @@ export const ChatSidebar = () => {
   };
 
   return (
-    <div
-      style={{
-        width: 240,
-        flexShrink: 0,
-        display: "flex",
-        flexDirection: "column",
-        borderRight: `1px solid ${colors.border}`,
-        padding: "12px 8px",
-        gap: 8,
-        overflowY: "auto",
-      }}
-    >
+    <div className={styles.sidebar}>
       <Button
         type="primary"
         icon={<PlusOutlined />}
@@ -63,33 +49,15 @@ export const ChatSidebar = () => {
           })
         }
         block
-        style={{ marginBottom: 4 }}
+        className={styles.newChatBtn}
       >
         {t("sidebar.newChat")}
       </Button>
 
-      <Text
-        style={{
-          fontSize: styleConfig.fontSizeSM,
-          color: colors.textSecondary,
-          padding: "4px 4px 0",
-        }}
-      >
-        {t("sidebar.history")}
-      </Text>
+      <Text className={styles.historyLabel}>{t("sidebar.history")}</Text>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: 4, overflowY: "auto" }}>
-        {sessions.length === 0 && (
-          <Text
-            style={{
-              fontSize: styleConfig.fontSizeSM,
-              color: colors.textMuted,
-              padding: "8px 4px",
-            }}
-          >
-            {t("sidebar.empty")}
-          </Text>
-        )}
+      <div className={styles.sessionList}>
+        {sessions.length === 0 && <Text className={styles.emptyLabel}>{t("sidebar.empty")}</Text>}
         {sessions.map((session) => (
           <SessionItem
             key={session.id}

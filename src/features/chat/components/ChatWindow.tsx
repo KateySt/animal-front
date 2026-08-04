@@ -5,6 +5,7 @@ import { useSession } from "../hooks/use-sessions";
 import { ChatMessage } from "./ChatMessage";
 import { ChatInput } from "./ChatInput";
 import EmptyChartState from "./EmptyChartState.tsx";
+import styles from "./ChatWindow.module.scss";
 
 type ChatWindowProps = {
   sessionId: string;
@@ -26,17 +27,8 @@ export const ChatWindow = ({ sessionId }: ChatWindowProps) => {
   const messages = messagesBySession[sessionId] ?? [];
 
   return (
-    <div style={{ flex: 1, display: "flex", flexDirection: "column", minHeight: 0 }}>
-      <div
-        style={{
-          flex: 1,
-          overflowY: "auto",
-          padding: "20px 24px",
-          display: "flex",
-          flexDirection: "column",
-          gap: 16,
-        }}
-      >
+    <div className={styles.window}>
+      <div className={styles.messages}>
         {messages.length === 0 ? (
           <EmptyChartState />
         ) : (

@@ -2,16 +2,16 @@ import { Outlet } from "react-router";
 import { Layout } from "antd";
 import { AppHeader } from "./AppHeader";
 import { AppFooter } from "./AppFooter";
-import { styleConfig } from "../../style.config";
+import styles from "./MainLayout.module.scss";
 
 const { Content } = Layout;
 
 export const MainLayout = () => {
   return (
-    <Layout style={{ minHeight: "100vh" }}>
+    <Layout className={styles.layout}>
       <AppHeader />
-      <Content style={{ flex: 1, padding: "32px 24px" }}>
-        <div style={{ maxWidth: styleConfig.maxContentWidth, margin: "0 auto" }}>
+      <Content className={styles.content}>
+        <div className={styles.contentInner}>
           <Outlet />
         </div>
       </Content>

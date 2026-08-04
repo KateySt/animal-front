@@ -1,0 +1,36 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.card {
+  width: 400px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  display: block;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.googleBtn {
+  margin-bottom: 16px;
+}
+
+.submitItem {
+  margin-bottom: 8px;
+}
+
+.footer {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+}

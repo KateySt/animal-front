@@ -2,18 +2,18 @@ import { Button, Card, Divider, Form, Input, message, Typography } from "antd";
 import { GoogleOutlined } from "@ant-design/icons";
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
-import { authApi } from "../features/auth/api/auth.api";
 import type { LoginDto } from "../features/auth/types/auth";
 import { Routes } from "../router/routes";
-import { useLogin } from "../features/auth/hooks/use-auth.ts";
+import { useGoogleLogin, useLogin } from "../features/auth/hooks/use-auth.ts";
 import { loginSchema } from "../features/auth/schemas/register.schema.ts";
+import styles from "./LoginPage.module.scss";
 
 const { Title, Text } = Typography;
 
 export const LoginPage = () => {
   const { t } = useTranslation("common");
-
   const { mutate: login, isPending } = useLogin();
+  const googleLogin = useGoogleLogin();
 
   const onFinish = (values: LoginDto) => {
     login(
@@ -23,19 +23,12 @@ export const LoginPage = () => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: "100vh",
-      }}
-    >
-      <Card style={{ width: 400, boxShadow: "0 4px 24px rgba(0,0,0,0.08)" }}>
-        <Title level={3} style={{ textAlign: "center", marginBottom: 8 }}>
+    <div className={styles.wrapper}>
+      <Card className={styles.card}>
+        <Title level={3} className={styles.title}>
           {t("auth.login.title")}
         </Title>
-        <Text type="secondary" style={{ display: "block", textAlign: "center", marginBottom: 24 }}>
+        <Text type="secondary" className={styles.subtitle}>
           {t("auth.login.subtitle")}
         </Text>
 
@@ -43,8 +36,8 @@ export const LoginPage = () => {
           icon={<GoogleOutlined />}
           size="large"
           block
-          onClick={authApi.googleLogin}
-          style={{ marginBottom: 16 }}
+          onClick={googleLogin}
+          className={styles.googleBtn}
         >
           {t("auth.login.googleBtn")}
         </Button>
@@ -64,14 +57,14 @@ export const LoginPage = () => {
             <Input.Password size="large" placeholder="••••••••" />
           </Form.Item>
 
-          <Form.Item style={{ marginBottom: 8 }}>
+          <Form.Item className={styles.submitItem}>
             <Button type="primary" htmlType="submit" size="large" block loading={isPending}>
               {t("auth.login.submitBtn")}
             </Button>
           </Form.Item>
         </Form>
 
-        <Text style={{ display: "flex", gap: 4, justifyContent: "center" }}>
+        <Text className={styles.footer}>
           {t("auth.login.noAccount")}
           <Link to={Routes.Register}>{t("auth.login.registerLink")}</Link>
         </Text>

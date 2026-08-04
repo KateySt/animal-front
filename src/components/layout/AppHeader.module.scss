@@ -1,0 +1,75 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+  background: var(--bg-header);
+  height: 56px;
+  line-height: 56px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.logoIcon {
+  font-size: 20px;
+  color: var(--color-primary);
+}
+
+.logoText {
+  font-size: var(--font-size-lg);
+  color: var(--text-primary);
+  letter-spacing: 0.5px;
+}
+
+.nav {
+  flex: 1;
+  justify-content: center;
+  background: transparent !important;
+  border: none !important;
+  min-width: 0;
+}
+
+.controls {
+  flex-shrink: 0;
+}
+
+.mobileBtn {
+  color: var(--text-primary);
+  flex-shrink: 0;
+}
+
+.drawer {
+  position: fixed;
+  top: 56px;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  background: var(--bg-mobile);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.drawerMenu {
+  background: transparent !important;
+  border: none !important;
+}
+
+.drawerControls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-top: 1px solid var(--border);
+}

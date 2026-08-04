@@ -9,6 +9,7 @@ import { animalSchema } from "../schemas/animal.schema.ts";
 import { Gender, type Animal } from "../types/animals.types.ts";
 import { animalToFormValues, formValuesToDto, type AnimalFormValues } from "../utils/form.ts";
 import { DATE_FORMAT } from "../../../constants";
+import styles from "./AnimalFormModal.module.scss";
 
 type AnimalFormModalProps = {
   open: boolean;
@@ -93,7 +94,7 @@ export const AnimalFormModal = ({ open, animal, onClose }: AnimalFormModalProps)
         </Form.Item>
 
         <Form.Item label={t("form.birthDate")} name="birth_date" rules={animalSchema.birthDate()}>
-          <DatePicker format={DATE_FORMAT} style={{ width: "100%" }} />
+          <DatePicker format={DATE_FORMAT} className={styles.datePicker} />
         </Form.Item>
 
         <Form.List name="health_logs">

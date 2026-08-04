@@ -1,10 +1,5 @@
 import { axiosInstance } from "../../../lib/axios";
-import type { Invoice } from "../types/stripe.ts";
-
-export interface ConfirmPaymentResponse {
-  status: "succeeded" | "processing";
-  clientSecret?: string;
-}
+import type { ConfirmPaymentResponse, Invoice } from "../types/stripe.ts";
 
 export const stripeApi = {
   getInvoice: (invoiceId: string) =>

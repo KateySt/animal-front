@@ -1,13 +1,13 @@
-export interface LoginDto {
+export type LoginDto = {
   username: string;
   password: string;
-}
+};
 
-export interface RegisterDto {
+export type RegisterDto = {
   name: string;
   email: string;
   password: string;
-}
+};
 
 export type User = {
   id: string;

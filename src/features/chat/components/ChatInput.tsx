@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { Button, Input } from "antd";
 import { SendOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
-import { styleConfig } from "../../../style.config";
-import { useThemeStore } from "../../../store/theme.store";
+import styles from "./ChatInput.module.scss";
 
 const { TextArea } = Input;
 
@@ -14,8 +13,6 @@ type ChatInputProps = {
 
 export const ChatInput = ({ onSend, isLoading }: ChatInputProps) => {
   const { t } = useTranslation("chat");
-  const { isDark } = useThemeStore();
-  const colors = isDark ? styleConfig.dark : styleConfig.light;
   const [value, setValue] = useState("");
 
   const handleSend = () => {
@@ -33,16 +30,7 @@ export const ChatInput = ({ onSend, isLoading }: ChatInputProps) => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        gap: 8,
-        alignItems: "flex-end",
-        padding: "12px 16px",
-        borderTop: `1px solid ${colors.border}`,
-        background: isDark ? "rgba(255,255,255,0.02)" : "rgba(0,0,0,0.01)",
-      }}
-    >
+    <div className={styles.inputBar}>
       <TextArea
         value={value}
         placeholder={t("input.placeholder")}
@@ -50,7 +38,7 @@ export const ChatInput = ({ onSend, isLoading }: ChatInputProps) => {
         disabled={isLoading}
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={handleKeyDown}
-        style={{ flex: 1, resize: "none", fontSize: styleConfig.fontSizeBase }}
+        className={styles.textarea}
       />
       <Button
         type="primary"
@@ -58,7 +46,7 @@ export const ChatInput = ({ onSend, isLoading }: ChatInputProps) => {
         onClick={handleSend}
         loading={isLoading}
         disabled={isLoading}
-        style={{ flexShrink: 0, height: 32 }}
+        className={styles.sendBtn}
       >
         {t("input.send")}
       </Button>
