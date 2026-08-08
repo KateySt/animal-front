@@ -22,3 +22,6 @@ export const FOOTER_SECTIONS = [
     ],
   },
 ];
+
+export const LINKEDIN_LINK = "https://www.linkedin.com/in/kateryna-stetsenko-72311b251/";
+export const GITHUB_LINK = "https://github.com/KateySt";

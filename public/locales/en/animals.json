@@ -5,11 +5,20 @@
   "delete": "Delete",
   "deleteConfirm": "Delete this animal?",
   "empty": "No animals yet",
+  "back": "Back",
   "columns": {
     "name": "Name",
     "gender": "Gender",
     "birthDate": "Birth date",
+    "createdAt": "Created",
     "actions": "Actions"
+  },
+  "healthLogs": {
+    "title": "Health logs",
+    "add": "Add health log",
+    "edit": "Edit health log",
+    "deleteConfirm": "Delete this health log?",
+    "empty": "No health logs yet"
   },
   "gender": {
     "male": "Male",

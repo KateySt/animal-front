@@ -1,6 +1,7 @@
 export const Routes = {
   Home: "/",
   Animals: "/animals",
+  AnimalDetail: "/animals/:animalId",
   Profile: "/profile",
   Settings: "/settings",
   Payment: "/payment",

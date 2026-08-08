@@ -3,11 +3,18 @@ import { Button, DatePicker, Form, Input, Modal, Select, Space } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
+import { LocaleTabs } from "../../../components/ui/LocaleTabs.tsx";
 import { useAuthStore } from "../../../store/auth.store.ts";
 import { useCreateAnimal, useUpdateAnimal } from "../hooks/use-animals.ts";
 import { animalSchema } from "../schemas/animal.schema.ts";
 import { Gender, type Animal } from "../types/animals.types.ts";
-import { animalToFormValues, formValuesToDto, type AnimalFormValues } from "../utils/form.ts";
+import {
+  animalToFormValues,
+  emptyAnimalTranslations,
+  emptyHealthLogTranslations,
+  formValuesToDto,
+  type AnimalFormValues,
+} from "../utils/form.ts";
 import { DATE_FORMAT } from "../../../constants";
 import styles from "./AnimalFormModal.module.scss";
 
@@ -20,10 +27,10 @@ type AnimalFormModalProps = {
 type FormShape = Omit<AnimalFormValues, "birth_date"> & { birth_date: dayjs.Dayjs };
 
 const getEmptyValues = (): FormShape => ({
-  name: "",
   gender: Gender.Unknown,
   birth_date: dayjs(),
-  health_logs: [{ procedure_name: "", examination_findings: "" }],
+  translations: emptyAnimalTranslations(),
+  health_logs: [{ translations: emptyHealthLogTranslations() }],
 });
 
 export const AnimalFormModal = ({ open, animal, onClose }: AnimalFormModalProps) => {
@@ -72,17 +79,26 @@ export const AnimalFormModal = ({ open, animal, onClose }: AnimalFormModalProps)
       forceRender
     >
       <Form form={form} layout="vertical" onFinish={handleSubmit}>
-        <Form.Item label={t("form.name")} name="name" rules={animalSchema.name()}>
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          label={t("form.caretakerNotes")}
-          name="caretaker_notes"
-          rules={animalSchema.caretakerNotes()}
-        >
-          <Input.TextArea rows={2} />
-        </Form.Item>
+        <LocaleTabs
+          renderFields={(locale) => (
+            <>
+              <Form.Item
+                label={t("form.name")}
+                name={["translations", locale, "name"]}
+                rules={animalSchema.name(locale)}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                label={t("form.caretakerNotes")}
+                name={["translations", locale, "caretaker_notes"]}
+                rules={animalSchema.caretakerNotes()}
+              >
+                <Input.TextArea rows={2} />
+              </Form.Item>
+            </>
+          )}
+        />
 
         <Form.Item label={t("form.gender")} name="gender" rules={animalSchema.gender()}>
           <Select
@@ -100,31 +116,36 @@ export const AnimalFormModal = ({ open, animal, onClose }: AnimalFormModalProps)
         <Form.List name="health_logs">
           {(fields, { add, remove }) => (
             <Space orientation="vertical" style={{ width: "100%" }} size="small">
-              {fields.map(({ key, name, ...rest }) => (
-                <Space key={key} align="baseline" style={{ width: "100%" }}>
-                  <Form.Item
-                    {...rest}
-                    name={[name, "procedure_name"]}
-                    label={t("form.procedureName")}
-                    rules={animalSchema.procedureName()}
-                  >
-                    <Input />
-                  </Form.Item>
-                  <Form.Item
-                    {...rest}
-                    name={[name, "examination_findings"]}
-                    label={t("form.examinationFindings")}
-                    rules={animalSchema.examinationFindings()}
-                  >
-                    <Input />
-                  </Form.Item>
+              {fields.map(({ key, name }) => (
+                <div key={key} className={styles.healthLog}>
                   {fields.length > 1 && (
                     <MinusCircleOutlined
+                      className={styles.removeLog}
                       onClick={() => remove(name)}
                       aria-label={t("form.removeLog")}
                     />
                   )}
-                </Space>
+                  <LocaleTabs
+                    renderFields={(locale) => (
+                      <>
+                        <Form.Item
+                          name={[name, "translations", locale, "procedure_name"]}
+                          label={t("form.procedureName")}
+                          rules={animalSchema.procedureName(locale)}
+                        >
+                          <Input />
+                        </Form.Item>
+                        <Form.Item
+                          name={[name, "translations", locale, "examination_findings"]}
+                          label={t("form.examinationFindings")}
+                          rules={animalSchema.examinationFindings()}
+                        >
+                          <Input />
+                        </Form.Item>
+                      </>
+                    )}
+                  />
+                </div>
               ))}
               <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
                 {t("form.addLog")}

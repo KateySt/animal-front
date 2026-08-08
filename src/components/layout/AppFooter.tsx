@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import styles from "./AppFooter.module.scss";
-import { FOOTER_SECTIONS } from "../../constants/footer.ts";
+import { FOOTER_SECTIONS, GITHUB_LINK, LINKEDIN_LINK } from "../../constants/footer.ts";
 
 const { Footer } = Layout;
 const { Text, Title } = Typography;
@@ -29,8 +29,14 @@ export const AppFooter = () => {
             </Space>
             <Text className={styles.brandDesc}>{t("footer.description")}</Text>
             <Space size={16} className={styles.socialIcons}>
-              <GithubOutlined className={styles.socialIcon} />
-              <LinkedinOutlined className={styles.socialIcon} />
+              <GithubOutlined
+                className={styles.socialIcon}
+                onClick={() => window.open(GITHUB_LINK, "_blank")}
+              />
+              <LinkedinOutlined
+                className={styles.socialIcon}
+                onClick={() => window.open(LINKEDIN_LINK, "_blank")}
+              />
               <InstagramOutlined className={styles.socialIcon} />
             </Space>
           </Space>

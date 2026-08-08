@@ -1,40 +1,41 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
 import { Button, Flex, Typography } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
-import { Routes } from "../../../router/routes.ts";
 import { LoadingPage } from "../../../components/ui/LoadingPage.tsx";
 import { ErrorPage } from "../../../components/ui/ErrorPage.tsx";
-import { useAnimals, useDeleteAnimal } from "../hooks/use-animals.ts";
-import { AnimalsList } from "./AnimalsList.tsx";
-import { AnimalFormModal } from "./AnimalFormModal.tsx";
-import type { Animal } from "../types/animals.types.ts";
 import { ITEMS_PER_PAGE } from "../../../constants";
-import styles from "./AnimalsWidget.module.scss";
+import { useDeleteHealthLog, useHealthLogs } from "../hooks/use-health-logs.ts";
+import { HealthLogsList } from "./HealthLogsList.tsx";
+import { HealthLogFormModal } from "./HealthLogFormModal.tsx";
+import type { HealthLog } from "../types/health-logs.types.ts";
+import styles from "./HealthLogsWidget.module.scss";
 
 const { Title } = Typography;
 
-export const AnimalsWidget = () => {
+type HealthLogsWidgetProps = {
+  animalId: string;
+};
+
+export const HealthLogsWidget = ({ animalId }: HealthLogsWidgetProps) => {
   const { t } = useTranslation("animals");
-  const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingAnimal, setEditingAnimal] = useState<Animal | null>(null);
+  const [editingHealthLog, setEditingHealthLog] = useState<HealthLog | null>(null);
 
-  const { data, isLoading, isError, error } = useAnimals({
+  const { data, isLoading, isError, error } = useHealthLogs(animalId, {
     page,
     items_per_page: ITEMS_PER_PAGE,
   });
-  const { mutate: deleteAnimal, isPending: isDeleting } = useDeleteAnimal();
+  const { mutate: deleteHealthLog, isPending: isDeleting } = useDeleteHealthLog(animalId);
 
   const openCreate = () => {
-    setEditingAnimal(null);
+    setEditingHealthLog(null);
     setIsModalOpen(true);
   };
 
-  const openEdit = (animal: Animal) => {
-    setEditingAnimal(animal);
+  const openEdit = (healthLog: HealthLog) => {
+    setEditingHealthLog(healthLog);
     setIsModalOpen(true);
   };
 
@@ -50,29 +51,29 @@ export const AnimalsWidget = () => {
     <div className={styles.widget}>
       <Flex justify="space-between" align="center" className={styles.header}>
         <Title level={3} className={styles.title}>
-          {t("title")}
+          {t("healthLogs.title")}
         </Title>
         <Button type="primary" icon={<PlusOutlined />} onClick={openCreate}>
-          {t("add")}
+          {t("healthLogs.add")}
         </Button>
       </Flex>
 
-      <AnimalsList
-        animals={data.data}
-        total={data.total}
+      <HealthLogsList
+        healthLogs={data.data}
+        total={data.total_count}
         page={data.page}
         itemsPerPage={data.items_per_page}
         isLoading={isLoading}
         isDeleting={isDeleting}
         onPageChange={setPage}
-        onView={(animal) => navigate(`${Routes.Animals}/${animal.id}`)}
         onEdit={openEdit}
-        onDelete={deleteAnimal}
+        onDelete={deleteHealthLog}
       />
 
-      <AnimalFormModal
+      <HealthLogFormModal
         open={isModalOpen}
-        animal={editingAnimal}
+        animalId={animalId}
+        healthLog={editingHealthLog}
         onClose={() => setIsModalOpen(false)}
       />
     </div>

@@ -32,6 +32,11 @@ export const router = createBrowserRouter([
             lazy: () => import("../pages/AnimalsPage").then((m) => ({ Component: m.AnimalsPage })),
           },
           {
+            path: Routes.AnimalDetail,
+            lazy: () =>
+              import("../pages/AnimalDetailPage").then((m) => ({ Component: m.AnimalDetailPage })),
+          },
+          {
             path: Routes.Profile,
             lazy: () => import("../pages/ProfilePage").then((m) => ({ Component: m.ProfilePage })),
           },

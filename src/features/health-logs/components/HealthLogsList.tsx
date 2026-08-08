@@ -2,35 +2,32 @@ import { Button, Popconfirm, Space, Table, type TablePaginationConfig } from "an
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { useDateFormat } from "../../../hooks/use-date-format.ts";
-import { AnimalGenderTag } from "./AnimalGenderTag.tsx";
-import { getAnimalName } from "../utils/translations.ts";
-import type { Animal } from "../types/animals.types.ts";
+import { getLocalized } from "../../animals/utils/translations.ts";
+import type { HealthLog } from "../types/health-logs.types.ts";
 
-type AnimalsListProps = {
-  animals: Animal[];
+type HealthLogsListProps = {
+  healthLogs: HealthLog[];
   total: number;
   page: number;
   itemsPerPage: number;
   isLoading: boolean;
   isDeleting: boolean;
   onPageChange: (page: number) => void;
-  onView: (animal: Animal) => void;
-  onEdit: (animal: Animal) => void;
-  onDelete: (animalId: string) => void;
+  onEdit: (healthLog: HealthLog) => void;
+  onDelete: (healthLogId: string) => void;
 };
 
-export const AnimalsList = ({
-  animals,
+export const HealthLogsList = ({
+  healthLogs,
   total,
   page,
   itemsPerPage,
   isLoading,
   isDeleting,
   onPageChange,
-  onView,
   onEdit,
   onDelete,
-}: AnimalsListProps) => {
+}: HealthLogsListProps) => {
   const { t, i18n } = useTranslation("animals");
   const { formatDate } = useDateFormat();
 
@@ -43,49 +40,49 @@ export const AnimalsList = ({
   };
 
   return (
-    <Table<Animal>
+    <Table<HealthLog>
       rowKey="id"
-      dataSource={animals}
+      dataSource={healthLogs}
       loading={isLoading}
       pagination={pagination}
-      locale={{ emptyText: t("empty") }}
-      onRow={(animal) => ({
-        onClick: () => onView(animal),
-        style: { cursor: "pointer" },
-      })}
+      locale={{ emptyText: t("healthLogs.empty") }}
     >
       <Table.Column
-        title={t("columns.name")}
-        key="name"
-        render={(_, animal: Animal) => getAnimalName(animal.translations, i18n.language)}
+        title={t("form.procedureName")}
+        key="procedure"
+        render={(_, log: HealthLog) =>
+          getLocalized(log.translations, i18n.language)?.procedure_name ?? ""
+        }
       />
       <Table.Column
-        title={t("columns.gender")}
-        key="gender"
-        render={(_, animal: Animal) => <AnimalGenderTag gender={animal.gender} />}
+        title={t("form.examinationFindings")}
+        key="findings"
+        render={(_, log: HealthLog) =>
+          getLocalized(log.translations, i18n.language)?.examination_findings ?? ""
+        }
       />
       <Table.Column
-        title={t("columns.birthDate")}
-        key="birthDate"
-        render={(_, animal: Animal) => formatDate(animal.birth_date)}
+        title={t("columns.createdAt")}
+        key="createdAt"
+        render={(_, log: HealthLog) => formatDate(log.created_at)}
       />
       <Table.Column
         title={t("columns.actions")}
         key="actions"
         width={120}
-        render={(_, animal: Animal) => (
-          <Space onClick={(event) => event.stopPropagation()}>
+        render={(_, log: HealthLog) => (
+          <Space>
             <Button
               type="text"
               icon={<EditOutlined />}
-              onClick={() => onEdit(animal)}
-              aria-label={t("edit")}
+              onClick={() => onEdit(log)}
+              aria-label={t("healthLogs.edit")}
             />
             <Popconfirm
-              title={t("deleteConfirm")}
+              title={t("healthLogs.deleteConfirm")}
               okText={t("delete")}
               cancelText={t("form.cancel")}
-              onConfirm={() => onDelete(animal.id)}
+              onConfirm={() => onDelete(log.id)}
               okButtonProps={{ danger: true, loading: isDeleting }}
             >
               <Button type="text" danger icon={<DeleteOutlined />} aria-label={t("delete")} />

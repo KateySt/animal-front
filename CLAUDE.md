@@ -7,7 +7,7 @@ React 18 + Vite + TypeScript. UI: Ant Design v6. State: Zustand (devtools + pers
 ## Install
 
 ```
-npm install --legacy-peer-deps
+npm install
 ```
 
 Reason: eslint-plugin-react@7 peer dep conflict with eslint@10.
