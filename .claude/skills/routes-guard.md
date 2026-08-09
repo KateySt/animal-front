@@ -5,7 +5,7 @@ Never hardcode a path string — always use `Routes.*`.
 ## Routes const (`src/router/routes.ts`)
 
 ```ts
-Routes.Home | .Login | .Register | .Animals | .Profile | .Settings
+Routes.HomePage | .Login | .Register | .Animals | .Profile | .Settings
        .Payment | .Chat | .ChatSession | .GoogleCallback
 ```
 

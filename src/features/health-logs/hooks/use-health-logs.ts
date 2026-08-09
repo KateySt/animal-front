@@ -49,8 +49,8 @@ export function useCreateHealthLog(animalId: string) {
   return useMutation({
     mutationFn: (dto: HealthLogCreateDto) => healthLogsApi.createHealthLog(animalId, dto),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: healthLogKeys.lists(animalId) });
-      queryClient.invalidateQueries({ queryKey: animalKeys.detail(animalId) });
+      void queryClient.invalidateQueries({ queryKey: healthLogKeys.lists(animalId) });
+      void queryClient.invalidateQueries({ queryKey: animalKeys.detail(animalId) });
     },
   });
 }
@@ -62,9 +62,9 @@ export function useUpdateHealthLog(animalId: string) {
     mutationFn: ({ healthLogId, dto }: { healthLogId: string; dto: HealthLogUpdateDto }) =>
       healthLogsApi.updateHealthLog(animalId, healthLogId, dto),
     onSuccess: (_, { healthLogId }) => {
-      queryClient.invalidateQueries({ queryKey: healthLogKeys.lists(animalId) });
-      queryClient.invalidateQueries({ queryKey: healthLogKeys.detail(animalId, healthLogId) });
-      queryClient.invalidateQueries({ queryKey: animalKeys.detail(animalId) });
+      void queryClient.invalidateQueries({ queryKey: healthLogKeys.lists(animalId) });
+      void queryClient.invalidateQueries({ queryKey: healthLogKeys.detail(animalId, healthLogId) });
+      void queryClient.invalidateQueries({ queryKey: animalKeys.detail(animalId) });
     },
   });
 }
@@ -75,8 +75,8 @@ export function useDeleteHealthLog(animalId: string) {
   return useMutation({
     mutationFn: (healthLogId: string) => healthLogsApi.deleteHealthLog(animalId, healthLogId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: healthLogKeys.lists(animalId) });
-      queryClient.invalidateQueries({ queryKey: animalKeys.detail(animalId) });
+      void queryClient.invalidateQueries({ queryKey: healthLogKeys.lists(animalId) });
+      void queryClient.invalidateQueries({ queryKey: animalKeys.detail(animalId) });
     },
   });
 }

@@ -42,6 +42,11 @@ export const AnimalsList = ({
     onChange: onPageChange,
   };
 
+  const handleClickOnRow = (animal: Animal) => ({
+    onClick: () => onView(animal),
+    style: { cursor: "pointer" },
+  });
+
   return (
     <Table<Animal>
       rowKey="id"
@@ -49,10 +54,7 @@ export const AnimalsList = ({
       loading={isLoading}
       pagination={pagination}
       locale={{ emptyText: t("empty") }}
-      onRow={(animal) => ({
-        onClick: () => onView(animal),
-        style: { cursor: "pointer" },
-      })}
+      onRow={handleClickOnRow}
     >
       <Table.Column
         title={t("columns.name")}

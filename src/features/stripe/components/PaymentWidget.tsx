@@ -1,24 +1,17 @@
 import { Elements } from "@stripe/react-stripe-js";
-import { Alert, Card, Tag, Typography } from "antd";
+import { Alert, Card, Space, Spin, Tag, Typography } from "antd";
 import { useTranslation } from "react-i18next";
 import { stripePromise } from "../../../lib/stripe";
 import { useInvoice } from "../hooks/use-invoice";
 import { PaymentForm } from "./PaymentForm";
 import { styleConfig } from "../../../style.config.ts";
-import { InvoiceStatus, type InvoiceStatusType } from "../types/stripe.ts";
+import { InvoiceStatus, STATUS_COLOR, type InvoiceStatusType } from "../types/stripe.ts";
 import { useThemeStore } from "../../../store/theme.store.ts";
 import { STRIPE_LOCALE_MAP, useLocaleFlag } from "../hooks/use-locale-flag.ts";
 import { LoadingPage } from "../../../components/ui/LoadingPage.tsx";
 import { ErrorPage } from "../../../components/ui/ErrorPage.tsx";
 
 const { Title, Text } = Typography;
-
-export const STATUS_COLOR = {
-  [InvoiceStatus.Pending]: "orange",
-  [InvoiceStatus.Processing]: "yellow",
-  [InvoiceStatus.Paid]: "green",
-  [InvoiceStatus.Failed]: "red",
-} satisfies Record<InvoiceStatusType, string>;
 
 type PaymentWidgetProps = {
   invoiceId: string;
@@ -60,7 +53,14 @@ export const PaymentWidget = ({ invoiceId }: PaymentWidgetProps) => {
             <PaymentForm invoiceId={invoiceId} />
           </Elements>
         );
-      case InvoiceStatus.Failed:
+      case InvoiceStatus.Processing:
+        return (
+          <Space>
+            <Spin size="small" />
+            <Text type="secondary">{t("form.processingDesc")}</Text>
+          </Space>
+        );
+      case InvoiceStatus.Cancelled:
         return <Alert title={t("failed")} type="error" showIcon />;
       case InvoiceStatus.Paid:
         return <Alert title={t("alreadyPaid")} type="success" showIcon />;

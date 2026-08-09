@@ -16,7 +16,7 @@ i18n
     fallbackLng: Locale.EN,
     supportedLngs: Object.values(Locale),
     defaultNS: "common",
-    ns: ["common", "animals", "payment", "chat"],
+    ns: ["common", "animals", "payment", "chat", "settings"],
 
     interpolation: {
       escapeValue: false,

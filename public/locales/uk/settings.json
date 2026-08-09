@@ -1,0 +1,71 @@
+{
+  "title": "Налаштування",
+  "tabs": {
+    "resources": "Ресурси",
+    "permissions": "Дозволи",
+    "roles": "Ролі"
+  },
+  "common": {
+    "save": "Зберегти",
+    "cancel": "Скасувати",
+    "edit": "Редагувати",
+    "delete": "Видалити",
+    "actions": "Дії"
+  },
+  "resources": {
+    "title": "Ресурси",
+    "add": "Додати ресурс",
+    "edit": "Редагувати ресурс",
+    "name": "Назва",
+    "nameHint": "Лише малі літери, цифри та підкреслення. Після створення змінити не можна.",
+    "description": "Опис",
+    "empty": "Ресурсів поки немає",
+    "deleteConfirm": "Видалити цей ресурс?"
+  },
+  "permissions": {
+    "title": "Дозволи",
+    "add": "Додати дозвіл",
+    "resource": "Ресурс",
+    "action": "Дія",
+    "actionPlaceholder": "read, create, update, delete…",
+    "scope": "Scope",
+    "empty": "Дозволів поки немає",
+    "deleteConfirm": "Видалити цей дозвіл?",
+    "deleteWarning": "Це інвалідує токени всіх користувачів, у яких він був."
+  },
+  "roles": {
+    "title": "Ролі",
+    "add": "Додати роль",
+    "edit": "Редагувати роль",
+    "name": "Назва",
+    "description": "Опис",
+    "empty": "Ролей поки немає",
+    "permissions": "Дозволи",
+    "managePermissions": "Дозволи ролі «{{name}}»",
+    "selectPermissions": "Оберіть дозволи",
+    "deleteConfirm": "Видалити цю роль?"
+  },
+  "validation": {
+    "nameRequired": "Введіть назву",
+    "namePattern": "Лише малі літери, цифри та підкреслення; починати з літери",
+    "nameMax": "Назва має бути не довше 100 символів",
+    "descriptionMax": "Опис має бути не довше 500 символів",
+    "resourceRequired": "Оберіть ресурс",
+    "actionRequired": "Введіть дію",
+    "actionMax": "Дія має бути не довше 50 символів",
+    "roleNameRequired": "Введіть назву ролі",
+    "permissionsRequired": "Оберіть хоча б один дозвіл"
+  },
+  "errors": {
+    "generic": "Щось пішло не так. Спробуйте ще раз.",
+    "resource_already_exists": "Ресурс із такою назвою вже існує",
+    "resource_has_permissions": "Спочатку видаліть дозволи цього ресурсу",
+    "resource_not_found": "Ресурс не знайдено",
+    "permission_already_exists": "Такий дозвіл вже існує",
+    "permission_not_found": "Дозвіл не знайдено",
+    "role_already_exists": "Роль із такою назвою вже існує",
+    "role_not_found": "Роль не знайдено",
+    "permissions_not_found": "Деякі обрані дозволи не існують",
+    "superuser_required": "Потрібен доступ суперкористувача"
+  }
+}

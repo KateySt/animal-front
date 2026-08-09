@@ -5,6 +5,7 @@ export const Routes = {
   Profile: "/profile",
   Settings: "/settings",
   Payment: "/payment",
+  Invoices: "/invoices",
   Login: "/login",
   Register: "/register",
   GoogleCallback: "/auth/google/callback",

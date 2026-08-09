@@ -1,0 +1,71 @@
+{
+  "title": "Settings",
+  "tabs": {
+    "resources": "Resources",
+    "permissions": "Permissions",
+    "roles": "Roles"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "actions": "Actions"
+  },
+  "resources": {
+    "title": "Resources",
+    "add": "Add resource",
+    "edit": "Edit resource",
+    "name": "Name",
+    "nameHint": "Lowercase letters, digits and underscore only. Cannot be changed later.",
+    "description": "Description",
+    "empty": "No resources yet",
+    "deleteConfirm": "Delete this resource?"
+  },
+  "permissions": {
+    "title": "Permissions",
+    "add": "Add permission",
+    "resource": "Resource",
+    "action": "Action",
+    "actionPlaceholder": "read, create, update, delete…",
+    "scope": "Scope",
+    "empty": "No permissions yet",
+    "deleteConfirm": "Delete this permission?",
+    "deleteWarning": "This will invalidate tokens of all users who had it."
+  },
+  "roles": {
+    "title": "Roles",
+    "add": "Add role",
+    "edit": "Edit role",
+    "name": "Name",
+    "description": "Description",
+    "empty": "No roles yet",
+    "permissions": "Permissions",
+    "managePermissions": "Permissions of \"{{name}}\"",
+    "selectPermissions": "Select permissions",
+    "deleteConfirm": "Delete this role?"
+  },
+  "validation": {
+    "nameRequired": "Name is required",
+    "namePattern": "Only lowercase letters, digits and underscore; must start with a letter",
+    "nameMax": "Name must be at most 100 characters",
+    "descriptionMax": "Description must be at most 500 characters",
+    "resourceRequired": "Resource is required",
+    "actionRequired": "Action is required",
+    "actionMax": "Action must be at most 50 characters",
+    "roleNameRequired": "Role name is required",
+    "permissionsRequired": "Select at least one permission"
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "resource_already_exists": "A resource with this name already exists",
+    "resource_has_permissions": "Delete the resource's permissions first",
+    "resource_not_found": "Resource not found",
+    "permission_already_exists": "This permission already exists",
+    "permission_not_found": "Permission not found",
+    "role_already_exists": "A role with this name already exists",
+    "role_not_found": "Role not found",
+    "permissions_not_found": "Some selected permissions do not exist",
+    "superuser_required": "Superuser access required"
+  }
+}

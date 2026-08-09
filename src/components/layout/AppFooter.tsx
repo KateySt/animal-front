@@ -9,12 +9,19 @@ import {
 import { useTranslation } from "react-i18next";
 import styles from "./AppFooter.module.scss";
 import { FOOTER_SECTIONS, GITHUB_LINK, LINKEDIN_LINK } from "../../constants/footer.ts";
+import { useAuthStore } from "../../store/auth.store.ts";
 
 const { Footer } = Layout;
 const { Text, Title } = Typography;
 
 export const AppFooter = () => {
   const { t } = useTranslation("common");
+  const isSuperuser = useAuthStore((state) => state.user?.is_superuser ?? false);
+
+  const sections = FOOTER_SECTIONS.map((section) => ({
+    ...section,
+    links: section.links.filter((link) => !link.adminOnly || isSuperuser),
+  })).filter((section) => section.links.length > 0);
 
   return (
     <Footer className={styles.footer}>
@@ -42,8 +49,8 @@ export const AppFooter = () => {
           </Space>
         </Col>
 
-        {FOOTER_SECTIONS.map((section) => (
-          <Col xs={12} sm={8} md={16 / FOOTER_SECTIONS.length} key={section.title}>
+        {sections.map((section) => (
+          <Col xs={12} sm={8} md={16 / sections.length} key={section.title}>
             <Space orientation="vertical" size={10}>
               <Text strong className={styles.sectionTitle}>
                 {t(section.title)}

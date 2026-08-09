@@ -30,7 +30,7 @@ src/
 
 ```ts
 import { Routes } from "../router/routes";
-// Routes.Home | .Login | .Register | .Animals | .Profile | .Settings | .Payment | .Chat | .ChatSession | .GoogleCallback
+// Routes.HomePage | .Login | .Register | .Animals | .Profile | .Settings | .Payment | .Chat | .ChatSession | .GoogleCallback
 ```
 
 Never hardcode path strings. Dynamic routes: `Routes.Payment + "/:invoiceId"`, `Routes.ChatSession` uses `:sessionId`.

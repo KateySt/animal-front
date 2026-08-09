@@ -1,17 +1,31 @@
 import { Routes } from "../router/routes.ts";
 
-export const FOOTER_SECTIONS = [
+type FooterLink = {
+  label: string;
+  to: string;
+  adminOnly?: boolean;
+};
+
+type FooterSection = {
+  title: string;
+  links: FooterLink[];
+};
+
+export const FOOTER_SECTIONS: FooterSection[] = [
   {
     title: "footer.sections.navigation",
     links: [
       { label: "footer.links.home", to: Routes.Home },
       { label: "footer.links.animals", to: Routes.Animals },
-      { label: "footer.links.profile", to: Routes.Profile },
+      { label: "footer.links.invoices", to: Routes.Invoices },
     ],
   },
   {
     title: "footer.sections.account",
-    links: [{ label: "footer.links.settings", to: Routes.Settings }],
+    links: [
+      { label: "footer.links.settings", to: Routes.Settings, adminOnly: true },
+      { label: "footer.links.profile", to: Routes.Profile },
+    ],
   },
   {
     title: "footer.sections.support",

@@ -38,16 +38,18 @@ export const ChatSidebar = () => {
     }
   };
 
+  const handleCreateNewChat = () => {
+    createSession(undefined, {
+      onSuccess: (s) => navigateToSession(s.id),
+    });
+  };
+
   return (
     <div className={styles.sidebar}>
       <Button
         type="primary"
         icon={<PlusOutlined />}
-        onClick={() =>
-          createSession(undefined, {
-            onSuccess: (s) => navigateToSession(s.id),
-          })
-        }
+        onClick={handleCreateNewChat}
         block
         className={styles.newChatBtn}
       >

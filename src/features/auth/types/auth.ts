@@ -9,13 +9,19 @@ export type RegisterDto = {
   password: string;
 };
 
+export type UserRole = {
+  id: string;
+  name: string;
+  description: string | null;
+};
+
 export type User = {
   id: string;
   email: string;
   is_active: boolean;
   is_superuser: boolean;
   is_verified: boolean;
-  roles: [];
+  roles: UserRole[];
 };
 
 export type AccessToken = {

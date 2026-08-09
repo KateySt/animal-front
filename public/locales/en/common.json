@@ -7,6 +7,7 @@
   "nav": {
     "home": "Home",
     "animals": "Animals",
+    "invoices": "Invoices",
     "payment": "Payments",
     "profile": "Profile",
     "settings": "Settings",
@@ -26,6 +27,7 @@
       "profile": "Profile",
       "settings": "Settings",
       "payments": "Payments",
+      "invoices": "Invoices",
       "helpCenter": "Help Center",
       "privacyPolicy": "Privacy Policy",
       "termsOfService": "Terms of Service"
@@ -33,6 +35,21 @@
     "copyright": "All rights reserved.",
     "madeWith": "Made with",
     "forAnimals": "for animals"
+  },
+  "profile": {
+    "title": "Profile",
+    "email": "Email",
+    "id": "User ID",
+    "status": "Status",
+    "verified": "Email verified",
+    "role": "Role",
+    "active": "Active",
+    "inactive": "Inactive",
+    "verifiedYes": "Verified",
+    "verifiedNo": "Not verified",
+    "admin": "Administrator",
+    "user": "User",
+    "empty": "No user data available"
   },
   "errorPage": {
     "title": "Something went wrong",

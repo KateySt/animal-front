@@ -38,6 +38,14 @@ export const AnimalsWidget = () => {
     setIsModalOpen(true);
   };
 
+  const handleOnView = (animal: Animal) => {
+    navigate(`${Routes.Animals}/${animal.id}`);
+  };
+
+  const handleOnCloseAnimalForm = () => {
+    setIsModalOpen(false);
+  };
+
   if (isLoading && !data) {
     return <LoadingPage />;
   }
@@ -65,7 +73,7 @@ export const AnimalsWidget = () => {
         isLoading={isLoading}
         isDeleting={isDeleting}
         onPageChange={setPage}
-        onView={(animal) => navigate(`${Routes.Animals}/${animal.id}`)}
+        onView={handleOnView}
         onEdit={openEdit}
         onDelete={deleteAnimal}
       />
@@ -73,7 +81,7 @@ export const AnimalsWidget = () => {
       <AnimalFormModal
         open={isModalOpen}
         animal={editingAnimal}
-        onClose={() => setIsModalOpen(false)}
+        onClose={handleOnCloseAnimalForm}
       />
     </div>
   );

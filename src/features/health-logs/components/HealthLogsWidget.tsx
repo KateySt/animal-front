@@ -39,6 +39,10 @@ export const HealthLogsWidget = ({ animalId }: HealthLogsWidgetProps) => {
     setIsModalOpen(true);
   };
 
+  const handleCloseHealthLogForm = () => {
+    setIsModalOpen(false);
+  };
+
   if (isLoading && !data) {
     return <LoadingPage />;
   }
@@ -74,7 +78,7 @@ export const HealthLogsWidget = ({ animalId }: HealthLogsWidgetProps) => {
         open={isModalOpen}
         animalId={animalId}
         healthLog={editingHealthLog}
-        onClose={() => setIsModalOpen(false)}
+        onClose={handleCloseHealthLogForm}
       />
     </div>
   );

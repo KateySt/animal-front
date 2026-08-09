@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router";
 import { Button, Layout, Menu, type MenuProps, Space } from "antd";
 import {
   CloseOutlined,
+  FileTextOutlined,
   HeartOutlined,
   HomeOutlined,
   MenuOutlined,
@@ -51,6 +52,15 @@ export const AppHeader = () => {
       label: (
         <Link to={Routes.Animals} onClick={() => setDrawerOpen(false)}>
           {t("nav.animals")}
+        </Link>
+      ),
+    },
+    {
+      key: Routes.Invoices,
+      icon: <FileTextOutlined />,
+      label: (
+        <Link to={Routes.Invoices} onClick={() => setDrawerOpen(false)}>
+          {t("nav.invoices")}
         </Link>
       ),
     },

@@ -14,7 +14,7 @@ const AuthWrapper = ({ requiredRole }: AuthWrapperProps) => {
     return <Navigate to={Routes.Login} state={{ from: location }} replace />;
   }
 
-  if (requiredRole && !user?.roles?.includes(requiredRole as never)) {
+  if (requiredRole && !user?.roles?.some((role) => role.name === requiredRole)) {
     return <Navigate to={Routes.Home} replace />;
   }
 

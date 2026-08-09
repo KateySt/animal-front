@@ -1,4 +1,5 @@
 import type { TimeStamp } from "../../../types/base.ts";
+import type { HealthLog } from "../../animals/types/animals.types.ts";
 
 export const PaymentStatus = {
   Idle: "idle",
@@ -9,9 +10,9 @@ export const PaymentStatus = {
 
 export const InvoiceStatus = {
   Pending: "pending",
-  Paid: "paid",
-  Failed: "failed",
   Processing: "processing",
+  Paid: "paid",
+  Cancelled: "cancelled",
 } as const;
 
 export const Currency = {
@@ -19,17 +20,16 @@ export const Currency = {
   UAH: "uah",
 } as const;
 
-//todo move to correct module
-export type HealthLog = {
-  id: string;
-  animal_id: string;
-  procedure_name: string;
-  examination_findings: string;
-} & TimeStamp;
-
 export type InvoiceStatusType = (typeof InvoiceStatus)[keyof typeof InvoiceStatus];
 
 export type CurrencyType = (typeof Currency)[keyof typeof Currency];
+
+export const STATUS_COLOR = {
+  [InvoiceStatus.Pending]: "orange",
+  [InvoiceStatus.Processing]: "gold",
+  [InvoiceStatus.Paid]: "green",
+  [InvoiceStatus.Cancelled]: "red",
+} satisfies Record<InvoiceStatusType, string>;
 
 export type Invoice = {
   id: string;
@@ -41,7 +41,17 @@ export type Invoice = {
   health_logs: HealthLog[];
 } & TimeStamp;
 
+export type InvoiceCreateDto = {
+  animal_id: string;
+  amount: number;
+  currency: CurrencyType;
+  health_logs: string[];
+};
+
+export type InvoiceUpdateDto = Partial<Omit<InvoiceCreateDto, "animal_id">>;
+
 export type ConfirmPaymentResponse = {
-  status: InvoiceStatusType;
-  clientSecret?: string;
+  status: string;
+  client_secret: string | null;
+  payment_intent_id: string | null;
 };

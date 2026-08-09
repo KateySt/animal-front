@@ -3,12 +3,12 @@
   "amount": "Amount:",
   "status": {
     "pending": "Pending",
+    "processing": "Processing",
     "paid": "Paid",
-    "failed": "Failed",
-    "processing": "Proceeding"
+    "cancelled": "Cancelled"
   },
   "alreadyPaid": "Invoice already paid",
-  "failed": "Payment failed. Please try again.",
+  "failed": "Payment failed or was cancelled. Please create a new invoice.",
   "form": {
     "processing": "Processing payment...",
     "requires_action": "3DS authorization required...",
@@ -16,5 +16,51 @@
     "submit": "Pay",
     "processingTitle": "Payment is being processed",
     "processingDesc": "Invoice status will update automatically after confirmation from Stripe."
+  },
+  "invoices": {
+    "title": "Invoices",
+    "myTab": "My invoices",
+    "allTab": "All invoices",
+    "empty": "No invoices yet",
+    "pay": "Pay",
+    "view": "View",
+    "delete": "Delete",
+    "deleteConfirm": "Delete this invoice?",
+    "columns": {
+      "amount": "Amount",
+      "status": "Status",
+      "created": "Created",
+      "actions": "Actions"
+    }
+  },
+  "edit": {
+    "title": "Edit invoice",
+    "submit": "Save",
+    "success": "Invoice updated"
+  },
+  "create": {
+    "button": "Create invoice",
+    "title": "Create invoice",
+    "animal": "Animal",
+    "animalRequired": "Select an animal",
+    "healthLogs": "Health logs",
+    "healthLogsRequired": "Select at least one health log",
+    "amount": "Amount",
+    "amountRequired": "Amount is required",
+    "currency": "Currency",
+    "currencyRequired": "Currency is required",
+    "submit": "Create",
+    "cancel": "Cancel",
+    "success": "Invoice created"
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "invoice_not_found": "Invoice not found",
+    "invoice_already_processing": "Payment is already in progress",
+    "invoice_already_finalized": "Invoice is already paid or cancelled",
+    "invoice_wrong_owner": "Only the invoice owner can pay it",
+    "missing_role": "You do not have permission for this action",
+    "user_not_found": "This animal has no owner to bill",
+    "animal_not_found": "Animal not found"
   }
 }

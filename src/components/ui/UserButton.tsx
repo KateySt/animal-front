@@ -18,11 +18,15 @@ const UserButton = () => {
       icon: <UserOutlined />,
       label: <Link to={Routes.Profile}>{t("nav.profile")}</Link>,
     },
-    {
-      key: "settings",
-      icon: <SettingOutlined />,
-      label: <Link to={Routes.Settings}>{t("nav.settings")}</Link>,
-    },
+    ...(user?.is_superuser
+      ? [
+          {
+            key: "settings",
+            icon: <SettingOutlined />,
+            label: <Link to={Routes.Settings}>{t("nav.settings")}</Link>,
+          },
+        ]
+      : []),
   ];
 
   return (

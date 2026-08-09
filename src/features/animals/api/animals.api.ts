@@ -7,19 +7,21 @@ import type {
   UpdateAnimalDto,
 } from "../types/animals.types.ts";
 
+const basePath = "/v1/animals";
+
 export const animalsApi = {
   getAnimals: (params: AnimalsQueryParams) =>
-    axiosInstance.get<AnimalsList>("/v1/animals", { params }).then((response) => response.data),
+    axiosInstance.get<AnimalsList>(basePath, { params }).then((response) => response.data),
 
   getAnimal: (animalId: string) =>
-    axiosInstance.get<Animal>(`/v1/animals/${animalId}`).then((response) => response.data),
+    axiosInstance.get<Animal>(`${basePath}/${animalId}`).then((response) => response.data),
 
   createAnimal: (dto: CreateAnimalDto) =>
-    axiosInstance.post<Animal>("/v1/animals", dto).then((response) => response.data),
+    axiosInstance.post<Animal>(basePath, dto).then((response) => response.data),
 
   updateAnimal: (animalId: string, dto: UpdateAnimalDto) =>
-    axiosInstance.patch<Animal>(`/v1/animals/${animalId}`, dto).then((response) => response.data),
+    axiosInstance.patch<Animal>(`${basePath}/${animalId}`, dto).then((response) => response.data),
 
   deleteAnimal: (animalId: string) =>
-    axiosInstance.delete<void>(`/v1/animals/${animalId}`).then((response) => response.data),
+    axiosInstance.delete<void>(`${basePath}/${animalId}`).then((response) => response.data),
 };

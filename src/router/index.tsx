@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router";
 import { Routes } from "./routes";
 import AuthWrapper from "../wrappers/AuthWrapper.tsx";
+import AdminWrapper from "../wrappers/AdminWrapper.tsx";
 import { MainLayout } from "../components/layout/MainLayout.tsx";
 
 export const router = createBrowserRouter([
@@ -25,7 +26,7 @@ export const router = createBrowserRouter([
         children: [
           {
             path: Routes.Home,
-            lazy: () => import("../pages/AnimalsPage").then((m) => ({ Component: m.AnimalsPage })),
+            lazy: () => import("../pages/HomePage").then((m) => ({ Component: m.HomePage })),
           },
           {
             path: Routes.Animals,
@@ -41,13 +42,23 @@ export const router = createBrowserRouter([
             lazy: () => import("../pages/ProfilePage").then((m) => ({ Component: m.ProfilePage })),
           },
           {
-            path: Routes.Settings,
-            lazy: () =>
-              import("../pages/SettingsPage").then((m) => ({ Component: m.SettingsPage })),
+            element: <AdminWrapper />,
+            children: [
+              {
+                path: Routes.Settings,
+                lazy: () =>
+                  import("../pages/SettingsPage").then((m) => ({ Component: m.SettingsPage })),
+              },
+            ],
           },
           {
             path: Routes.Payment + "/:invoiceId",
             lazy: () => import("../pages/PaymentPage").then((m) => ({ Component: m.PaymentPage })),
+          },
+          {
+            path: Routes.Invoices,
+            lazy: () =>
+              import("../pages/InvoicesPage").then((m) => ({ Component: m.InvoicesPage })),
           },
           {
             path: Routes.Chat,

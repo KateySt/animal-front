@@ -1,0 +1,71 @@
+{
+  "title": "Настройки",
+  "tabs": {
+    "resources": "Ресурсы",
+    "permissions": "Разрешения",
+    "roles": "Роли"
+  },
+  "common": {
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "edit": "Редактировать",
+    "delete": "Удалить",
+    "actions": "Действия"
+  },
+  "resources": {
+    "title": "Ресурсы",
+    "add": "Добавить ресурс",
+    "edit": "Редактировать ресурс",
+    "name": "Название",
+    "nameHint": "Только строчные буквы, цифры и подчёркивание. После создания изменить нельзя.",
+    "description": "Описание",
+    "empty": "Ресурсов пока нет",
+    "deleteConfirm": "Удалить этот ресурс?"
+  },
+  "permissions": {
+    "title": "Разрешения",
+    "add": "Добавить разрешение",
+    "resource": "Ресурс",
+    "action": "Действие",
+    "actionPlaceholder": "read, create, update, delete…",
+    "scope": "Scope",
+    "empty": "Разрешений пока нет",
+    "deleteConfirm": "Удалить это разрешение?",
+    "deleteWarning": "Это инвалидирует токены всех пользователей, у кого оно было."
+  },
+  "roles": {
+    "title": "Роли",
+    "add": "Добавить роль",
+    "edit": "Редактировать роль",
+    "name": "Название",
+    "description": "Описание",
+    "empty": "Ролей пока нет",
+    "permissions": "Разрешения",
+    "managePermissions": "Разрешения роли «{{name}}»",
+    "selectPermissions": "Выберите разрешения",
+    "deleteConfirm": "Удалить эту роль?"
+  },
+  "validation": {
+    "nameRequired": "Введите название",
+    "namePattern": "Только строчные буквы, цифры и подчёркивание; начинать с буквы",
+    "nameMax": "Название должно быть не длиннее 100 символов",
+    "descriptionMax": "Описание должно быть не длиннее 500 символов",
+    "resourceRequired": "Выберите ресурс",
+    "actionRequired": "Введите действие",
+    "actionMax": "Действие должно быть не длиннее 50 символов",
+    "roleNameRequired": "Введите название роли",
+    "permissionsRequired": "Выберите хотя бы одно разрешение"
+  },
+  "errors": {
+    "generic": "Что-то пошло не так. Попробуйте ещё раз.",
+    "resource_already_exists": "Ресурс с таким названием уже существует",
+    "resource_has_permissions": "Сначала удалите разрешения этого ресурса",
+    "resource_not_found": "Ресурс не найден",
+    "permission_already_exists": "Такое разрешение уже существует",
+    "permission_not_found": "Разрешение не найдено",
+    "role_already_exists": "Роль с таким названием уже существует",
+    "role_not_found": "Роль не найдена",
+    "permissions_not_found": "Некоторые выбранные разрешения не существуют",
+    "superuser_required": "Требуется доступ суперпользователя"
+  }
+}

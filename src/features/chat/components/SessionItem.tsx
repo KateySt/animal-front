@@ -1,3 +1,4 @@
+import type { MouseEvent } from "react";
 import type { ChatSession } from "../types/chat.types.ts";
 import { useTranslation } from "react-i18next";
 import { DeleteOutlined, MessageOutlined } from "@ant-design/icons";
@@ -17,6 +18,11 @@ type SessionItemProps = {
 const SessionItem = ({ session, isActive, onSelect, onDelete }: SessionItemProps) => {
   const { t } = useTranslation("chat");
 
+  const handleDelete = (event: MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    onDelete(session.id);
+  };
+
   return (
     <div
       onClick={() => onSelect(session.id)}
@@ -31,10 +37,7 @@ const SessionItem = ({ session, isActive, onSelect, onDelete }: SessionItemProps
           type="text"
           size="small"
           icon={<DeleteOutlined />}
-          onClick={(e) => {
-            e.stopPropagation();
-            onDelete(session.id);
-          }}
+          onClick={handleDelete}
           className={styles.deleteBtn}
         />
       </Tooltip>

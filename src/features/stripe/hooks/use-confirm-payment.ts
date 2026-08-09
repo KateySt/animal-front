@@ -3,6 +3,7 @@ import type { Stripe, StripeElements } from "@stripe/stripe-js";
 import { useQueryClient } from "@tanstack/react-query";
 import { stripeApi } from "../api/stripe.api";
 import { PaymentStatus } from "../types/stripe";
+import { getStripeErrorMessage } from "../utils/errors.ts";
 import { invoiceKeys } from "./use-invoice.ts";
 
 type PaymentState =
@@ -57,14 +58,11 @@ export function useConfirmPayment({ invoiceId }: UseConfirmPaymentOptions) {
         return;
       }
 
-      let serverResponse: { client_secret?: string; status?: string; error?: string };
+      let serverResponse: { client_secret?: string | null; status?: string };
       try {
         serverResponse = await stripeApi.confirmPayment(invoiceId, confirmationToken.id);
       } catch (error) {
-        dispatch({
-          type: "FAIL",
-          message: error instanceof Error ? error.message : "Payment failed",
-        });
+        dispatch({ type: "FAIL", message: getStripeErrorMessage(error) });
         return;
       }
 
