@@ -3,6 +3,7 @@ import { Button, Input } from "antd";
 import { SendOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import styles from "./ChatInput.module.scss";
+import { MAX_MESSAGE_LENGTH } from "../../../constants";
 
 const { TextArea } = Input;
 
@@ -31,25 +32,32 @@ export const ChatInput = ({ onSend, isLoading }: ChatInputProps) => {
 
   return (
     <div className={styles.inputBar}>
-      <TextArea
-        value={value}
-        placeholder={t("input.placeholder")}
-        autoSize={{ minRows: 1, maxRows: 5 }}
-        disabled={isLoading}
-        onChange={(e) => setValue(e.target.value)}
-        onKeyDown={handleKeyDown}
-        className={styles.textarea}
-      />
-      <Button
-        type="primary"
-        icon={<SendOutlined />}
-        onClick={handleSend}
-        loading={isLoading}
-        disabled={isLoading}
-        className={styles.sendBtn}
-      >
-        {t("input.send")}
-      </Button>
+      <div className={styles.composer}>
+        <TextArea
+          value={value}
+          placeholder={t("input.placeholder")}
+          autoSize={{ minRows: 1, maxRows: 8 }}
+          disabled={isLoading}
+          maxLength={MAX_MESSAGE_LENGTH}
+          variant="borderless"
+          onChange={(e) => setValue(e.target.value)}
+          onKeyDown={handleKeyDown}
+          className={styles.textarea}
+        />
+        <div className={styles.footer}>
+          <span className={styles.count}>
+            {value.length} / {MAX_MESSAGE_LENGTH}
+          </span>
+          <Button
+            type="primary"
+            icon={<SendOutlined />}
+            onClick={handleSend}
+            loading={isLoading}
+            disabled={isLoading || !value.trim()}
+            className={styles.sendBtn}
+          />
+        </div>
+      </div>
     </div>
   );
 };

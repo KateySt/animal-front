@@ -14,7 +14,7 @@ export function usePermissions() {
     queryOptions({
       queryKey: permissionKeys.list(),
       queryFn: () => permissionsApi.getPermissions(),
-      select: (response) => response.data,
+      select: (response) => response,
     }),
   );
 }

@@ -1,11 +1,10 @@
 import { axiosInstance } from "../../../lib/axios";
-import type { ListResponse, Permission, PermissionCreateDto } from "../types/rbac.types.ts";
+import type { Permission, PermissionCreateDto } from "../types/rbac.types.ts";
 
 const basePath = "/v1/permissions";
 
 export const permissionsApi = {
-  getPermissions: () =>
-    axiosInstance.get<ListResponse<Permission>>(basePath).then((response) => response.data),
+  getPermissions: () => axiosInstance.get<Permission[]>(basePath).then((response) => response.data),
 
   createPermission: (dto: PermissionCreateDto) =>
     axiosInstance.post<Permission>(basePath, dto).then((response) => response.data),
