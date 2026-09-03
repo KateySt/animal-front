@@ -3,7 +3,8 @@
   "tabs": {
     "resources": "Ресурсы",
     "permissions": "Разрешения",
-    "roles": "Роли"
+    "roles": "Роли",
+    "users": "Пользователи"
   },
   "common": {
     "save": "Сохранить",
@@ -45,6 +46,15 @@
     "selectPermissions": "Выберите разрешения",
     "deleteConfirm": "Удалить эту роль?"
   },
+  "users": {
+    "title": "Пользователи",
+    "email": "Email",
+    "roles": "Роли",
+    "empty": "Пользователей пока нет",
+    "manageRoles": "Роли пользователя «{{email}}»",
+    "manageRolesAction": "Управление ролями",
+    "selectRoles": "Выберите роли"
+  },
   "validation": {
     "nameRequired": "Введите название",
     "namePattern": "Только строчные буквы, цифры и подчёркивание; начинать с буквы",
@@ -54,7 +64,8 @@
     "actionRequired": "Введите действие",
     "actionMax": "Действие должно быть не длиннее 50 символов",
     "roleNameRequired": "Введите название роли",
-    "permissionsRequired": "Выберите хотя бы одно разрешение"
+    "permissionsRequired": "Выберите хотя бы одно разрешение",
+    "rolesRequired": "Выберите хотя бы одну роль"
   },
   "errors": {
     "generic": "Что-то пошло не так. Попробуйте ещё раз.",
@@ -66,6 +77,8 @@
     "role_already_exists": "Роль с таким названием уже существует",
     "role_not_found": "Роль не найдена",
     "permissions_not_found": "Некоторые выбранные разрешения не существуют",
+    "roles_not_found": "Некоторые выбранные роли не существуют",
+    "user_not_found": "Пользователь не найден",
     "superuser_required": "Требуется доступ суперпользователя"
   }
 }

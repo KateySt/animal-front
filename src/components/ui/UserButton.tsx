@@ -1,7 +1,7 @@
 import { Avatar, Dropdown, type MenuProps, Typography } from "antd";
 import { SettingOutlined, UserOutlined } from "@ant-design/icons";
 import { Link } from "react-router";
-import { Routes } from "../../router/routes.ts";
+import { Routes } from "../../routes";
 import { useTranslation } from "react-i18next";
 import { useAuthStore } from "../../store/auth.store.ts";
 import styles from "./UserButton.module.scss";
@@ -32,7 +32,12 @@ const UserButton = () => {
   return (
     <Dropdown menu={{ items: userMenuItems }} placement="bottomRight" trigger={["click"]}>
       <span className={styles.trigger}>
-        <Avatar size={32} icon={<UserOutlined />} className={styles.avatar} />
+        <Avatar
+          size={32}
+          src={user?.avatar_url ?? undefined}
+          icon={<UserOutlined />}
+          className={styles.avatar}
+        />
         <Text className={styles.email}>{user?.email ?? "-"}</Text>
       </span>
     </Dropdown>

@@ -30,7 +30,10 @@ export const rbacSchema = {
   ],
 
   permissionIds: (): Rule[] => [
-    { required: true, message: t("validation.permissionsRequired") },
-    { type: "array", min: 1, message: t("validation.permissionsRequired") },
+    { required: true, type: "array", min: 1, message: t("validation.permissionsRequired") },
+  ],
+
+  roleIds: (): Rule[] => [
+    { required: true, type: "array", min: 1, message: t("validation.rolesRequired") },
   ],
 };

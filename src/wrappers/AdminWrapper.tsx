@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from "react-router";
 import { useAuthStore } from "../store/auth.store";
-import { Routes } from "../router/routes.ts";
+import { Routes } from "../routes";
 
 const AdminWrapper = () => {
   const user = useAuthStore((state) => state.user);

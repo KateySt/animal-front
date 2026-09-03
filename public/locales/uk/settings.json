@@ -3,7 +3,8 @@
   "tabs": {
     "resources": "Ресурси",
     "permissions": "Дозволи",
-    "roles": "Ролі"
+    "roles": "Ролі",
+    "users": "Користувачі"
   },
   "common": {
     "save": "Зберегти",
@@ -45,6 +46,15 @@
     "selectPermissions": "Оберіть дозволи",
     "deleteConfirm": "Видалити цю роль?"
   },
+  "users": {
+    "title": "Користувачі",
+    "email": "Email",
+    "roles": "Ролі",
+    "empty": "Користувачів поки немає",
+    "manageRoles": "Ролі користувача «{{email}}»",
+    "manageRolesAction": "Керування ролями",
+    "selectRoles": "Оберіть ролі"
+  },
   "validation": {
     "nameRequired": "Введіть назву",
     "namePattern": "Лише малі літери, цифри та підкреслення; починати з літери",
@@ -54,7 +64,8 @@
     "actionRequired": "Введіть дію",
     "actionMax": "Дія має бути не довше 50 символів",
     "roleNameRequired": "Введіть назву ролі",
-    "permissionsRequired": "Оберіть хоча б один дозвіл"
+    "permissionsRequired": "Оберіть хоча б один дозвіл",
+    "rolesRequired": "Оберіть хоча б одну роль"
   },
   "errors": {
     "generic": "Щось пішло не так. Спробуйте ще раз.",
@@ -66,6 +77,8 @@
     "role_already_exists": "Роль із такою назвою вже існує",
     "role_not_found": "Роль не знайдено",
     "permissions_not_found": "Деякі обрані дозволи не існують",
+    "roles_not_found": "Деякі обрані ролі не існують",
+    "user_not_found": "Користувача не знайдено",
     "superuser_required": "Потрібен доступ суперкористувача"
   }
 }

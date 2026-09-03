@@ -19,3 +19,5 @@ export const MainLayout = () => {
     </Layout>
   );
 };
+
+export default MainLayout;

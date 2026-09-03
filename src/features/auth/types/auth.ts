@@ -22,6 +22,7 @@ export type User = {
   is_superuser: boolean;
   is_verified: boolean;
   roles: UserRole[];
+  avatar_url: string | null;
 };
 
 export type AccessToken = {

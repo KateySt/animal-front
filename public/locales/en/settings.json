@@ -3,7 +3,8 @@
   "tabs": {
     "resources": "Resources",
     "permissions": "Permissions",
-    "roles": "Roles"
+    "roles": "Roles",
+    "users": "Users"
   },
   "common": {
     "save": "Save",
@@ -45,6 +46,15 @@
     "selectPermissions": "Select permissions",
     "deleteConfirm": "Delete this role?"
   },
+  "users": {
+    "title": "Users",
+    "email": "Email",
+    "roles": "Roles",
+    "empty": "No users yet",
+    "manageRoles": "Roles of \"{{email}}\"",
+    "manageRolesAction": "Manage roles",
+    "selectRoles": "Select roles"
+  },
   "validation": {
     "nameRequired": "Name is required",
     "namePattern": "Only lowercase letters, digits and underscore; must start with a letter",
@@ -54,7 +64,8 @@
     "actionRequired": "Action is required",
     "actionMax": "Action must be at most 50 characters",
     "roleNameRequired": "Role name is required",
-    "permissionsRequired": "Select at least one permission"
+    "permissionsRequired": "Select at least one permission",
+    "rolesRequired": "Select at least one role"
   },
   "errors": {
     "generic": "Something went wrong. Please try again.",
@@ -66,6 +77,8 @@
     "role_already_exists": "A role with this name already exists",
     "role_not_found": "Role not found",
     "permissions_not_found": "Some selected permissions do not exist",
+    "roles_not_found": "Some selected roles do not exist",
+    "user_not_found": "User not found",
     "superuser_required": "Superuser access required"
   }
 }

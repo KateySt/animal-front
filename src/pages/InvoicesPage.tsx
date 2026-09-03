@@ -1,5 +1,7 @@
 import { InvoicesWidget } from "../features/stripe/components/InvoicesWidget";
 
-export const InvoicesPage = () => {
+const InvoicesPage = () => {
   return <InvoicesWidget />;
 };
+
+export default InvoicesPage;

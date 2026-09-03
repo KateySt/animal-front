@@ -1,8 +1,10 @@
+import { message } from "antd";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
 import { authApi } from "../api/auth.api";
+import { getAuthErrorMessage } from "../utils/errors.ts";
 import { useAuthStore } from "../../../store/auth.store";
-import { Routes } from "../../../router/routes";
+import { Routes } from "../../../routes";
 import type { LoginDto, RegisterDto, User } from "../types/auth";
 
 export function useLogin() {
@@ -66,4 +68,29 @@ export function useLogout() {
 
 export function useGoogleLogin() {
   return () => authApi.googleLogin();
+}
+
+export function useUploadAvatar() {
+  const setUser = useAuthStore((state) => state.setUser);
+
+  return useMutation({
+    mutationFn: (file: File) => authApi.uploadAvatar(file),
+    onSuccess: (user: User) => {
+      setUser(user);
+    },
+    onError: (error) => message.error(getAuthErrorMessage(error)),
+  });
+}
+
+export function useRemoveAvatar() {
+  const user = useAuthStore((state) => state.user);
+  const setUser = useAuthStore((state) => state.setUser);
+
+  return useMutation({
+    mutationFn: () => authApi.removeAvatar(),
+    onSuccess: () => {
+      if (user) setUser({ ...user, avatar_url: null });
+    },
+    onError: (error) => message.error(getAuthErrorMessage(error)),
+  });
 }

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import { Button, Flex, Typography } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
-import { Routes } from "../../../router/routes.ts";
+import { Routes } from "../../../routes";
 import { LoadingPage } from "../../../components/ui/LoadingPage.tsx";
 import { ErrorPage } from "../../../components/ui/ErrorPage.tsx";
 import { useAnimals, useDeleteAnimal } from "../hooks/use-animals.ts";

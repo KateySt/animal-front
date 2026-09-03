@@ -3,14 +3,14 @@ import { GoogleOutlined } from "@ant-design/icons";
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import type { LoginDto } from "../features/auth/types/auth";
-import { Routes } from "../router/routes";
+import { Routes } from "../routes";
 import { useGoogleLogin, useLogin } from "../features/auth/hooks/use-auth.ts";
 import { loginSchema } from "../features/auth/schemas/register.schema.ts";
 import styles from "./LoginPage.module.scss";
 
 const { Title, Text } = Typography;
 
-export const LoginPage = () => {
+const LoginPage = () => {
   const { t } = useTranslation("common");
   const { mutate: login, isPending } = useLogin();
   const googleLogin = useGoogleLogin();
@@ -72,3 +72,5 @@ export const LoginPage = () => {
     </div>
   );
 };
+
+export default LoginPage;

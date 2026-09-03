@@ -1,6 +1,6 @@
 import { Navigate, Outlet, useLocation } from "react-router";
 import { useAuthStore } from "../store/auth.store";
-import { Routes } from "../router/routes.ts";
+import { Routes } from "../routes";
 
 type AuthWrapperProps = {
   requiredRole?: string;

@@ -20,6 +20,19 @@ export const authApi = {
 
   me: () => axiosInstance.get<User>("/v1/users/me").then((response) => response.data),
 
+  uploadAvatar: (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    return axiosInstance
+      .put<User>("/v1/users/me/avatar", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+      .then((response) => response.data);
+  },
+
+  removeAvatar: () =>
+    axiosInstance.delete<void>("/v1/users/me/avatar").then((response) => response.data),
+
   logout: () => axiosInstance.post(`${basePath}/logout`),
 
   googleLogin: () => {

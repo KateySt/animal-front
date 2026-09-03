@@ -3,7 +3,7 @@ import { ChatSidebar } from "../features/chat/components/ChatSidebar";
 import { ChatWindow } from "../features/chat/components/ChatWindow";
 import styles from "./ChatPage.module.scss";
 
-export const ChatPage = () => {
+const ChatPage = () => {
   const { sessionId } = useParams();
 
   return (
@@ -13,3 +13,5 @@ export const ChatPage = () => {
     </div>
   );
 };
+
+export default ChatPage;

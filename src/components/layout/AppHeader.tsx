@@ -12,7 +12,7 @@ import {
   TeamOutlined,
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
-import { Routes } from "../../router/routes";
+import { Routes } from "../../routes";
 import LanguageDropdown from "../ui/LanguageDropdown.tsx";
 import ThemeSwitch from "../ui/ThemeSwitch.tsx";
 import LogoutButton from "../ui/LogoutButton.tsx";
