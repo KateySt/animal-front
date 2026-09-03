@@ -21,6 +21,15 @@ export type RoleDetail = Role & {
   permissions: Permission[];
 };
 
+export type RbacUser = {
+  id: string;
+  email: string;
+  is_active: boolean;
+  is_superuser: boolean;
+  is_verified: boolean;
+  roles: Role[];
+};
+
 export type ListResponse<T> = {
   data: T[];
 };

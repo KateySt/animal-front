@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { ResourcesPanel } from "./ResourcesPanel.tsx";
 import { PermissionsPanel } from "./PermissionsPanel.tsx";
 import { RolesPanel } from "./RolesPanel.tsx";
+import { UsersPanel } from "./UsersPanel.tsx";
 
 export const RbacSettings = () => {
   const { t } = useTranslation("settings");
@@ -14,6 +15,7 @@ export const RbacSettings = () => {
         { key: "resources", label: t("tabs.resources"), children: <ResourcesPanel /> },
         { key: "permissions", label: t("tabs.permissions"), children: <PermissionsPanel /> },
         { key: "roles", label: t("tabs.roles"), children: <RolesPanel /> },
+        { key: "users", label: t("tabs.users"), children: <UsersPanel /> },
       ]}
     />
   );

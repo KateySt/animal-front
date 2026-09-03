@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import { useAuthStore } from "../store/auth.store";
-import { Routes } from "../router/routes";
+import { Routes } from "../routes";
 import { LoadingPage } from "../components/ui/LoadingPage";
 import { useMe } from "../features/auth/hooks/use-auth.ts";
 
-export const GoogleCallbackPage = () => {
+const GoogleCallbackPage = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -27,3 +27,5 @@ export const GoogleCallbackPage = () => {
 
   return <LoadingPage />;
 };
+
+export default GoogleCallbackPage;

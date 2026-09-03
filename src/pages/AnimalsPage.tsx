@@ -1,5 +1,7 @@
 import { AnimalsWidget } from "../features/animals/components/AnimalsWidget";
 
-export const AnimalsPage = () => {
+const AnimalsPage = () => {
   return <AnimalsWidget />;
 };
+
+export default AnimalsPage;

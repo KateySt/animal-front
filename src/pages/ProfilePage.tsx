@@ -4,7 +4,7 @@ import { ProfileCard } from "../features/auth/components/ProfileCard.tsx";
 
 const { Title } = Typography;
 
-export const ProfilePage = () => {
+const ProfilePage = () => {
   const { t } = useTranslation("common");
 
   return (
@@ -14,3 +14,5 @@ export const ProfilePage = () => {
     </div>
   );
 };
+
+export default ProfilePage;

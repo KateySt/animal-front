@@ -4,7 +4,7 @@ import { RbacSettings } from "../features/rbac/components/RbacSettings.tsx";
 
 const { Title } = Typography;
 
-export const SettingsPage = () => {
+const SettingsPage = () => {
   const { t } = useTranslation("settings");
 
   return (
@@ -14,3 +14,5 @@ export const SettingsPage = () => {
     </div>
   );
 };
+
+export default SettingsPage;

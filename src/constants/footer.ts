@@ -1,4 +1,4 @@
-import { Routes } from "../router/routes.ts";
+import { Routes } from "../routes";
 
 type FooterLink = {
   label: string;

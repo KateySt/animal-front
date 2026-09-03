@@ -9,11 +9,11 @@ import { useAnimal } from "../features/animals/hooks/use-animals.ts";
 import { AnimalGenderTag } from "../features/animals/components/AnimalGenderTag.tsx";
 import { getAnimalName } from "../features/animals/utils/translations.ts";
 import { HealthLogsWidget } from "../features/health-logs/components/HealthLogsWidget.tsx";
-import { Routes } from "../router/routes.ts";
+import { Routes } from "../routes";
 
 const { Title } = Typography;
 
-export const AnimalDetailPage = () => {
+const AnimalDetailPage = () => {
   const { animalId = "" } = useParams();
   const { t, i18n } = useTranslation("animals");
   const { formatDate } = useDateFormat();
@@ -65,3 +65,5 @@ export const AnimalDetailPage = () => {
     </div>
   );
 };
+
+export default AnimalDetailPage;

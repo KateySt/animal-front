@@ -4,7 +4,7 @@ import { Button, Flex, Tabs, Typography, message } from "antd";
 import { FileAddOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { useHasRole, useIsSuperuser } from "../../auth/hooks/use-access.ts";
-import { Routes } from "../../../router/routes.ts";
+import { Routes } from "../../../routes";
 import { useAllInvoices, useDeleteInvoice, useMyInvoices } from "../hooks/use-invoices.ts";
 import { InvoicesTable } from "./InvoicesTable.tsx";
 import { InvoiceFormModal } from "./InvoiceFormModal.tsx";

@@ -2,7 +2,7 @@ import { Button, Card, Divider, Form, Input, message, Typography } from "antd";
 import { GoogleOutlined } from "@ant-design/icons";
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
-import { Routes } from "../router/routes";
+import { Routes } from "../routes";
 import { useGoogleLogin, useRegister } from "../features/auth/hooks/use-auth";
 import type { RegisterDto } from "../features/auth/types/auth";
 import { registerSchema } from "../features/auth/schemas/register.schema";
@@ -10,7 +10,7 @@ import styles from "./RegisterPage.module.scss";
 
 const { Title, Text } = Typography;
 
-export const RegisterPage = () => {
+const RegisterPage = () => {
   const { t } = useTranslation("common");
   const [form] = Form.useForm();
   const { mutate: register, isPending } = useRegister();
@@ -82,3 +82,5 @@ export const RegisterPage = () => {
     </div>
   );
 };
+
+export default RegisterPage;

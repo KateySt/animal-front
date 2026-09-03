@@ -1,7 +1,7 @@
 import { Button, Result } from "antd";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
-import { Routes } from "../../router/routes";
+import { Routes } from "../../routes";
 import styles from "./ErrorPage.module.scss";
 
 type ErrorPageProps = {

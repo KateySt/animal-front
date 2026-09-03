@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router";
 import SessionItem from "./SessionItem.tsx";
 import { useCreateSession, useDeleteSession, useSessions } from "../hooks/use-sessions.ts";
-import { Routes } from "../../../router/routes.ts";
+import { Routes } from "../../../routes";
 import styles from "./ChatSidebar.module.scss";
 
 const { Text } = Typography;
