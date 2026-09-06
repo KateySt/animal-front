@@ -1,0 +1,48 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 40px 24px;
+  text-align: center;
+}
+
+.cat {
+  width: 140px;
+  height: 116px;
+}
+
+.face {
+  fill: var(--bg-input);
+  stroke: var(--border);
+  stroke-width: 2;
+}
+
+.ear {
+  fill: var(--bg-input);
+  stroke: var(--border);
+  stroke-width: 2;
+}
+
+.pupilGroup {
+  transition: transform 0.15s ease-out;
+}
+
+.eye {
+  fill: var(--text-primary);
+}
+
+.nose {
+  fill: var(--color-accent);
+}
+
+.title {
+  margin: 8px 0 0;
+  color: var(--text-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pupilGroup {
+    transition: none;
+  }
+}

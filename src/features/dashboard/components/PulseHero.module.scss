@@ -1,0 +1,250 @@
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 200px;
+  padding: 40px 28px 32px;
+  margin-bottom: 24px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border);
+  background: var(--bg-header);
+  overflow: hidden;
+
+  --blob-a-alpha: 0.42;
+  --blob-b-alpha: 0.34;
+  --beam-alpha: 0.13;
+  --mote-rgb: var(--color-accent-rgb);
+  --mote-rise: -150px;
+}
+
+:global(html[data-theme="light"]) .hero {
+  --blob-a-alpha: 0.2;
+  --blob-b-alpha: 0.17;
+  --beam-alpha: 0.07;
+  --mote-rgb: var(--color-primary-rgb);
+}
+
+.art {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  overflow: hidden;
+  isolation: isolate;
+  -webkit-mask-image: -webkit-radial-gradient(#fff, #000);
+}
+
+.blobA,
+.blobB,
+.beam,
+.scrim {
+  position: absolute;
+  display: block;
+}
+
+.blobA {
+  left: -8%;
+  top: -45%;
+  width: 48%;
+  height: 190%;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    rgba(var(--color-primary-rgb), var(--blob-a-alpha)),
+    rgba(var(--color-primary-rgb), 0)
+  );
+  transform: translate3d(2%, 0, 0) scale(1.05);
+}
+
+.blobB {
+  right: -12%;
+  top: -30%;
+  width: 56%;
+  height: 170%;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    rgba(var(--color-accent-rgb), var(--blob-b-alpha)),
+    rgba(var(--color-accent-rgb), 0)
+  );
+  transform: translate3d(0, 1%, 0) scale(1.03);
+}
+
+.beam {
+  left: 8%;
+  top: -60%;
+  width: 52%;
+  height: 220%;
+  transform: rotate(18deg);
+  transform-origin: center;
+  opacity: 0.8;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(var(--color-accent-rgb), var(--beam-alpha)) 38%,
+    rgba(var(--color-accent-rgb), var(--beam-alpha)) 62%,
+    transparent 100%
+  );
+}
+
+.motes {
+  position: absolute;
+  inset: 0;
+}
+
+.mote {
+  position: absolute;
+  bottom: -12px;
+  left: var(--mote-left);
+  width: var(--mote-size);
+  height: var(--mote-size);
+  color: rgba(var(--mote-rgb), 1);
+  filter: blur(var(--mote-blur, 0.7px));
+  opacity: var(--mote-opacity);
+  transform: translate3d(
+    calc(var(--mote-x) * var(--mote-rest)),
+    calc(var(--mote-rise) * var(--mote-rest)),
+    0
+  );
+}
+
+.mote[data-dust] {
+  border-radius: 50%;
+  background: rgba(var(--mote-rgb), 1);
+}
+
+.glyph {
+  display: block;
+  fill: currentColor;
+  transform: rotate(var(--glyph-rest-rotate));
+}
+
+.scrim {
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    rgba(var(--bg-header-rgb), 0.92) 0%,
+    rgba(var(--bg-header-rgb), 0) 72%
+  );
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+.title {
+  margin: 0 0 8px;
+  color: var(--text-primary);
+}
+
+.stat {
+  color: var(--text-secondary);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .blobA {
+    animation: driftA 26s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
+  }
+
+  .blobB {
+    animation: driftB 34s cubic-bezier(0.45, 0.05, 0.55, 0.95) -9s infinite alternate;
+  }
+
+  .beam {
+    animation: beamBreathe 9s ease-in-out -2.5s infinite alternate;
+  }
+
+  .mote {
+    animation: moteRise var(--mote-dur) linear var(--mote-delay) infinite;
+  }
+
+  .glyph {
+    animation: glyphSway 11s ease-in-out var(--glyph-sway-delay) infinite alternate;
+  }
+}
+
+@keyframes driftA {
+  from {
+    transform: translate3d(-3%, -2%, 0) scale(1);
+  }
+  to {
+    transform: translate3d(5%, 3%, 0) scale(1.1);
+  }
+}
+
+@keyframes driftB {
+  from {
+    transform: translate3d(4%, 3%, 0) scale(1.06);
+  }
+  to {
+    transform: translate3d(-4%, -3%, 0) scale(1);
+  }
+}
+
+@keyframes beamBreathe {
+  from {
+    opacity: 0.55;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes moteRise {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  14% {
+    transform: translate3d(calc(var(--mote-x) * 0.14), calc(var(--mote-rise) * 0.14), 0);
+    opacity: var(--mote-opacity);
+  }
+  86% {
+    transform: translate3d(calc(var(--mote-x) * 0.86), calc(var(--mote-rise) * 0.86), 0);
+    opacity: var(--mote-opacity);
+  }
+  100% {
+    transform: translate3d(var(--mote-x), var(--mote-rise), 0);
+    opacity: 0;
+  }
+}
+
+@keyframes glyphSway {
+  from {
+    transform: rotate(-9deg);
+  }
+  to {
+    transform: rotate(9deg);
+  }
+}
+
+@media (max-width: 576px) {
+  .hero {
+    min-height: 168px;
+    padding: 28px 20px 24px;
+
+    --mote-rise: -110px;
+  }
+
+  .beam {
+    left: 20%;
+    width: 78%;
+    transform: rotate(14deg);
+  }
+
+  .mote[data-dust]:nth-child(2n) {
+    display: none;
+  }
+
+  .scrim {
+    background: linear-gradient(
+      160deg,
+      rgba(var(--bg-header-rgb), 0.92) 0%,
+      rgba(var(--bg-header-rgb), 0.3) 55%,
+      rgba(var(--bg-header-rgb), 0.3) 100%
+    );
+  }
+}
