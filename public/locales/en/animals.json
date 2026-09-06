@@ -5,7 +5,13 @@
   "delete": "Delete",
   "deleteConfirm": "Delete this animal?",
   "empty": "No animals yet",
+  "emptyHint": "Add your first pet to start tracking their health",
   "back": "Back",
+  "hero": {
+    "title": "Pet health pulse",
+    "petsInCare": "Pets in your care: {{count}}",
+    "emptySubtitle": "Add your first companion to see their pulse here"
+  },
   "columns": {
     "name": "Name",
     "gender": "Gender",

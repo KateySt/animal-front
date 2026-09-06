@@ -1,0 +1,26 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 20px 16px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border);
+  background: var(--bg-header);
+  cursor: pointer;
+  text-align: center;
+  font: inherit;
+  color: inherit;
+}
+
+.avatar {
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 600;
+}
+
+.name {
+  font-weight: 600;
+  color: var(--text-primary);
+}
