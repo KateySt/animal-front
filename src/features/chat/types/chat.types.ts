@@ -1,18 +1,9 @@
+import type { UIMessage } from "ai";
 import type { TimeStamp } from "../../../types/base.ts";
 
-export const MessageRole = {
-  User: "user",
-  Assistant: "assistant",
-} as const;
+export type ChatUIMessage = UIMessage;
 
-export type MessageRoleType = (typeof MessageRole)[keyof typeof MessageRole];
-
-export type ChatMessage = {
-  id: string;
-  role: MessageRoleType;
-  content: any;
-  is_tool: boolean;
-} & TimeStamp;
+export type ChatUIMessagePart = ChatUIMessage["parts"][number];
 
 export type ChatSession = {
   id: string;
@@ -25,10 +16,5 @@ export type ChatSessions = {
 };
 
 export type ChatSessionWithMessages = {
-  messages: ChatMessage[];
+  ui_messages: ChatUIMessage[];
 } & ChatSession;
-
-export type SendMessage = {
-  sessionId: string;
-  content: string;
-};

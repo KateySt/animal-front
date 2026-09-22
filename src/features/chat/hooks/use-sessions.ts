@@ -1,4 +1,3 @@
-import { useChatStore } from "../../../store/chat.store";
 import { chatApi } from "../api/chat.api";
 import { queryOptions, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { ChatSessions } from "../types/chat.types";
@@ -25,7 +24,6 @@ export function useSession(sessionId: string) {
 
 export function useCreateSession() {
   const queryClient = useQueryClient();
-  const { setActiveSession } = useChatStore();
 
   return useMutation({
     mutationFn: () => chatApi.createSession(),
@@ -33,14 +31,12 @@ export function useCreateSession() {
       queryClient.setQueryData<ChatSessions>(["sessions"], (old) => ({
         sessions: [session, ...(old?.sessions ?? [])],
       }));
-      setActiveSession(session.id);
     },
   });
 }
 
 export function useDeleteSession() {
   const queryClient = useQueryClient();
-  const { clearSessionMessages } = useChatStore();
 
   return useMutation({
     mutationFn: (sessionId: string) => chatApi.deleteSession(sessionId),
@@ -48,7 +44,6 @@ export function useDeleteSession() {
       queryClient.setQueryData<ChatSessions>(["sessions"], (old) => ({
         sessions: (old?.sessions ?? []).filter((s) => s.id !== sessionId),
       }));
-      clearSessionMessages(sessionId);
     },
   });
 }

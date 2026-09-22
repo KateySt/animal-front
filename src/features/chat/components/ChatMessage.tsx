@@ -1,22 +1,71 @@
 import { Avatar, Typography } from "antd";
-import { RobotOutlined, UserOutlined } from "@ant-design/icons";
-import { type ChatMessage as ChatMessageType, MessageRole } from "../types/chat.types";
-import { useDateFormat } from "../../../hooks/use-date-format.ts";
+import {
+  CheckCircleOutlined,
+  CloseCircleOutlined,
+  LoadingOutlined,
+  RobotOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+import { useTranslation } from "react-i18next";
+import type { ChatUIMessage, ChatUIMessagePart } from "../types/chat.types";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { getTextContent } from "../utils/test-format.ts";
 import styles from "./ChatMessage.module.scss";
 import clsx from "clsx";
 
-const { Paragraph, Text } = Typography;
+const { Paragraph } = Typography;
 
 type ChatMessageProps = {
-  message: ChatMessageType;
+  message: ChatUIMessage;
+};
+
+const ToolStatus = ({ state }: { state: string | undefined }) => {
+  const { t } = useTranslation("chat");
+
+  if (state === "output-available") {
+    return (
+      <div className={clsx(styles.toolStatus, styles.toolStatusDone)}>
+        <CheckCircleOutlined /> {t("toolCall.done")}
+      </div>
+    );
+  }
+  if (state === "output-error" || state === "output-denied") {
+    return (
+      <div className={clsx(styles.toolStatus, styles.toolStatusError)}>
+        <CloseCircleOutlined /> {t("toolCall.error")}
+      </div>
+    );
+  }
+  return (
+    <div className={clsx(styles.toolStatus, styles.toolStatusRunning)}>
+      <LoadingOutlined spin /> {t("toolCall.running")}
+    </div>
+  );
+};
+
+const renderMessagePart = (part: ChatUIMessagePart, index: number, isUser: boolean) => {
+  switch (part.type) {
+    case "text":
+      return (
+        <Paragraph
+          key={index}
+          className={clsx(styles.text, isUser ? styles.textUser : styles.textAi)}
+        >
+          <Markdown remarkPlugins={[remarkGfm]}>{part.text}</Markdown>
+        </Paragraph>
+      );
+    default: {
+      if (part.type.startsWith("tool-") || part.type === "dynamic-tool") {
+        const state = "state" in part ? part.state : undefined;
+        return <ToolStatus key={index} state={state} />;
+      }
+      return null;
+    }
+  }
 };
 
 export const ChatMessage = ({ message }: ChatMessageProps) => {
-  const { formatDate } = useDateFormat();
-  const isUser = message.role === MessageRole.User;
+  const isUser = message.role === "user";
 
   return (
     <div className={clsx(styles.message, isUser && styles.messageUser)}>
@@ -27,14 +76,7 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
       />
 
       <div className={clsx(styles.bubble, isUser ? styles.bubbleUser : styles.bubbleAi)}>
-        <Paragraph className={clsx(styles.text, isUser ? styles.textUser : styles.textAi)}>
-          <Markdown remarkPlugins={[remarkGfm]}>{getTextContent(message.content)}</Markdown>
-        </Paragraph>
-        <Text
-          className={clsx(styles.timestamp, isUser ? styles.timestampUser : styles.timestampAi)}
-        >
-          {formatDate(message.created_at)}
-        </Text>
+        {message.parts.map((part, index) => renderMessagePart(part, index, isUser))}
       </div>
     </div>
   );
