@@ -24,18 +24,27 @@ axiosInstance.interceptors.request.use((config) => {
   return config;
 });
 
-let isRefreshing = false;
-let queue: Array<{ resolve: (token: string) => void; reject: (error: any) => void }> = [];
+let refreshPromise: Promise<string> | null = null;
 
-function processQueue(error: any, token: string | null = null) {
-  queue.forEach((promise) => {
-    if (error) {
-      promise.reject(error);
-    } else if (token) {
-      promise.resolve(token);
-    }
-  });
-  queue = [];
+export function refreshAccessToken(): Promise<string> {
+  if (!refreshPromise) {
+    refreshPromise = refreshInstance
+      .post("/v1/auth/refresh")
+      .then((response) => {
+        const token = response.data.access_token as string;
+        useAuthStore.getState().setAccessToken(token);
+        return token;
+      })
+      .catch((error) => {
+        useAuthStore.getState().logout();
+        window.location.href = Routes.Login;
+        throw error;
+      })
+      .finally(() => {
+        refreshPromise = null;
+      });
+  }
+  return refreshPromise;
 }
 
 axiosInstance.interceptors.response.use(
@@ -47,40 +56,9 @@ axiosInstance.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    if (isRefreshing) {
-      return new Promise((resolve, reject) => {
-        queue.push({
-          resolve: (token) => {
-            original.headers.Authorization = `Bearer ${token}`;
-            resolve(axiosInstance(original));
-          },
-          reject: (err) => {
-            reject(err);
-          },
-        });
-      });
-    }
-
     original._retry = true;
-    isRefreshing = true;
-
-    try {
-      const response = await refreshInstance.post("/auth/refresh");
-      const data = response.data;
-
-      useAuthStore.getState().setAccessToken(data.access_token);
-      processQueue(null, data.access_token);
-
-      original.headers.Authorization = `Bearer ${data.access_token}`;
-      return axiosInstance(original);
-    } catch (refreshError) {
-      processQueue(refreshError, null);
-
-      useAuthStore.getState().logout();
-      window.location.href = Routes.Login;
-      return Promise.reject(refreshError);
-    } finally {
-      isRefreshing = false;
-    }
+    const token = await refreshAccessToken();
+    original.headers.Authorization = `Bearer ${token}`;
+    return axiosInstance(original);
   },
 );

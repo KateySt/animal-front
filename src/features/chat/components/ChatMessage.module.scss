@@ -69,3 +69,23 @@
   color: var(--text-muted);
   text-align: right;
 }
+
+.toolStatus {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  padding: 4px 0;
+}
+
+.toolStatusRunning {
+  color: var(--text-muted);
+}
+
+.toolStatusDone {
+  color: var(--text-muted);
+}
+
+.toolStatusError {
+  color: var(--color-error, #ff4d4f);
+}

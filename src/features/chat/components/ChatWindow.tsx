@@ -1,6 +1,5 @@
 import { useEffect } from "react";
-import { useChatStore } from "../../../store/chat.store";
-import { useSendMessage } from "../hooks/use-send-message";
+import { useAnimalChat } from "../hooks/use-chat";
 import { useSession } from "../hooks/use-sessions";
 import { ChatMessage } from "./ChatMessage";
 import { ChatInput } from "./ChatInput";
@@ -12,19 +11,16 @@ type ChatWindowProps = {
 };
 
 export const ChatWindow = ({ sessionId }: ChatWindowProps) => {
-  const { messagesBySession, setSessionMessages } = useChatStore();
-  const { sendMessage, isLoading } = useSendMessage(sessionId);
   const { data: session } = useSession(sessionId);
-
-  const hasLocalMessages = !!messagesBySession[sessionId];
+  const { messages, setMessages, sendMessage, status } = useAnimalChat(sessionId);
 
   useEffect(() => {
-    if (session?.messages && !hasLocalMessages) {
-      setSessionMessages(sessionId, session.messages);
+    if (session?.ui_messages && messages.length === 0) {
+      setMessages(session.ui_messages);
     }
-  }, [session?.messages, sessionId, setSessionMessages, hasLocalMessages]);
+  }, [session?.ui_messages, messages.length, setMessages]);
 
-  const messages = messagesBySession[sessionId] ?? [];
+  const isLoading = status === "submitted" || status === "streaming";
 
   return (
     <div className={styles.window}>
@@ -32,13 +28,11 @@ export const ChatWindow = ({ sessionId }: ChatWindowProps) => {
         {messages.length === 0 ? (
           <EmptyChartState />
         ) : (
-          messages
-            .filter((el) => !el.is_tool)
-            .map((msg) => <ChatMessage key={msg.id} message={msg} />)
+          messages.map((msg) => <ChatMessage key={msg.id} message={msg} />)
         )}
       </div>
 
-      <ChatInput onSend={sendMessage} isLoading={isLoading} />
+      <ChatInput onSend={(text) => sendMessage({ text })} isLoading={isLoading} />
     </div>
   );
 };

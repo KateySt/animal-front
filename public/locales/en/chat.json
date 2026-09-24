@@ -15,5 +15,10 @@
   "page": {
     "welcomeTitle": "AI Assistant",
     "welcomeHint": "Create a new chat or select an existing session"
+  },
+  "toolCall": {
+    "running": "Looking that up…",
+    "done": "Done",
+    "error": "Something went wrong"
   }
 }
