@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { ChatMessage } from "./ChatMessage";
 import { ChatInput } from "./ChatInput";
 import EmptyChartState from "./EmptyChartState.tsx";
@@ -11,9 +12,18 @@ type ChatViewProps = {
 };
 
 export const ChatView = ({ messages, isLoading, onSendMessage }: ChatViewProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (container) {
+      container.scrollTop = container.scrollHeight;
+    }
+  }, [messages]);
+
   return (
     <>
-      <div className={styles.messages}>
+      <div className={styles.messages} ref={containerRef}>
         {messages.length === 0 ? (
           <EmptyChartState />
         ) : (
