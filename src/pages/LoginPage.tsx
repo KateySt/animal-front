@@ -46,7 +46,7 @@ const LoginPage = () => {
 
         <Form layout="vertical" onFinish={onFinish} autoComplete="off">
           <Form.Item label="Email" name="username" rules={loginSchema.username()}>
-            <Input size="large" placeholder="exemple@email.com" />
+            <Input size="large" placeholder="exemple@gmail.com" />
           </Form.Item>
 
           <Form.Item
