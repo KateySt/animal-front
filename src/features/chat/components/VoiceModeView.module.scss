@@ -1,0 +1,21 @@
+.voiceMode {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+
+.closeButton {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.stateLabel {
+  color: var(--text-secondary);
+  font-size: var(--font-size-lg);
+}

@@ -1,9 +1,11 @@
-import { Avatar, Typography } from "antd";
+import { Avatar, Button, Typography } from "antd";
 import {
   CheckCircleOutlined,
   CloseCircleOutlined,
   LoadingOutlined,
   RobotOutlined,
+  SoundFilled,
+  SoundOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
@@ -12,6 +14,8 @@ import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import styles from "./ChatMessage.module.scss";
 import clsx from "clsx";
+import { useTextToSpeech } from "../hooks/use-text-to-speech";
+import { getMessageText } from "../utils/get-message-text";
 
 const { Paragraph } = Typography;
 
@@ -64,6 +68,34 @@ const renderMessagePart = (part: ChatUIMessagePart, index: number, isUser: boole
   }
 };
 
+const SpeakerButton = ({ message }: { message: ChatUIMessage }) => {
+  const { t } = useTranslation("chat");
+  const { state, play, stop } = useTextToSpeech();
+  const text = getMessageText(message);
+
+  if (!text) return null;
+
+  const icon =
+    state === "loading" ? (
+      <LoadingOutlined />
+    ) : state === "playing" ? (
+      <SoundFilled />
+    ) : (
+      <SoundOutlined />
+    );
+
+  return (
+    <Button
+      type="text"
+      size="small"
+      icon={icon}
+      className={styles.speakerButton}
+      aria-label={state === "playing" ? t("voice.stopPlaying") : t("voice.play")}
+      onClick={() => (state === "playing" ? stop() : void play(text))}
+    />
+  );
+};
+
 export const ChatMessage = ({ message }: ChatMessageProps) => {
   const isUser = message.role === "user";
 
@@ -77,6 +109,7 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
 
       <div className={clsx(styles.bubble, isUser ? styles.bubbleUser : styles.bubbleAi)}>
         {message.parts.map((part, index) => renderMessagePart(part, index, isUser))}
+        {!isUser && <SpeakerButton message={message} />}
       </div>
     </div>
   );

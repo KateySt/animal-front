@@ -26,7 +26,7 @@ export const ChatSidebar = () => {
   };
 
   const handleDelete = (id: string) => {
-    deleteSession(id);
+    void deleteSession(id);
 
     if (activeSessionId === id) {
       const remaining = sessions.filter((s) => s.id !== id);

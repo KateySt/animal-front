@@ -20,5 +20,22 @@
     "running": "Looking that up…",
     "done": "Done",
     "error": "Something went wrong"
+  },
+  "voice": {
+    "enter": "Voice mode",
+    "exit": "End voice mode",
+    "states": {
+      "initializing": "Getting ready…",
+      "micDenied": "Microphone access denied",
+      "listening": "Listening…",
+      "userSpeaking": "Listening…",
+      "thinking": "Thinking…",
+      "assistantSpeaking": "Speaking… (tap to interrupt)"
+    },
+    "play": "Play message",
+    "stopPlaying": "Stop playback",
+    "transcribeError": "Couldn't understand that, try again",
+    "synthesizeError": "Couldn't play audio",
+    "chatError": "Something went wrong, try again"
   }
 }
