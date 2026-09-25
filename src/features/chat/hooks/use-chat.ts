@@ -2,6 +2,8 @@ import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { chatFetch } from "../api/chat.fetch";
 import { chatMessagesUrl } from "../api/chat.api";
+import { getMessageText } from "../utils/get-message-text";
+
 
 export const useAnimalChat = (sessionId: string) =>
   useChat({
@@ -10,10 +12,7 @@ export const useAnimalChat = (sessionId: string) =>
       fetch: chatFetch,
       prepareSendMessagesRequest: ({ id, messages }) => {
         const lastUserMessage = messages.filter((m) => m.role === "user").at(-1);
-        const content = (lastUserMessage?.parts ?? [])
-          .filter((part) => part.type === "text")
-          .map((part) => part.text)
-          .join("");
+        const content = lastUserMessage? getMessageText(lastUserMessage) : "";
 
         return {
           api: chatMessagesUrl(id),
