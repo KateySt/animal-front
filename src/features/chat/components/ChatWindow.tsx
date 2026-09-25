@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Button } from "antd";
+import { Button, message } from "antd";
 import { PhoneOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { useAnimalChat } from "../hooks/use-chat";
 import { useSession } from "../hooks/use-sessions";
 import { useVoiceMode } from "../hooks/use-voice-mode";
+import { useGenerateImage } from "../hooks/use-image-generation";
 import { ChatView } from "./ChatView";
 import { VoiceModeView } from "./VoiceModeView";
 import styles from "./ChatWindow.module.scss";
@@ -18,6 +19,7 @@ export const ChatWindow = ({ sessionId }: ChatWindowProps) => {
   const { data: session } = useSession(sessionId);
   const { messages, setMessages, sendMessage, status } = useAnimalChat(sessionId);
   const [isVoiceMode, setIsVoiceMode] = useState(false);
+  const { mutateAsync: generateImage, isPending: isGeneratingImage } = useGenerateImage(sessionId);
 
   const voiceMode = useVoiceMode({ messages, status, sendMessage });
 
@@ -36,6 +38,28 @@ export const ChatWindow = ({ sessionId }: ChatWindowProps) => {
   }, [isVoiceMode]);
 
   const isLoading = status === "submitted" || status === "streaming";
+
+  const handleGenerateImage = async (description: string) => {
+    const tempUserId = crypto.randomUUID();
+    const tempImageId = crypto.randomUUID();
+
+    setMessages((prev) => [
+      ...prev,
+      { id: tempUserId, role: "user", parts: [{ type: "text", text: description }] },
+      { id: tempImageId, role: "assistant", parts: [], metadata: { pending: true } },
+    ]);
+
+    try {
+      const { messages: newMessages } = await generateImage(description);
+      setMessages((prev) => [
+        ...prev.filter((m) => m.id !== tempUserId && m.id !== tempImageId),
+        ...newMessages,
+      ]);
+    } catch {
+      message.error(t("imageGen.error"));
+      setMessages((prev) => prev.filter((m) => m.id !== tempUserId && m.id !== tempImageId));
+    }
+  };
 
   return (
     <div className={styles.window}>
@@ -59,7 +83,9 @@ export const ChatWindow = ({ sessionId }: ChatWindowProps) => {
         <ChatView
           messages={messages}
           isLoading={isLoading}
+          isGeneratingImage={isGeneratingImage}
           onSendMessage={(text) => sendMessage({ text })}
+          onGenerateImage={handleGenerateImage}
         />
       )}
     </div>

@@ -3,15 +3,23 @@ import { ChatMessage } from "./ChatMessage";
 import { ChatInput } from "./ChatInput";
 import EmptyChartState from "./EmptyChartState.tsx";
 import styles from "./ChatView.module.scss";
-import type { ChatMessageType } from "../types/chat.types";
+import type { ChatUIMessage } from "../types/chat.types";
 
 type ChatViewProps = {
-  messages: ChatMessageType[];
+  messages: ChatUIMessage[];
   isLoading: boolean;
+  isGeneratingImage: boolean;
   onSendMessage: (text: string) => void;
+  onGenerateImage: (description: string) => void;
 };
 
-export const ChatView = ({ messages, isLoading, onSendMessage }: ChatViewProps) => {
+export const ChatView = ({
+  messages,
+  isLoading,
+  isGeneratingImage,
+  onSendMessage,
+  onGenerateImage,
+}: ChatViewProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -31,7 +39,12 @@ export const ChatView = ({ messages, isLoading, onSendMessage }: ChatViewProps) 
         )}
       </div>
 
-      <ChatInput onSend={(text) => onSendMessage(text)} isLoading={isLoading} />
+      <ChatInput
+        onSend={(text) => onSendMessage(text)}
+        onGenerateImage={onGenerateImage}
+        isLoading={isLoading}
+        isGeneratingImage={isGeneratingImage}
+      />
     </>
   );
 };
