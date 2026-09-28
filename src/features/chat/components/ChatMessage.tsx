@@ -16,6 +16,8 @@ import styles from "./ChatMessage.module.scss";
 import clsx from "clsx";
 import { useTextToSpeech } from "../hooks/use-text-to-speech";
 import { getMessageText } from "../utils/get-message-text";
+import { ChatImage } from "./ChatImage";
+import { GeneratingImagePlaceholder } from "./GeneratingImagePlaceholder";
 
 const { Paragraph } = Typography;
 
@@ -58,6 +60,10 @@ const renderMessagePart = (part: ChatUIMessagePart, index: number, isUser: boole
           <Markdown remarkPlugins={[remarkGfm]}>{part.text}</Markdown>
         </Paragraph>
       );
+    case "file":
+      return part.mediaType?.startsWith("image/") ? (
+        <ChatImage key={index} url={part.url} filename={part.filename} />
+      ) : null;
     default: {
       if (part.type.startsWith("tool-") || part.type === "dynamic-tool") {
         const state = "state" in part ? part.state : undefined;
@@ -98,6 +104,7 @@ const SpeakerButton = ({ message }: { message: ChatUIMessage }) => {
 
 export const ChatMessage = ({ message }: ChatMessageProps) => {
   const isUser = message.role === "user";
+  const isPending = message.metadata?.pending;
 
   return (
     <div className={clsx(styles.message, isUser && styles.messageUser)}>
@@ -108,8 +115,14 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
       />
 
       <div className={clsx(styles.bubble, isUser ? styles.bubbleUser : styles.bubbleAi)}>
-        {message.parts.map((part, index) => renderMessagePart(part, index, isUser))}
-        {!isUser && <SpeakerButton message={message} />}
+        {isPending ? (
+          <GeneratingImagePlaceholder />
+        ) : (
+          <>
+            {message.parts.map((part, index) => renderMessagePart(part, index, isUser))}
+            {!isUser && <SpeakerButton message={message} />}
+          </>
+        )}
       </div>
     </div>
   );

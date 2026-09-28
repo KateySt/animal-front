@@ -10,7 +10,12 @@
   },
   "input": {
     "placeholder": "Type a message… (Enter to send, Shift+Enter for new line)",
-    "send": "Send"
+    "send": "Send",
+    "generateImage": "Generate image from description"
+  },
+  "imageGen": {
+    "generating": "Generating image…",
+    "error": "Couldn't generate the image, try again"
   },
   "page": {
     "welcomeTitle": "AI Assistant",

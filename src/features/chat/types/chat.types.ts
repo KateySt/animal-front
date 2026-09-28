@@ -1,7 +1,7 @@
 import type { UIMessage } from "ai";
 import type { TimeStamp } from "../../../types/base.ts";
 
-export type ChatUIMessage = UIMessage;
+export type ChatUIMessage = UIMessage<{ pending?: boolean }>;
 
 export type ChatUIMessagePart = ChatUIMessage["parts"][number];
 
