@@ -29,7 +29,7 @@ const SessionItem = ({ session, isActive, onSelect, onDelete }: SessionItemProps
       className={clsx(styles.item, isActive && styles.itemActive)}
     >
       <MessageOutlined className={clsx(styles.icon, isActive && styles.iconActive)} />
-      <Text ellipsis className={clsx(styles.title, isActive && styles.titleActive)}>
+      <Text className={clsx(styles.title, isActive && styles.titleActive)}>
         {session.title || t("sidebar.newChat")}
       </Text>
       <Tooltip title={t("sidebar.delete")}>

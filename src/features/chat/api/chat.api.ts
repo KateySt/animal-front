@@ -1,5 +1,10 @@
-import type { ChatSession, ChatSessions, ChatSessionWithMessages } from "../types/chat.types";
-import { axiosInstance, BASE_URL } from "../../../lib/axios.ts";
+import type {
+  ChatSession,
+  ChatSessions,
+  ChatSessionWithMessages,
+  LiveKitTokenResponse,
+} from "../types/chat.types";
+import { axiosInstance } from "../../../lib/axios.ts";
 
 const basePath = "/v1/anthropic-chat";
 
@@ -14,7 +19,9 @@ export const chatApi = {
   getSessions: () => axiosInstance.get<ChatSessions>(basePath).then((response) => response.data),
 
   deleteSession: (sessionId: string) => axiosInstance.delete(`${basePath}/${sessionId}`),
-};
 
-export const chatMessagesUrl = (sessionId: string) =>
-  `${BASE_URL}${basePath}/${sessionId}/messages`;
+  getToken: (sessionId: string) =>
+    axiosInstance
+      .post<LiveKitTokenResponse>(`${basePath}/${sessionId}/token`)
+      .then((response) => response.data),
+};

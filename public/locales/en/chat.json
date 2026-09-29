@@ -29,18 +29,16 @@
   "voice": {
     "enter": "Voice mode",
     "exit": "End voice mode",
+    "micDenied": "Microphone access denied",
     "states": {
+      "disconnected": "Disconnected",
+      "connecting": "Connecting…",
       "initializing": "Getting ready…",
-      "micDenied": "Microphone access denied",
+      "idle": "Waiting…",
       "listening": "Listening…",
-      "userSpeaking": "Listening…",
       "thinking": "Thinking…",
-      "assistantSpeaking": "Speaking… (tap to interrupt)"
+      "speaking": "Speaking… (tap to interrupt)"
     },
-    "play": "Play message",
-    "stopPlaying": "Stop playback",
-    "transcribeError": "Couldn't understand that, try again",
-    "synthesizeError": "Couldn't play audio",
     "chatError": "Something went wrong, try again"
   }
 }
