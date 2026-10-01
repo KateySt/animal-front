@@ -22,6 +22,17 @@ export function useSession(sessionId: string) {
   );
 }
 
+export function useLiveKitToken(sessionId: string) {
+  return useQuery(
+    queryOptions({
+      queryKey: ["livekit-token", sessionId],
+      queryFn: () => chatApi.getToken(sessionId),
+      enabled: !!sessionId,
+      refetchOnWindowFocus: false,
+    }),
+  );
+}
+
 export function useCreateSession() {
   const queryClient = useQueryClient();
 

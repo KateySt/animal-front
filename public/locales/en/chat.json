@@ -26,21 +26,29 @@
     "done": "Done",
     "error": "Something went wrong"
   },
+  "documents": {
+    "attach": "Attach a PDF document",
+    "list": "Chat documents",
+    "title": "Documents",
+    "empty": "No documents attached yet",
+    "delete": "Delete document",
+    "status": {
+      "failed": "Failed to process this document"
+    }
+  },
   "voice": {
     "enter": "Voice mode",
     "exit": "End voice mode",
+    "micDenied": "Microphone access denied",
     "states": {
+      "disconnected": "Disconnected",
+      "connecting": "Connecting…",
       "initializing": "Getting ready…",
-      "micDenied": "Microphone access denied",
+      "idle": "Waiting…",
       "listening": "Listening…",
-      "userSpeaking": "Listening…",
       "thinking": "Thinking…",
-      "assistantSpeaking": "Speaking… (tap to interrupt)"
+      "speaking": "Speaking… (tap to interrupt)"
     },
-    "play": "Play message",
-    "stopPlaying": "Stop playback",
-    "transcribeError": "Couldn't understand that, try again",
-    "synthesizeError": "Couldn't play audio",
     "chatError": "Something went wrong, try again"
   }
 }

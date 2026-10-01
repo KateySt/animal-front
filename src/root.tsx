@@ -5,6 +5,7 @@ import { Spin } from "antd";
 import { queryClient } from "./lib/query-client";
 import { axiosInstance, refreshInstance } from "./lib/axios.ts";
 import { useAuthStore } from "./store/auth.store.ts";
+import { WSProvider } from "./providers/WSProvider.tsx";
 import ThemeWrapper from "./wrappers/ThemeWrapper.tsx";
 import "./lib/i18n";
 import "./styles/global.scss";
@@ -40,7 +41,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <QueryClientProvider client={queryClient}>
-          <ThemeWrapper>{children}</ThemeWrapper>
+          <ThemeWrapper>
+            <WSProvider>{children}</WSProvider>
+          </ThemeWrapper>
           {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={false} />}
         </QueryClientProvider>
         <ScrollRestoration />

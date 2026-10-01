@@ -65,7 +65,12 @@
     "generic": "Щось пішло не так. Спробуйте ще раз.",
     "avatar_invalid_type": "Аватар має бути зображенням (jpeg, png або webp)",
     "avatar_too_large": "Файл аватара занадто великий",
-    "avatar_not_found": "У користувача немає аватара"
+    "avatar_not_found": "У користувача немає аватара",
+    "document_invalid_type": "Підтримуються лише PDF-файли",
+    "document_too_large": "Файл документа завеликий",
+    "document_limit_reached": "Досягнуто ліміту документів для цього чату",
+    "document_not_found": "Документ не знайдено",
+    "document_service_unavailable": "Сервіс пошуку по документах тимчасово недоступний"
   },
   "errorPage": {
     "title": "Щось пішло не так",

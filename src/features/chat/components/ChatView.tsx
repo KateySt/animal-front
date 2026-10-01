@@ -6,6 +6,7 @@ import styles from "./ChatView.module.scss";
 import type { ChatUIMessage } from "../types/chat.types";
 
 type ChatViewProps = {
+  sessionId: string;
   messages: ChatUIMessage[];
   isLoading: boolean;
   isGeneratingImage: boolean;
@@ -14,6 +15,7 @@ type ChatViewProps = {
 };
 
 export const ChatView = ({
+  sessionId,
   messages,
   isLoading,
   isGeneratingImage,
@@ -40,6 +42,7 @@ export const ChatView = ({
       </div>
 
       <ChatInput
+        sessionId={sessionId}
         onSend={(text) => onSendMessage(text)}
         onGenerateImage={onGenerateImage}
         isLoading={isLoading}
