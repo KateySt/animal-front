@@ -26,6 +26,16 @@
     "done": "Done",
     "error": "Something went wrong"
   },
+  "documents": {
+    "attach": "Attach a PDF document",
+    "list": "Chat documents",
+    "title": "Documents",
+    "empty": "No documents attached yet",
+    "delete": "Delete document",
+    "status": {
+      "failed": "Failed to process this document"
+    }
+  },
   "voice": {
     "enter": "Voice mode",
     "exit": "End voice mode",

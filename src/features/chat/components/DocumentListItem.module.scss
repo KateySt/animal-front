@@ -1,0 +1,37 @@
+.item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 4px;
+
+  & + & {
+    border-top: 1px solid var(--border);
+  }
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.filename {
+  font-size: var(--font-size-base);
+}
+
+.meta {
+  font-size: 12px;
+}
+
+.statusReady {
+  color: var(--color-success, #52c41a);
+}
+
+.statusFailed {
+  color: var(--color-error, #ff4d4f);
+}
+
+.statusPending {
+  color: var(--text-secondary);
+}

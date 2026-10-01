@@ -1,0 +1,14 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  min-width: 260px;
+  max-width: 320px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.empty {
+  padding: 8px 4px;
+  color: var(--text-secondary);
+  font-size: var(--font-size-base);
+}

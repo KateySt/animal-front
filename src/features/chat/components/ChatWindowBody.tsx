@@ -90,6 +90,7 @@ export const ChatWindowBody = ({ sessionId }: ChatWindowBodyProps) => {
         />
       ) : (
         <ChatView
+          sessionId={sessionId}
           messages={messages}
           isLoading={isLoading}
           isGeneratingImage={isGeneratingImage}

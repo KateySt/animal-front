@@ -97,6 +97,12 @@ Access outside React: `useXxxStore.getState().method()`.
 
 Chat is real-time voice/text over **LiveKit**, not HTTP streaming. `chatApi.getToken(sessionId)` fetches a LiveKit room token; `useChatRoom` (`features/chat/hooks/use-chat-room.ts`) drives `useTranscriptions`/`useChat`/`useVoiceAssistant` from `@livekit/components-react` and writes incremental text into `useChatStore` via `setUserMessageText` / `setAssistantMessageText` (each takes `isNew` to distinguish append vs. update-in-place). Messages render via `react-markdown` + `remark-gfm`.
 
+## WebSocket (Socket.IO)
+
+One app-wide socket, not per-feature raw WebSockets. `WSProvider` (`src/providers/WSProvider.tsx`) opens a `socket.io-client` connection once a user is authenticated (`useAuthStore` accessToken, handshake `auth: { token }`, `path: "/ws"`, origin = `WS_BASE_URL` from `src/lib/axios.ts` — **not** `BASE_URL`, which has `/api` appended and doesn't match the backend's root-mounted Socket.IO path) and exposes it via `WSContext`/`useWS()` (`src/context/WSContext.ts`, `src/hooks/use-ws.ts`). `WSProvider` wraps the app in `root.tsx`, above route-level auth gating — it's a no-op until login.
+
+Feature hooks consume the shared socket, they don't open their own connection: join a room on mount (`socket.emit("join_chat_session", { sessionId })`), listen for server events, leave on unmount. See `features/chat/hooks/use-document-status-socket.ts` for the pattern.
+
 ## Stripe / Payments
 
 `Invoice` has `status: InvoiceStatusType`, `amount_in_cents`, `currency: CurrencyType`, `health_logs: HealthLog[]`. Payment flow: `PaymentPage` → `PaymentWidget` → `PaymentForm` → Stripe Elements.
