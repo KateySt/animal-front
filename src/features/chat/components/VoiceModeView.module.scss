@@ -7,6 +7,8 @@
   align-items: center;
   justify-content: center;
   gap: 24px;
+  background: var(--lk-bg);
+  color: var(--lk-fg);
 }
 
 .closeButton {
@@ -15,7 +17,21 @@
   right: 12px;
 }
 
+.visualizer {
+  width: 224px;
+  height: 224px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  padding: 0;
+  cursor: default;
+
+  &.interruptible {
+    cursor: pointer;
+  }
+}
+
 .stateLabel {
-  color: var(--text-secondary);
+  color: var(--lk-fg2);
   font-size: var(--font-size-lg);
 }
