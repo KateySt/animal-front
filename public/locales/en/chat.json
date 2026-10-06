@@ -17,6 +17,11 @@
     "generating": "Generating image…",
     "error": "Couldn't generate the image, try again"
   },
+  "errors": {
+    "agentNotReady": "The assistant is still connecting, try again in a moment",
+    "sendFailed": "Couldn't send the message, try again",
+    "replyTimeout": "The assistant didn't respond, try again"
+  },
   "page": {
     "welcomeTitle": "AI Assistant",
     "welcomeHint": "Create a new chat or select an existing session"

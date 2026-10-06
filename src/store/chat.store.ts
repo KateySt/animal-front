@@ -19,6 +19,8 @@ type ChatState = {
     isNew: boolean,
   ) => void;
   setStatus: (sessionId: string, status: ChatStatus) => void;
+  removeMessage: (sessionId: string, messageId: string) => void;
+  reset: () => void;
 };
 
 export const useChatStore = create<ChatState>()(
@@ -114,6 +116,20 @@ export const useChatStore = create<ChatState>()(
           false,
           "setStatus",
         ),
+
+      removeMessage: (sessionId, messageId) =>
+        set(
+          (s) => ({
+            messagesBySession: {
+              ...s.messagesBySession,
+              [sessionId]: (s.messagesBySession[sessionId] ?? []).filter((m) => m.id !== messageId),
+            },
+          }),
+          false,
+          "removeMessage",
+        ),
+
+      reset: () => set({ messagesBySession: {}, statusBySession: {} }, false, "reset"),
     }),
     { name: "ChatStore" },
   ),

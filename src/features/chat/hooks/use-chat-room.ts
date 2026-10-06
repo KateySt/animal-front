@@ -1,4 +1,6 @@
 import { useEffect, useRef } from "react";
+import { message } from "antd";
+import { useTranslation } from "react-i18next";
 import {
   useChat,
   useLocalParticipant,
@@ -9,6 +11,7 @@ import {
 import { useChatStore } from "../../../store/chat.store.ts";
 import type { ChatUIMessage } from "../types/chat.types";
 import { useSession } from "./use-sessions";
+import { useReplyWatchdog } from "./use-reply-watchdog";
 
 const ATTR_FINAL = "lk.transcription_final";
 const ATTR_SEGMENT_ID = "lk.segment_id";
@@ -16,6 +19,7 @@ const ATTR_SEGMENT_ID = "lk.segment_id";
 const EMPTY_MESSAGES: ChatUIMessage[] = [];
 
 export function useChatRoom(sessionId: string) {
+  const { t } = useTranslation("chat");
   const { data: session } = useSession(sessionId);
   const room = useRoomContext();
   const { localParticipant } = useLocalParticipant();
@@ -28,11 +32,14 @@ export function useChatRoom(sessionId: string) {
     setUserMessageText,
     setAssistantMessageText,
     setStatus,
+    removeMessage,
   } = useChatStore();
 
   const transcriptions = useTranscriptions();
   const { send } = useChat();
-  const { state: agentState } = useVoiceAssistant();
+  const { state: agentState, agent } = useVoiceAssistant();
+
+  useReplyWatchdog(sessionId, status, messages);
 
   const streamMessageIds = useRef<Map<string, string>>(new Map());
   const userSegmentMessageIds = useRef<Map<string, string>>(new Map());
@@ -110,14 +117,25 @@ export function useChatRoom(sessionId: string) {
     storeSetMessages(sessionId, next);
   };
 
-  const sendMessage = ({ text }: { text: string }) => {
+  const sendMessage = ({ text }: { text: string }): boolean => {
+    if (!agent) {
+      message.warning(t("errors.agentNotReady"));
+      return false;
+    }
+
+    const messageId = crypto.randomUUID();
     appendUserMessage(sessionId, {
-      id: crypto.randomUUID(),
+      id: messageId,
       role: "user",
       parts: [{ type: "text", text }],
     });
     setStatus(sessionId, "submitted");
-    void send(text).catch(() => setStatus(sessionId, "error"));
+    void send(text).catch(() => {
+      removeMessage(sessionId, messageId);
+      setStatus(sessionId, "error");
+      message.error(t("errors.sendFailed"));
+    });
+    return true;
   };
 
   return { messages, setMessages, sendMessage, status, room };

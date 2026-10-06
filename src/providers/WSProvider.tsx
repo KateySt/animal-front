@@ -1,6 +1,6 @@
 import { io, type Socket } from "socket.io-client";
-import { type FC, useEffect, useState, createContext, useContext, useRef } from "react";
-import { WS_BASE_URL } from "../lib/axios.ts";
+import { type FC, useEffect, useMemo, createContext, useContext } from "react";
+import { WS_BASE_URL, refreshAccessToken } from "../lib/axios.ts";
 import { useAuthStore } from "../store/auth.store.ts";
 
 type Props = {
@@ -8,31 +8,50 @@ type Props = {
 };
 
 export const WSProvider: FC<Props> = ({ children }) => {
-  const accessToken = useAuthStore((state) => state.accessToken);
-  const socketRef = useRef<Socket | null>(null);
+  const isAuthenticated = useAuthStore((state) => !!state.accessToken);
+
+  const socket = useMemo<Socket | null>(
+    () =>
+      isAuthenticated
+        ? io(WS_BASE_URL, {
+            transports: ["websocket"],
+            auth: (cb) => cb({ token: useAuthStore.getState().accessToken }),
+            path: "/ws",
+            autoConnect: false,
+          })
+        : null,
+    [isAuthenticated],
+  );
 
   useEffect(() => {
-    if (!accessToken) return;
+    if (!socket) return;
 
-    if (!socketRef.current) {
-      socketRef.current = io(WS_BASE_URL, {
-        transports: ['websocket'],
-        auth: { token: accessToken },
-        path: '/ws',
-      });
-    }
+    let hasRetriedAuth = false;
 
-    socketRef.current.on('connect', () => {
-      console.log('-----connect-----');
-    });
+    const handleConnect = () => {
+      hasRetriedAuth = false;
+    };
+
+    const handleConnectError = () => {
+      if (socket.active || hasRetriedAuth) return;
+      hasRetriedAuth = true;
+      refreshAccessToken()
+        .then(() => socket.connect())
+        .catch(() => undefined);
+    };
+
+    socket.on("connect", handleConnect);
+    socket.on("connect_error", handleConnectError);
+    socket.connect();
 
     return () => {
-      socketRef.current?.disconnect();
-      socketRef.current = null;
+      socket.off("connect", handleConnect);
+      socket.off("connect_error", handleConnectError);
+      socket.disconnect();
     };
-  }, [accessToken]);
+  }, [socket]);
 
-  return <WSContext.Provider value={socketRef.current}>{children}</WSContext.Provider>;
+  return <WSContext.Provider value={socket}>{children}</WSContext.Provider>;
 };
 
 const WSContext = createContext<Socket | null>(null);

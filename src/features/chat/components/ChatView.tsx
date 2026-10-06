@@ -10,7 +10,7 @@ type ChatViewProps = {
   messages: ChatUIMessage[];
   isLoading: boolean;
   isGeneratingImage: boolean;
-  onSendMessage: (text: string) => void;
+  onSendMessage: (text: string) => boolean;
   onGenerateImage: (description: string) => void;
 };
 
@@ -43,7 +43,7 @@ export const ChatView = ({
 
       <ChatInput
         sessionId={sessionId}
-        onSend={(text) => onSendMessage(text)}
+        onSend={onSendMessage}
         onGenerateImage={onGenerateImage}
         isLoading={isLoading}
         isGeneratingImage={isGeneratingImage}

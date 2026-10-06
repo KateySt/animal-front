@@ -10,7 +10,7 @@ const { TextArea } = Input;
 
 type ChatInputProps = {
   sessionId: string;
-  onSend: (content: string) => void;
+  onSend: (content: string) => boolean;
   onGenerateImage: (description: string) => void;
   isLoading: boolean;
   isGeneratingImage: boolean;
@@ -31,8 +31,7 @@ export const ChatInput = ({
   const handleSend = () => {
     const trimmed = value.trim();
     if (!trimmed || isBusy) return;
-    onSend(trimmed);
-    setValue("");
+    if (onSend(trimmed)) setValue("");
   };
 
   const handleGenerateImage = () => {

@@ -8,6 +8,7 @@ import { useAuthStore } from "./store/auth.store.ts";
 import { WSProvider } from "./providers/WSProvider.tsx";
 import ThemeWrapper from "./wrappers/ThemeWrapper.tsx";
 import "./lib/i18n";
+import "./lib/clear-user-data";
 import "./styles/global.scss";
 
 export async function clientLoader() {

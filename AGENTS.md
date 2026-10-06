@@ -18,7 +18,9 @@ No test suite currently exists in this project.
 
 ## Env vars (`.env`)
 
-`VITE_API_BASE_URL` (backend base, axios appends `/api/v1/...`) · `VITE_STRIPE_PUBLIC_KEY` · `VITE_LIVEKIT_URL`
+`VITE_API_BASE_URL` (backend origin, e.g. `http://localhost:8000`; axios appends `/api`, Socket.IO uses the origin + `/ws`) · `VITE_STRIPE_PUBLIC_KEY`
+
+The LiveKit URL comes from the backend token response, not from env. `VITE_AUTH_API_BASE_URL`, `VITE_CHAT_API_BASE_URL` and `VITE_LIVEKIT_URL` in `.env.example` are unused. Running the full stack: see `../README.md`.
 
 ## File conventions
 
@@ -88,7 +90,7 @@ API methods: always `.then(r => r.data)` — return the data directly, not the r
 ## Zustand stores
 
 - `useAuthStore` (devtools only, no persist) — `{ user, accessToken, isInitialized }` + setters + `logout()`
-- `useChatStore` (devtools only, no persist) — `{ messagesBySession, statusBySession }` keyed by `sessionId`, with `getMessages`/`getStatus`/`setMessages`/`appendUserMessage`/`setUserMessageText`/`setAssistantMessageText`/`setStatus`
+- `useChatStore` (devtools only, no persist) — `{ messagesBySession, statusBySession }` keyed by `sessionId`, with `getMessages`/`getStatus`/`setMessages`/`appendUserMessage`/`setUserMessageText`/`setAssistantMessageText`/`setStatus`/`removeMessage`/`reset`. `src/lib/clear-user-data.ts` calls `reset()` and `queryClient.clear()` when the logged-in user changes.
 - `useThemeStore` (devtools + **persist**) — theme toggle; the only store that persists to storage
 
 Access outside React: `useXxxStore.getState().method()`.
@@ -99,7 +101,7 @@ Chat is real-time voice/text over **LiveKit**, not HTTP streaming. `chatApi.getT
 
 ## WebSocket (Socket.IO)
 
-One app-wide socket, not per-feature raw WebSockets. `WSProvider` (`src/providers/WSProvider.tsx`) opens a `socket.io-client` connection once a user is authenticated (`useAuthStore` accessToken, handshake `auth: { token }`, `path: "/ws"`, origin = `WS_BASE_URL` from `src/lib/axios.ts` — **not** `BASE_URL`, which has `/api` appended and doesn't match the backend's root-mounted Socket.IO path) and exposes it via `WSContext`/`useWS()` (`src/context/WSContext.ts`, `src/hooks/use-ws.ts`). `WSProvider` wraps the app in `root.tsx`, above route-level auth gating — it's a no-op until login.
+One app-wide socket, not per-feature raw WebSockets. `WSProvider` (`src/providers/WSProvider.tsx`) opens a `socket.io-client` connection once a user is authenticated (`useAuthStore` accessToken, handshake `auth: { token }`, `path: "/ws"`, origin = `WS_BASE_URL` from `src/lib/axios.ts` — **not** `BASE_URL`, which has `/api` appended and doesn't match the backend's root-mounted Socket.IO path) and exposes it via `WSContext`/`useWS()` (both defined in `src/providers/WSProvider.tsx`). The socket is created per login (`autoConnect: false`, connected in an effect), the handshake `auth` is a callback so reconnects send the current token, and a rejected handshake triggers one `refreshAccessToken()` + reconnect. `WSProvider` wraps the app in `root.tsx`, above route-level auth gating — it's a no-op until login.
 
 Feature hooks consume the shared socket, they don't open their own connection: join a room on mount (`socket.emit("join_chat_session", { sessionId })`), listen for server events, leave on unmount. See `features/chat/hooks/use-document-status-socket.ts` for the pattern.
 
