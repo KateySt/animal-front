@@ -12,13 +12,19 @@ import { useChatStore } from "../../../store/chat.store.ts";
 import type { ChatUIMessage } from "../types/chat.types";
 import { useSession } from "./use-sessions";
 import { useReplyWatchdog } from "./use-reply-watchdog";
+import type { IdleConnection } from "./use-idle-connection";
 
 const ATTR_FINAL = "lk.transcription_final";
 const ATTR_SEGMENT_ID = "lk.segment_id";
+const AGENT_JOIN_TIMEOUT_MS = 15_000;
+// The agent only reads chat input once its session has started, i.e. after "initializing".
+const READY_AGENT_STATES = new Set(["listening", "thinking", "speaking"]);
 
 const EMPTY_MESSAGES: ChatUIMessage[] = [];
 
-export function useChatRoom(sessionId: string) {
+type PendingMessage = { id: string; text: string; timer: ReturnType<typeof setTimeout> };
+
+export function useChatRoom(sessionId: string, { markActive, wake }: IdleConnection) {
   const { t } = useTranslation("chat");
   const { data: session } = useSession(sessionId);
   const room = useRoomContext();
@@ -48,6 +54,8 @@ export function useChatRoom(sessionId: string) {
     segments: Map<string, string>;
   } | null>(null);
   const prevAgentStateRef = useRef(agentState);
+  const pendingRef = useRef<PendingMessage | null>(null);
+  const isAgentReady = !!agent && READY_AGENT_STATES.has(agentState);
 
   const hydratedSessionRef = useRef<string | null>(null);
 
@@ -67,6 +75,7 @@ export function useChatRoom(sessionId: string) {
   }, [session, sessionId]);
 
   useEffect(() => {
+    if (transcriptions.length) markActive();
     transcriptions.forEach((stream) => {
       const isLocal = stream.participantInfo.identity === localParticipant.identity;
       const segmentId = stream.streamInfo.attributes?.[ATTR_SEGMENT_ID];
@@ -117,8 +126,41 @@ export function useChatRoom(sessionId: string) {
     storeSetMessages(sessionId, next);
   };
 
+  const failSend = (messageId: string) => {
+    removeMessage(sessionId, messageId);
+    setStatus(sessionId, "error");
+    message.error(t("errors.sendFailed"));
+  };
+
+  const deliver = (messageId: string, text: string) => {
+    markActive();
+    void send(text).catch(() => failSend(messageId));
+  };
+
+  const dropPending = (messageId: string) => {
+    if (pendingRef.current?.id !== messageId) return;
+    clearTimeout(pendingRef.current.timer);
+    pendingRef.current = null;
+    failSend(messageId);
+  };
+
+  useEffect(() => {
+    const pending = pendingRef.current;
+    if (!isAgentReady || !pending) return;
+    clearTimeout(pending.timer);
+    pendingRef.current = null;
+    deliver(pending.id, pending.text);
+  }, [isAgentReady]);
+
+  useEffect(
+    () => () => {
+      if (pendingRef.current) clearTimeout(pendingRef.current.timer);
+    },
+    [],
+  );
+
   const sendMessage = ({ text }: { text: string }): boolean => {
-    if (!agent) {
+    if (pendingRef.current) {
       message.warning(t("errors.agentNotReady"));
       return false;
     }
@@ -130,11 +172,16 @@ export function useChatRoom(sessionId: string) {
       parts: [{ type: "text", text }],
     });
     setStatus(sessionId, "submitted");
-    void send(text).catch(() => {
-      removeMessage(sessionId, messageId);
-      setStatus(sessionId, "error");
-      message.error(t("errors.sendFailed"));
-    });
+
+    if (isAgentReady) {
+      deliver(messageId, text);
+      return true;
+    }
+
+    // Disconnected after idling, or the agent is still joining: hold the message until it is ready.
+    const timer = setTimeout(() => dropPending(messageId), AGENT_JOIN_TIMEOUT_MS);
+    pendingRef.current = { id: messageId, text, timer };
+    wake().catch(() => dropPending(messageId));
     return true;
   };
 
