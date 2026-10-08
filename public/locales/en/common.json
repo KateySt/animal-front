@@ -65,7 +65,12 @@
     "generic": "Something went wrong. Please try again.",
     "avatar_invalid_type": "Avatar must be an image (jpeg, png or webp)",
     "avatar_too_large": "Avatar file is too large",
-    "avatar_not_found": "User has no avatar"
+    "avatar_not_found": "User has no avatar",
+    "document_invalid_type": "Only PDF files are supported",
+    "document_too_large": "Document file is too large",
+    "document_limit_reached": "Maximum number of documents for this chat reached",
+    "document_not_found": "Document not found",
+    "document_service_unavailable": "Document search service is temporarily unavailable"
   },
   "errorPage": {
     "title": "Something went wrong",

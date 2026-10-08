@@ -2,14 +2,13 @@ import { useEffect, useState } from "react";
 import { Button, message } from "antd";
 import { PhoneOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
-import { RoomAudioRenderer } from "@livekit/components-react";
 import { useChatRoom } from "../hooks/use-chat-room";
 import { useGenerateImage } from "../hooks/use-image-generation";
 import { ChatView } from "./ChatView";
 import { VoiceModeView } from "./VoiceModeView";
 import { useChatStore } from "../../../store/chat.store.ts";
 import styles from "./ChatWindow.module.scss";
-import { useVoiceAssistant, useConnectionState, useLocalParticipant } from "@livekit/components-react";
+import { useVoiceAssistant, useConnectionState, useLocalParticipant, RoomAudioRenderer } from "@livekit/components-react";
 import { ConnectionState } from "livekit-client";
 
 type ChatWindowBodyProps = {
@@ -84,10 +83,14 @@ export const ChatWindowBody = ({ sessionId }: ChatWindowBodyProps) => {
           audioTrack={audioTrack}
           isError={connectionState === ConnectionState.Disconnected}
           isMicDenied={!!lastMicrophoneError}
-          onExit={() => setIsVoiceMode(false)}
+          onExit={() => {
+            setIsVoiceMode(false);
+            useChatStore.getState().setStatus(sessionId, "ready");
+          }}
         />
       ) : (
         <ChatView
+          sessionId={sessionId}
           messages={messages}
           isLoading={isLoading}
           isGeneratingImage={isGeneratingImage}

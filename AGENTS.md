@@ -18,7 +18,9 @@ No test suite currently exists in this project.
 
 ## Env vars (`.env`)
 
-`VITE_API_BASE_URL` (backend base, axios appends `/api/v1/...`) · `VITE_STRIPE_PUBLIC_KEY` · `VITE_LIVEKIT_URL`
+`VITE_API_BASE_URL` (backend origin, e.g. `http://localhost:8000`; axios appends `/api`) · `VITE_STRIPE_PUBLIC_KEY`
+
+The LiveKit URL comes from the backend token response, not from env. `VITE_AUTH_API_BASE_URL` and `VITE_CHAT_API_BASE_URL` in `.env.example` are unused. Running the full stack: see `../README.md`.
 
 ## File conventions
 
@@ -88,7 +90,7 @@ API methods: always `.then(r => r.data)` — return the data directly, not the r
 ## Zustand stores
 
 - `useAuthStore` (devtools only, no persist) — `{ user, accessToken, isInitialized }` + setters + `logout()`
-- `useChatStore` (devtools only, no persist) — `{ messagesBySession, statusBySession }` keyed by `sessionId`, with `getMessages`/`getStatus`/`setMessages`/`appendUserMessage`/`setUserMessageText`/`setAssistantMessageText`/`setStatus`
+- `useChatStore` (devtools only, no persist) — `{ messagesBySession, statusBySession }` keyed by `sessionId`, with `getMessages`/`getStatus`/`setMessages`/`appendUserMessage`/`setUserMessageText`/`setAssistantMessageText`/`setStatus`/`removeMessage`/`reset`. `src/lib/clear-user-data.ts` calls `reset()` and `queryClient.clear()` when the logged-in user changes.
 - `useThemeStore` (devtools + **persist**) — theme toggle; the only store that persists to storage
 
 Access outside React: `useXxxStore.getState().method()`.
@@ -96,6 +98,10 @@ Access outside React: `useXxxStore.getState().method()`.
 ## Chat / Voice (LiveKit)
 
 Chat is real-time voice/text over **LiveKit**, not HTTP streaming. `chatApi.getToken(sessionId)` fetches a LiveKit room token; `useChatRoom` (`features/chat/hooks/use-chat-room.ts`) drives `useTranscriptions`/`useChat`/`useVoiceAssistant` from `@livekit/components-react` and writes incremental text into `useChatStore` via `setUserMessageText` / `setAssistantMessageText` (each takes `isNew` to distinguish append vs. update-in-place). Messages render via `react-markdown` + `remark-gfm`.
+
+## Document status
+
+No websockets. `chatDocumentsQueryOptions` (`features/chat/hooks/use-chat-documents.ts`) polls the documents list every 3 s via `refetchInterval` while any document is `uploading`/`embedding`, and stops once all are `ready`/`failed`.
 
 ## Stripe / Payments
 

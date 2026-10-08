@@ -1,123 +1,143 @@
 # animal-front
 
-Frontend for an animal management platform with a built-in AI chat assistant and Stripe-powered payments.
+Frontend for an animal shelter platform: animals and health logs, Stripe payments, RBAC admin,
+and an AI chat assistant (text + voice over LiveKit, image generation, PDF documents).
+
+> Running the whole system (API + worker + book-rag + frontend)? See the [root README](../README.md).
 
 ## Tech stack
 
-| Layer        | Library                     |
-| ------------ | --------------------------- |
-| Framework    | React 19 + Vite 8           |
-| Language     | TypeScript 6                |
-| UI           | Ant Design v6               |
-| State        | Zustand 5                   |
-| Server state | TanStack React Query 5      |
-| HTTP         | Axios                       |
-| Forms        | react-hook-form + Zod       |
-| Payments     | Stripe.js + React Stripe.js |
-| i18n         | i18next + react-i18next     |
-| Styles       | SCSS Modules                |
+| Layer        | Library                                          |
+| ------------ | ------------------------------------------------ |
+| Framework    | React 19 + React Router v7 (framework mode, SPA) |
+| Build        | Vite 8                                           |
+| Language     | TypeScript                                       |
+| UI           | Ant Design v6, SCSS Modules                      |
+| State        | Zustand 5                                        |
+| Server state | TanStack React Query 5 + Axios                   |
+| Forms        | react-hook-form + Zod                            |
+| Realtime     | LiveKit (chat/voice)                             |
+| Payments     | Stripe.js + React Stripe.js                      |
+| i18n         | i18next + react-i18next                          |
 
 ## Getting started
 
-npm install 
-npm run dev
+Requirements: Node.js 20.19+ or 22.12+ (Vite 8), and the `animal` backend running on port 8000
+together with its LiveKit worker (see [`animal/README.md`](../animal/README.md)).
 
-Copy .env.example to .env and fill in the values before running.
+```bash
+cp .env.example .env     # Windows PowerShell: Copy-Item .env.example .env
+npm install
+npm run dev              # http://localhost:5173
+```
 
-VITE_API_BASE_URL=http://localhost:3000
-VITE_STRIPE_PUBLIC_KEY=pk_test_...
+### Environment
 
-## Available scripts
+| Variable                 | Required | Example                 | Purpose                                                       |
+| ------------------------ | -------- | ----------------------- | ------------------------------------------------------------- |
+| `VITE_API_BASE_URL`      | yes      | `http://localhost:8000` | Backend origin. Axios uses `${VITE_API_BASE_URL}/api` |
+| `VITE_STRIPE_PUBLIC_KEY` | yes      | `pk_test_...`           | Stripe Elements                                               |
 
-| Script         | Description                          |
-| -------------- | ------------------------------------ |
-| dev          | Start the dev server                 |
-| build        | Type-check + production build        |
-| preview      | Preview the production build locally |
-| lint         | Run ESLint                           |
-| lint:fix     | Run ESLint with auto-fix             |
-| format       | Format source with Prettier          |
-| format:check | Check formatting without writing     |
+The LiveKit server URL is not configured here: it comes from the backend's token response
+(`POST /v1/anthropic-chat/{id}/token`). Add the frontend origin (`http://localhost:5173`) to the
+backend's `CORS_ORIGINS`.
+
+## Scripts
+
+| Script         | Description                                 |
+| -------------- | ------------------------------------------- |
+| `dev`          | Start the dev server (`react-router dev`)   |
+| `build`        | Route typegen + type-check + production build |
+| `preview`      | Preview the production build locally        |
+| `lint`         | Run ESLint                                  |
+| `lint:fix`     | Run ESLint with auto-fix                    |
+| `format`       | Format `src` with Prettier                  |
+| `format:check` | Check formatting without writing            |
+
+There is no test suite yet.
 
 ## Project structure
 
+```
 src/
-├── components/
-│   ├── layout/        # AppHeader, AppFooter, MainLayout
-│   └── ui/            # Shared UI primitives (UserButton, LoadingPage, …)
-├── features/
-│   ├── animals/       # Animal CRUD — api, hooks, types, components
-│   ├── auth/          # Auth flows — api, hooks, schemas
-│   ├── chat/          # AI chat — streaming, sessions, UI
-│   └── stripe/        # Payments — invoice, payment form, Stripe Elements
+├── root.tsx           # App shell: providers, auth bootstrap (clientLoader)
+├── routes.ts          # Routes const + RouteConfig — never hardcode paths
+├── features/          # animals · auth · chat · dashboard · health-logs · rbac · stripe
+│   └── <name>/        # api/ · hooks/ · types/ · schemas/ · utils/ · components/
 ├── pages/             # Route-level page components
-├── router/
-│   └── routes.ts      # Central Routes const — never hardcode paths
+├── components/        # layout/ (MainLayout, header, footer) · ui/ (shared primitives)
 ├── store/             # Zustand stores (auth, chat, theme)
-├── hooks/             # App-level shared hooks
-├── lib/               # axios.ts, i18n.ts, stripe.ts, query-client.ts
-├── types/             # Shared base types (TimeStamp, etc.)
-├── constants/         # App-wide constants
-└── wrappers/          # App initialisation wrappers (auth, theme, i18n)
+├── wrappers/          # Route guards (AuthWrapper, AdminWrapper), ThemeWrapper
+├── lib/               # axios, query-client, i18n, stripe, clear-user-data
+├── hooks/ · constants/ · types/ · styles/ · assets/
+```
 
 ## Authentication
 
-Token-based auth with silent refresh. axiosInstance attaches a Bearer token on every request. On a 401 response the interceptor:
+JWT access token in memory (`useAuthStore`) + httpOnly refresh cookie.
 
-1. Pauses all in-flight requests.
-2. Calls /auth/refresh via a separate refreshInstance (no auth header, uses the httpOnly refresh cookie).
-3. Retries the queued requests with the new token.
-4. On refresh failure — clears auth state and redirects to /login.
-
-Google OAuth is also supported via /auth/google/callback.
+- On startup `root.tsx` `clientLoader` calls `/v1/auth/refresh` and `/v1/users/me`.
+- `axiosInstance` attaches `Authorization: Bearer <token>`. On a 401 it calls `refreshAccessToken()`
+  (one shared in-flight refresh for concurrent requests) and retries once. If the refresh fails,
+  the user is logged out and redirected to `/login`.
+- On logout or user change, `lib/clear-user-data.ts` clears the React Query cache and the chat store.
+- Google OAuth is supported via `/auth/google/callback`.
 
 ## Routing
 
-All routes are defined in src/router/routes.ts and consumed as:
+React Router v7 framework mode: routes live in `src/routes.ts`.
 
-import { Routes } from "../router/routes";
+```ts
+import { Routes } from "../routes";
 
 navigate(Routes.Animals);
-navigate(`${Routes.ChatSession.replace(":sessionId", id)}`);
+navigate(Routes.ChatSession.replace(":sessionId", id));
+```
 
-Never hardcode path strings anywhere else.
+Never hardcode path strings.
+
+## Chat
+
+- Each chat session is a LiveKit room. `ChatWindow` fetches a room token and renders `LiveKitRoom`.
+  The backend dispatches the agent worker into the room.
+- `useChatRoom` sends typed messages with `useChat().send` and turns `useTranscriptions` (user STT +
+  agent replies) into messages in `useChatStore.messagesBySession[sessionId]`. Voice mode reuses the
+  same room and enables the microphone.
+- `useReplyWatchdog` unlocks the input if a reply never arrives.
+- Document upload status is polled every 3 s (`refetchInterval` in `use-chat-documents.ts`) while a
+  document is embedding.
+- Image generation is a plain HTTP call (`image.api.ts`).
 
 ## Internationalisation
 
-Three locales: en, ru, uk. Translation files live under public/locales/{en,ru,uk}/.
+Locales: `en`, `ru`, `uk` in `public/locales/{locale}/{namespace}.json`.
 
-Namespaces:
+Namespaces: `common` (nav, auth, buttons, footer) · `animals` · `payment` · `chat` · `settings` (RBAC admin).
 
-- common — navigation, auth, buttons, footer
-- animals — animal feature strings
-- payment — payment feature strings
-
-When adding a new key, always add it to all three locale files.
+When adding a key, add it to all three locales.
 
 ## State management
 
-| Store           | Persisted              | Contents                               |
-| --------------- | ---------------------- | -------------------------------------- |
-| useAuthStore  | No                     | user, accessToken, isInitialized |
-| useChatStore  | activeSessionId only | Active session + messages by session   |
-| useThemeStore | Yes                    | Current theme                          |
+| Store           | Persisted | Contents                                      |
+| --------------- | --------- | --------------------------------------------- |
+| `useAuthStore`  | No        | `user`, `accessToken`, `isInitialized`        |
+| `useChatStore`  | No        | `messagesBySession`, `statusBySession`        |
+| `useThemeStore` | Yes       | Current theme                                 |
 
-Access stores outside React components via useXxxStore.getState().
-
-## Chat / streaming
-chatApi.streamMessage(dto, onChunk) sends a message and streams the response using responseType: "text" + onDownloadProgress. Each progress event delivers an incremental text delta to onChunk. Messages are stored in useChatStore.messagesBySession[sessionId].
+Access stores outside React with `useXxxStore.getState()`.
 
 ## Payments
 
-Invoice carries status, amount_in_cents, currency, and health_logs. The payment flow is:
-
-PaymentPage → PaymentWidget → PaymentForm → Stripe Elements
+`Invoice` carries `status`, `amount_in_cents`, `currency` and `health_logs`. Flow:
+`PaymentPage` → `PaymentWidget` → `PaymentForm` → Stripe Elements.
 
 ## Code conventions
 
-- Types, not interfaces — use type everywhere; avoid interface.
-- Extend `TimeStamp` — type Foo = { … } & TimeStamp for entities with created_at / updated_at.
-- Const enums — const Foo = { A: "a" } as const; type FooType = (typeof Foo)[keyof typeof Foo].
-- No axios in components — all HTTP calls go through feature api files; components consume hooks.
-- One concern per file — if a hook exceeds ~50 lines, split it; if JSX nests more than 3 levels, extract a component.
+- `type`, never `interface`.
+- Entities with timestamps: `type Foo = { … } & TimeStamp`.
+- Const objects instead of enums: `const Foo = { A: "a" } as const`.
+- No axios in components: HTTP goes through `features/*/api`, components use hooks.
+- One concern per file: split hooks over ~50 lines, extract JSX nested deeper than 3 levels.
 - No dead code, no magic values, no comments that restate the code.
+
+More detail for agents and contributors: [AGENTS.md](AGENTS.md).

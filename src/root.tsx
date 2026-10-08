@@ -7,6 +7,7 @@ import { axiosInstance, refreshInstance } from "./lib/axios.ts";
 import { useAuthStore } from "./store/auth.store.ts";
 import ThemeWrapper from "./wrappers/ThemeWrapper.tsx";
 import "./lib/i18n";
+import "./lib/clear-user-data";
 import "./styles/global.scss";
 
 export async function clientLoader() {

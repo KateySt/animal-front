@@ -4,17 +4,20 @@ import { PictureOutlined, SendOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import styles from "./ChatInput.module.scss";
 import { MAX_MESSAGE_LENGTH } from "../../../constants";
+import { ChatDocumentsPanel } from "./ChatDocumentsPanel";
 
 const { TextArea } = Input;
 
 type ChatInputProps = {
-  onSend: (content: string) => void;
+  sessionId: string;
+  onSend: (content: string) => boolean;
   onGenerateImage: (description: string) => void;
   isLoading: boolean;
   isGeneratingImage: boolean;
 };
 
 export const ChatInput = ({
+  sessionId,
   onSend,
   onGenerateImage,
   isLoading,
@@ -28,8 +31,7 @@ export const ChatInput = ({
   const handleSend = () => {
     const trimmed = value.trim();
     if (!trimmed || isBusy) return;
-    onSend(trimmed);
-    setValue("");
+    if (onSend(trimmed)) setValue("");
   };
 
   const handleGenerateImage = () => {
@@ -65,6 +67,7 @@ export const ChatInput = ({
             {value.length} / {MAX_MESSAGE_LENGTH}
           </span>
           <div className={styles.buttons}>
+            <ChatDocumentsPanel sessionId={sessionId} />
             <Button
               icon={<PictureOutlined />}
               onClick={handleGenerateImage}
