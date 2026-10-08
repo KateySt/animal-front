@@ -20,7 +20,7 @@ No test suite currently exists in this project.
 
 `VITE_API_BASE_URL` (backend origin, e.g. `http://localhost:8000`; axios appends `/api`, Socket.IO uses the origin + `/ws`) · `VITE_STRIPE_PUBLIC_KEY`
 
-The LiveKit URL comes from the backend token response, not from env. `VITE_AUTH_API_BASE_URL`, `VITE_CHAT_API_BASE_URL` and `VITE_LIVEKIT_URL` in `.env.example` are unused. Running the full stack: see `../README.md`.
+The LiveKit URL comes from the backend token response, not from env. `VITE_AUTH_API_BASE_URL` and `VITE_CHAT_API_BASE_URL` in `.env.example` are unused. Running the full stack: see `../README.md`.
 
 ## File conventions
 
