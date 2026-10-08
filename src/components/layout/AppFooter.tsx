@@ -31,7 +31,7 @@ export const AppFooter = () => {
             <Space align="center">
               <HeartOutlined className={styles.brandIcon} />
               <Title level={4} className={styles.brandTitle}>
-                {import.meta.env.APP_NAME}
+                {import.meta.env.VITE_APP_NAME}
               </Title>
             </Space>
             <Text className={styles.brandDesc}>{t("footer.description")}</Text>
@@ -70,7 +70,7 @@ export const AppFooter = () => {
       <Row justify="space-between" align="middle">
         <Col>
           <Text className={styles.copyright}>
-            © {new Date().getFullYear()} {import.meta.env.APP_NAME}. {t("footer.copyright")}
+            © {new Date().getFullYear()} {import.meta.env.VITE_APP_NAME}. {t("footer.copyright")}
           </Text>
         </Col>
         <Col>
