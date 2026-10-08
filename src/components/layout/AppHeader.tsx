@@ -80,7 +80,7 @@ export const AppHeader = () => {
       <Header className={styles.header}>
         <Link to={Routes.Home} className={styles.logo}>
           <HeartOutlined className={styles.logoIcon} />
-          <span className={styles.logoText}>{import.meta.env.APP_NAME}</span>
+          <span className={styles.logoText}>{import.meta.env.VITE_APP_NAME}</span>
         </Link>
 
         {!isMobile && (

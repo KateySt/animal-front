@@ -18,7 +18,7 @@ No test suite currently exists in this project.
 
 ## Env vars (`.env`)
 
-`VITE_API_BASE_URL` (backend origin, e.g. `http://localhost:8000`; axios appends `/api`) · `VITE_STRIPE_PUBLIC_KEY`
+`VITE_API_BASE_URL` (backend origin, e.g. `http://localhost:8000`; axios appends `/api`; leave unset on Vercel — `/api` is proxied by `vercel.json`) · `VITE_STRIPE_PUBLIC_KEY` · `VITE_APP_NAME` (brand in header/footer). Only `VITE_`-prefixed vars reach the browser.
 
 The LiveKit URL comes from the backend token response, not from env. `VITE_AUTH_API_BASE_URL` and `VITE_CHAT_API_BASE_URL` in `.env.example` are unused. Running the full stack: see `../README.md`.
 
