@@ -3,6 +3,7 @@ import { Button, message } from "antd";
 import { PhoneOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { useChatRoom } from "../hooks/use-chat-room";
+import type { IdleConnection } from "../hooks/use-idle-connection";
 import { useGenerateImage } from "../hooks/use-image-generation";
 import { ChatView } from "./ChatView";
 import { VoiceModeView } from "./VoiceModeView";
@@ -13,9 +14,11 @@ import { ConnectionState } from "livekit-client";
 
 type ChatWindowBodyProps = {
   sessionId: string;
+  idle: IdleConnection;
 };
 
-export const ChatWindowBody = ({ sessionId }: ChatWindowBodyProps) => {
+export const ChatWindowBody = ({ sessionId, idle }: ChatWindowBodyProps) => {
+  const { setPaused, wake } = idle;
   const { t } = useTranslation("chat");
   const [isVoiceMode, setIsVoiceMode] = useState(false);
   const { mutateAsync: generateImage, isPending: isGeneratingImage } = useGenerateImage(sessionId);
@@ -24,7 +27,7 @@ export const ChatWindowBody = ({ sessionId }: ChatWindowBodyProps) => {
   const { lastMicrophoneError } = useLocalParticipant();
   const [isMuted, setIsMuted] = useState(false);
   const { messages, setMessages, sendMessage, status, room } =
-    useChatRoom(sessionId);
+    useChatRoom(sessionId, idle);
 
 
   useEffect(() => {
@@ -34,14 +37,20 @@ export const ChatWindowBody = ({ sessionId }: ChatWindowBodyProps) => {
 
 
   useEffect(() => {
-    if (isVoiceMode) {
-      void room.localParticipant.setMicrophoneEnabled(true);
-    } else {
-      void room.localParticipant.setMicrophoneEnabled(false);
-    }
-  }, [isVoiceMode, room.localParticipant]);
+    if (connectionState !== ConnectionState.Connected) return;
+    void room.localParticipant.setMicrophoneEnabled(isVoiceMode);
+  }, [isVoiceMode, connectionState, room.localParticipant]);
 
   const isLoading = status === "submitted" || status === "streaming";
+
+  useEffect(() => {
+    setPaused(isVoiceMode || isLoading);
+  }, [isVoiceMode, isLoading, setPaused]);
+
+  const enterVoiceMode = () => {
+    setIsVoiceMode(true);
+    wake().catch(() => message.error(t("errors.sendFailed")));
+  };
 
   const handleGenerateImage = async (description: string) => {
     const tempUserId = crypto.randomUUID();
@@ -73,7 +82,7 @@ export const ChatWindowBody = ({ sessionId }: ChatWindowBodyProps) => {
           type="text"
           icon={<PhoneOutlined />}
           title={t("voice.enter")}
-          onClick={() => setIsVoiceMode(true)}
+          onClick={enterVoiceMode}
         />
       </div>
 
@@ -81,7 +90,7 @@ export const ChatWindowBody = ({ sessionId }: ChatWindowBodyProps) => {
         <VoiceModeView
           state={state}
           audioTrack={audioTrack}
-          isError={connectionState === ConnectionState.Disconnected}
+          isError={idle.shouldConnect && connectionState === ConnectionState.Disconnected}
           isMicDenied={!!lastMicrophoneError}
           onExit={() => {
             setIsVoiceMode(false);
