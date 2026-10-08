@@ -3,19 +3,25 @@ import { chatApi } from "../api/chat.api";
 import { validateDocumentFile } from "../utils/validate-document-file";
 import { DocumentStatus, type ChatDocuments } from "../types/document.types";
 
+const DOCUMENT_STATUS_POLL_MS = 3000;
+
+const hasEmbedding = (data?: ChatDocuments) =>
+  (data?.documents ?? []).some(
+    (doc) => doc.status === DocumentStatus.Uploading || doc.status === DocumentStatus.Embedding,
+  );
+
 export const chatDocumentsQueryOptions = (sessionId: string) =>
   queryOptions({
     queryKey: ["chat-documents", sessionId],
     queryFn: () => chatApi.list(sessionId),
     enabled: !!sessionId,
+    refetchInterval: (query) => (hasEmbedding(query.state.data) ? DOCUMENT_STATUS_POLL_MS : false),
   });
 
 export function useChatDocuments(sessionId: string) {
   const query = useQuery(chatDocumentsQueryOptions(sessionId));
   const documents = query.data?.documents ?? [];
-  const isEmbedding = documents.some(
-    (doc) => doc.status === DocumentStatus.Uploading || doc.status === DocumentStatus.Embedding,
-  );
+  const isEmbedding = hasEmbedding(query.data);
 
   return { ...query, documents, isEmbedding };
 }

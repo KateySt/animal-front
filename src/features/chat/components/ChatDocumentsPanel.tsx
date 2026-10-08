@@ -7,7 +7,6 @@ import {
   useDeleteDocument,
   useUploadDocument,
 } from "../hooks/use-chat-documents";
-import { useDocumentStatusSocket } from "../hooks/use-document-status-socket";
 import { DocumentListItem } from "./DocumentListItem";
 import { getDocumentErrorMessage } from "../utils/document-errors";
 import styles from "./ChatDocumentsPanel.module.scss";
@@ -20,7 +19,6 @@ export const ChatDocumentsPanel = ({ sessionId }: ChatDocumentsPanelProps) => {
   const { t } = useTranslation("chat");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  useDocumentStatusSocket(sessionId);
   const { documents, isEmbedding } = useChatDocuments(sessionId);
   const uploadMutation = useUploadDocument(sessionId);
   const deleteMutation = useDeleteDocument(sessionId);

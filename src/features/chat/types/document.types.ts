@@ -20,11 +20,3 @@ export type ChatDocument = {
 export type ChatDocuments = {
   documents: ChatDocument[];
 };
-
-export type DocumentStatusEvent = {
-  type: "document_status";
-  document_id: string;
-  filename: string;
-  status: DocumentStatusType;
-  error: string | null;
-};

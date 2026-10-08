@@ -16,7 +16,7 @@ and an AI chat assistant (text + voice over LiveKit, image generation, PDF docum
 | State        | Zustand 5                                        |
 | Server state | TanStack React Query 5 + Axios                   |
 | Forms        | react-hook-form + Zod                            |
-| Realtime     | LiveKit (chat/voice), Socket.IO (document status)|
+| Realtime     | LiveKit (chat/voice)                             |
 | Payments     | Stripe.js + React Stripe.js                      |
 | i18n         | i18next + react-i18next                          |
 
@@ -35,7 +35,7 @@ npm run dev              # http://localhost:5173
 
 | Variable                 | Required | Example                 | Purpose                                                       |
 | ------------------------ | -------- | ----------------------- | ------------------------------------------------------------- |
-| `VITE_API_BASE_URL`      | yes      | `http://localhost:8000` | Backend origin. Axios uses `${VITE_API_BASE_URL}/api`; Socket.IO connects to the origin with path `/ws` |
+| `VITE_API_BASE_URL`      | yes      | `http://localhost:8000` | Backend origin. Axios uses `${VITE_API_BASE_URL}/api` |
 | `VITE_STRIPE_PUBLIC_KEY` | yes      | `pk_test_...`           | Stripe Elements                                               |
 
 The LiveKit server URL is not configured here: it comes from the backend's token response
@@ -66,7 +66,6 @@ src/
 │   └── <name>/        # api/ · hooks/ · types/ · schemas/ · utils/ · components/
 ├── pages/             # Route-level page components
 ├── components/        # layout/ (MainLayout, header, footer) · ui/ (shared primitives)
-├── providers/         # WSProvider — app-wide Socket.IO connection
 ├── store/             # Zustand stores (auth, chat, theme)
 ├── wrappers/          # Route guards (AuthWrapper, AdminWrapper), ThemeWrapper
 ├── lib/               # axios, query-client, i18n, stripe, clear-user-data
@@ -105,8 +104,8 @@ Never hardcode path strings.
   agent replies) into messages in `useChatStore.messagesBySession[sessionId]`. Voice mode reuses the
   same room and enables the microphone.
 - `useReplyWatchdog` unlocks the input if a reply never arrives.
-- Document upload status arrives over Socket.IO (`join_chat_session` room, `document_status` event)
-  via `useDocumentStatusSocket`.
+- Document upload status is polled every 3 s (`refetchInterval` in `use-chat-documents.ts`) while a
+  document is embedding.
 - Image generation is a plain HTTP call (`image.api.ts`).
 
 ## Internationalisation
