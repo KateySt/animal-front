@@ -28,7 +28,10 @@ export function useLiveKitToken(sessionId: string) {
       queryKey: ["livekit-token", sessionId],
       queryFn: () => chatApi.getToken(sessionId),
       enabled: !!sessionId,
+      staleTime: Infinity,
+      gcTime: 0,
       refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
     }),
   );
 }

@@ -9,7 +9,7 @@ const ChatPage = () => {
   return (
     <div className={styles.layout}>
       <ChatSidebar />
-      {sessionId && <ChatWindow sessionId={sessionId} />}
+      {sessionId && <ChatWindow key={sessionId} sessionId={sessionId} />}
     </div>
   );
 };
