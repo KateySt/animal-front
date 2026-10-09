@@ -1,7 +1,12 @@
 .footer {
   background: var(--bg-footer);
   border-top: 1px solid var(--border);
-  padding: 40px 48px 24px;
+  padding: 40px 24px 24px;
+}
+
+.footerInner {
+  max-width: var(--max-content-width);
+  margin: 0 auto;
 }
 
 .brandIcon {

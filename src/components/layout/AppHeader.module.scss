@@ -3,15 +3,21 @@
   top: 0;
   z-index: 100;
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
+  padding: 0 24px;
   border-bottom: 1px solid var(--border);
   backdrop-filter: blur(8px);
   background: var(--bg-header);
   height: 56px;
   line-height: 56px;
+}
+
+.headerInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  max-width: var(--max-content-width);
+  margin: 0 auto;
 }
 
 .logo {

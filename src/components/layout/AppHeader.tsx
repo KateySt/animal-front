@@ -78,37 +78,39 @@ export const AppHeader = () => {
   return (
     <>
       <Header className={styles.header}>
-        <Link to={Routes.Home} className={styles.logo}>
-          <HeartOutlined className={styles.logoIcon} />
-          <span className={styles.logoText}>{import.meta.env.VITE_APP_NAME}</span>
-        </Link>
+        <div className={styles.headerInner}>
+          <Link to={Routes.Home} className={styles.logo}>
+            <HeartOutlined className={styles.logoIcon} />
+            <span className={styles.logoText}>{import.meta.env.VITE_APP_NAME}</span>
+          </Link>
 
-        {!isMobile && (
-          <>
-            <Menu
-              mode="horizontal"
-              selectedKeys={[selectedKey]}
-              items={navItems}
-              className={styles.nav}
+          {!isMobile && (
+            <>
+              <Menu
+                mode="horizontal"
+                selectedKeys={[selectedKey]}
+                items={navItems}
+                className={styles.nav}
+              />
+
+              <Space size={8} className={styles.controls}>
+                <ThemeSwitch />
+                <LanguageDropdown />
+                <UserButton />
+                <LogoutButton onLogout={() => setDrawerOpen(false)} />
+              </Space>
+            </>
+          )}
+
+          {isMobile && (
+            <Button
+              type="text"
+              icon={drawerOpen ? <CloseOutlined /> : <MenuOutlined />}
+              className={styles.mobileBtn}
+              onClick={() => setDrawerOpen((v) => !v)}
             />
-
-            <Space size={8} className={styles.controls}>
-              <ThemeSwitch />
-              <LanguageDropdown />
-              <UserButton />
-              <LogoutButton onLogout={() => setDrawerOpen(false)} />
-            </Space>
-          </>
-        )}
-
-        {isMobile && (
-          <Button
-            type="text"
-            icon={drawerOpen ? <CloseOutlined /> : <MenuOutlined />}
-            className={styles.mobileBtn}
-            onClick={() => setDrawerOpen((v) => !v)}
-          />
-        )}
+          )}
+        </div>
       </Header>
 
       {isMobile && drawerOpen && (
