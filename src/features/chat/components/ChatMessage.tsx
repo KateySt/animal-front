@@ -21,6 +21,11 @@ type ChatMessageProps = {
   message: ChatUIMessage;
 };
 
+type ImagePart = Extract<ChatUIMessagePart, { type: "file" }>;
+
+const isImagePart = (part: ChatUIMessagePart): part is ImagePart =>
+  part.type === "file" && Boolean(part.mediaType?.startsWith("image/"));
+
 const ToolStatus = ({ state }: { state: string | undefined }) => {
   const { t } = useTranslation("chat");
 
@@ -57,7 +62,7 @@ const renderMessagePart = (part: ChatUIMessagePart, index: number, isUser: boole
         </Paragraph>
       );
     case "file":
-      return part.mediaType?.startsWith("image/") ? (
+      return isImagePart(part) ? (
         <ChatImage key={index} url={part.url} filename={part.filename} />
       ) : null;
     default: {
@@ -68,6 +73,16 @@ const renderMessagePart = (part: ChatUIMessagePart, index: number, isUser: boole
       return null;
     }
   }
+};
+
+const PendingImage = ({ parts }: { parts: ChatUIMessagePart[] }) => {
+  const preview = parts.find(isImagePart);
+  return (
+    <>
+      {preview && <ChatImage url={preview.url} isPending />}
+      <GeneratingImagePlaceholder />
+    </>
+  );
 };
 
 export const ChatMessage = ({ message }: ChatMessageProps) => {
@@ -84,11 +99,9 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
 
       <div className={clsx(styles.bubble, isUser ? styles.bubbleUser : styles.bubbleAi)}>
         {isPending ? (
-          <GeneratingImagePlaceholder />
+          <PendingImage parts={message.parts} />
         ) : (
-          <>
-            {message.parts.map((part, index) => renderMessagePart(part, index, isUser))}
-          </>
+          <>{message.parts.map((part, index) => renderMessagePart(part, index, isUser))}</>
         )}
       </div>
     </div>

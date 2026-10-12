@@ -89,3 +89,12 @@
 .toolStatusError {
   color: var(--color-error, #ff4d4f);
 }
+
+.image {
+  object-fit: cover;
+  transition: filter 0.4s ease;
+}
+
+.imagePending {
+  filter: blur(8px);
+}

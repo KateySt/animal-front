@@ -1,13 +1,23 @@
-import type { ChatUIMessage } from "../types/chat.types";
+import { EventSourceParserStream, type EventSourceMessage } from "eventsource-parser/stream";
 import { axiosInstance } from "../../../lib/axios.ts";
 
 const basePath = "/v1/image";
 
 export const imageApi = {
-  generate: (sessionId: string, description: string) =>
+  generateStream: (
+    sessionId: string,
+    description: string,
+    signal: AbortSignal,
+  ): Promise<ReadableStream<EventSourceMessage>> =>
     axiosInstance
-      .post<{ messages: ChatUIMessage[] }>(`${basePath}/${sessionId}/generate-image`, {
-        description,
-      })
-      .then((response) => response.data),
+      .post<ReadableStream<Uint8Array<ArrayBuffer>>>(
+        `${basePath}/${sessionId}/generate-image`,
+        { description },
+        { adapter: "fetch", responseType: "stream", signal },
+      )
+      .then((response) =>
+        response.data
+          .pipeThrough(new TextDecoderStream())
+          .pipeThrough(new EventSourceParserStream()),
+      ),
 };

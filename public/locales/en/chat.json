@@ -15,7 +15,8 @@
   },
   "imageGen": {
     "generating": "Generating image…",
-    "error": "Couldn't generate the image, try again"
+    "error": "Couldn't generate the image, try again",
+    "rejected": "This description can't be drawn, try rephrasing it"
   },
   "errors": {
     "agentNotReady": "The assistant is still connecting, try again in a moment",

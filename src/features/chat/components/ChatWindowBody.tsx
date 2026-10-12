@@ -5,11 +5,19 @@ import { useTranslation } from "react-i18next";
 import { useChatRoom } from "../hooks/use-chat-room";
 import type { IdleConnection } from "../hooks/use-idle-connection";
 import { useGenerateImage } from "../hooks/use-image-generation";
+import type { ImagePartial } from "../types/image.types";
+import { toImageErrorKey } from "../utils/image-errors";
+import { preloadImage } from "../utils/preload-image";
 import { ChatView } from "./ChatView";
 import { VoiceModeView } from "./VoiceModeView";
 import { useChatStore } from "../../../store/chat.store.ts";
 import styles from "./ChatWindow.module.scss";
-import { useVoiceAssistant, useConnectionState, useLocalParticipant, RoomAudioRenderer } from "@livekit/components-react";
+import {
+  useVoiceAssistant,
+  useConnectionState,
+  useLocalParticipant,
+  RoomAudioRenderer,
+} from "@livekit/components-react";
 import { ConnectionState } from "livekit-client";
 
 type ChatWindowBodyProps = {
@@ -26,15 +34,11 @@ export const ChatWindowBody = ({ sessionId, idle }: ChatWindowBodyProps) => {
   const connectionState = useConnectionState();
   const { lastMicrophoneError } = useLocalParticipant();
   const [isMuted, setIsMuted] = useState(false);
-  const { messages, setMessages, sendMessage, status, room } =
-    useChatRoom(sessionId, idle);
-
+  const { messages, setMessages, sendMessage, status, room } = useChatRoom(sessionId, idle);
 
   useEffect(() => {
     if (state !== "speaking") setIsMuted(false);
   }, [state]);
-
-
 
   useEffect(() => {
     if (connectionState !== ConnectionState.Connected) return;
@@ -62,14 +66,29 @@ export const ChatWindowBody = ({ sessionId, idle }: ChatWindowBodyProps) => {
       { id: tempImageId, role: "assistant", parts: [], metadata: { pending: true } },
     ]);
 
+    const showPartial = ({ mediaType, dataUrl }: ImagePartial) =>
+      setMessages((prev) =>
+        prev.map((chatMessage) =>
+          chatMessage.id === tempImageId
+            ? { ...chatMessage, parts: [{ type: "file", mediaType, url: dataUrl, filename: null }] }
+            : chatMessage,
+        ),
+      );
+
     try {
-      const { messages: newMessages } = await generateImage(description);
+      const newMessages = await generateImage({ description, onPartial: showPartial });
+      await Promise.all(
+        newMessages
+          .flatMap((m) => m.parts)
+          .flatMap((part) => (part.type === "file" ? [preloadImage(part.url)] : [])),
+      );
       setMessages((prev) => [
         ...prev.filter((m) => m.id !== tempUserId && m.id !== tempImageId),
         ...newMessages,
       ]);
-    } catch {
-      message.error(t("imageGen.error"));
+    } catch (error) {
+      const errorKey = await toImageErrorKey(error);
+      if (errorKey) message.error(t(errorKey));
       setMessages((prev) => prev.filter((m) => m.id !== tempUserId && m.id !== tempImageId));
     }
   };
