@@ -1,0 +1,26 @@
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px 32px;
+  margin: 0;
+}
+
+.item {
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.question {
+  margin: 0 0 6px !important;
+  font-size: var(--font-size-lg) !important;
+  color: var(--text-primary);
+}
+
+.answer {
+  margin: 0;
+}
+
+.answerText {
+  margin: 0 !important;
+  color: var(--text-secondary);
+}

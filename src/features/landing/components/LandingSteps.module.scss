@@ -1,0 +1,38 @@
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.number {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 600;
+}
+
+.stepTitle {
+  margin: 0 0 4px !important;
+  font-size: var(--font-size-lg) !important;
+  color: var(--text-primary);
+}
+
+.stepText {
+  margin: 0 !important;
+  color: var(--text-secondary);
+}

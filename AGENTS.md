@@ -2,7 +2,7 @@
 
 ## Stack
 
-React 19 + React Router v7 (framework mode, SSR disabled) + Vite + TypeScript. UI: Ant Design v6. State: Zustand. Data: TanStack React Query + Axios. Forms: react-hook-form + Zod. Payments: Stripe. Voice/chat: LiveKit. i18n: i18next + react-i18next.
+React 19 + React Router v8 (framework mode, `ssr: false` + build-time prerender of public pages) + Vite + TypeScript. UI: Ant Design v6. State: Zustand. Data: TanStack React Query + Axios. Forms: react-hook-form + Zod. Payments: Stripe. Voice/chat: LiveKit. i18n: i18next + react-i18next.
 
 ## Install
 
@@ -18,7 +18,7 @@ No test suite currently exists in this project.
 
 ## Env vars (`.env`)
 
-`VITE_API_BASE_URL` (backend origin, e.g. `http://localhost:8000`; axios appends `/api`; leave unset on Vercel — `/api` is proxied by `vercel.json`) · `VITE_STRIPE_PUBLIC_KEY` · `VITE_APP_NAME` (brand in header/footer). Only `VITE_`-prefixed vars reach the browser.
+`VITE_API_BASE_URL` (backend origin, e.g. `http://localhost:8000`; axios appends `/api`; leave unset on Vercel — `/api` is proxied by `vercel.json`) · `VITE_STRIPE_PUBLIC_KEY` · `VITE_APP_NAME` (brand in header/footer and SEO meta) · `VITE_SITE_URL` (public origin for canonical links, `sitemap.xml`, `robots.txt`, `llms.txt`; falls back to `https://$VERCEL_PROJECT_PRODUCTION_URL` on Vercel, then `http://localhost:5173` — resolved in `vite.config.ts`). Only `VITE_`-prefixed vars reach the browser.
 
 The LiveKit URL comes from the backend token response, not from env. `VITE_AUTH_API_BASE_URL` and `VITE_CHAT_API_BASE_URL` in `.env.example` are unused. Running the full stack: see `../README.md`.
 
@@ -40,7 +40,7 @@ src/
   routes.ts                 # Routes const + RouteConfig — never hardcode paths
 ```
 
-Features: `animals` · `auth` · `chat` · `dashboard` (components only, no api/hooks) · `health-logs` · `rbac` (roles/permissions/resources/users admin) · `stripe`
+Features: `animals` · `auth` · `chat` · `dashboard` (components only, no api/hooks) · `health-logs` · `landing` (components only: public home for guests) · `rbac` (roles/permissions/resources/users admin) · `stripe`
 
 ## Routing
 
@@ -54,7 +54,18 @@ import { Routes } from "../routes";
 
 Never hardcode path strings. Dynamic routes: `Routes.AnimalDetail` uses `:animalId`, `Routes.Payment + "/:invoiceId"`, `Routes.ChatSession` uses `:sessionId`.
 
-Layout nesting: `AuthWrapper` (requires auth) wraps everything except Login/Register/GoogleCallback → `MainLayout` (chrome) wraps all authenticated pages → `AdminWrapper` (checks `user.is_superuser`, else redirects to `Routes.Home`) additionally gates `Settings` only.
+Layout nesting: `MainLayout` (chrome) wraps Home and all authenticated pages → Home (`/`) is public: `HomePage` renders `PublicLanding` for guests and `PetsDashboard` for signed-in users → `AuthWrapper` (requires auth) wraps every other page inside `MainLayout` → `AdminWrapper` (checks `user.is_superuser`, else redirects to `Routes.Home`) additionally gates `Settings` only. Login/Register/GoogleCallback sit outside `MainLayout`.
+
+Auth bootstrap: `initAuthSession()` (`lib/auth-session.ts`, memoized refresh + `/users/me`) runs in the `AuthWrapper`/`GoogleCallbackPage` `clientLoader`s and in the root `App` effect — **never add a root `clientLoader`**, it would turn every pre-rendered page into the spinner fallback. In components use `useAuthStatus()` (`features/auth/hooks/use-auth-status.ts`: `Pending | Guest | User | Admin`) and `isVisibleFor(audiences, status)` for guest/member-only links (header `NAV_LINKS`, `constants/footer.ts`).
+
+## SEO / pre-rendering
+
+`react-router.config.ts` `prerender` lists the public pages (`/`, `/login`, `/register`) and the resource routes `/robots.txt`, `/sitemap.xml`, `/llms.txt` (`src/seo/*.ts`, paths in `SeoRoutes`). Everything else is served from `__spa-fallback.html` (`vercel.json` rewrite). `src/entry.server.tsx` runs only at build time: waits for the whole tree, renders English, and inlines antd styles for the first paint (removed after hydration by `removeAntdSsrStyle`).
+
+- Public pages export `meta` built with `buildPageMeta()` from `src/seo/site.ts` (title, description, canonical, Open Graph); private routes inherit `NO_INDEX_META` from `AuthWrapper`. Add new public pages to `prerender`, `PUBLIC_PAGES` and, if private, their prefix to `PRIVATE_PATH_PREFIXES`.
+- Code rendered on pre-rendered pages must be SSR-safe: no `window`/`localStorage` during render (use `useSyncExternalStore` with a server snapshot, like `useMediaQuery`). The theme store uses `skipHydration` and is rehydrated in the root effect.
+- Non-English visitors get a recoverable hydration text mismatch on pre-rendered pages (HTML is English, client renders the detected language) — expected.
+- Copy for crawlers lives in the `landing` namespace and in `src/seo/` (English only). Only state facts the product actually supports.
 
 ## TypeScript
 
@@ -66,7 +77,7 @@ Layout nesting: `AuthWrapper` (requires auth) wraps everything except Login/Regi
 
 ## i18n
 
-Namespaces → files: `common` | `animals` | `payment` | `chat` | `settings` → `public/locales/{en,ru,uk}/{ns}.json`
+Namespaces → files: `common` | `animals` | `payment` | `chat` | `settings` | `landing` → `public/locales/{en,ru,uk}/{ns}.json`
 
 ```ts
 import { Locale } from "../lib/locales"; // Locale.EN | .RU | .UK
@@ -77,7 +88,7 @@ Rules:
 
 - All user-visible strings via `t()` — no hardcoded JSX text
 - Add key to **all 3** locale files when adding new key
-- `common`: nav, footer, auth, buttons; `animals`: animal features; `payment`: payment features; `chat`: chat/voice UI; `settings`: RBAC/admin settings UI
+- `common`: nav, footer, auth, buttons; `animals`: animal features; `payment`: payment features; `chat`: chat/voice UI; `settings`: RBAC/admin settings UI; `landing`: public home page for guests
 - Auth keys: `auth.login.*`, `auth.register.*` in common.json
 
 ## Axios
@@ -93,7 +104,7 @@ API methods: always `.then(r => r.data)` — return the data directly, not the r
 
 - `useAuthStore` (devtools only, no persist) — `{ user, accessToken, isInitialized }` + setters + `logout()`
 - `useChatStore` (devtools only, no persist) — `{ messagesBySession, statusBySession }` keyed by `sessionId`, with `getMessages`/`getStatus`/`setMessages`/`appendUserMessage`/`setUserMessageText`/`setAssistantMessageText`/`setStatus`/`removeMessage`/`reset`. `src/lib/clear-user-data.ts` calls `reset()` and `queryClient.clear()` when the logged-in user changes.
-- `useThemeStore` (devtools + **persist**) — theme toggle; the only store that persists to storage
+- `useThemeStore` (devtools + **persist**, `skipHydration`) — theme toggle; the only store that persists to storage; rehydrated in the root `App` effect
 
 Access outside React: `useXxxStore.getState().method()`.
 

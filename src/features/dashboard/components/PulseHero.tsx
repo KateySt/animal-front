@@ -1,6 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
 import { Typography } from "antd";
-import { useTranslation } from "react-i18next";
 import styles from "./PulseHero.module.scss";
 
 const { Title, Text } = Typography;
@@ -83,12 +82,13 @@ const driftVars = (mote: DriftMote): CSSProperties =>
   }) as CSSProperties;
 
 type PulseHeroProps = {
-  totalAnimals: number;
+  title: ReactNode;
+  subtitle: ReactNode;
+  headingLevel?: 1 | 2;
+  actions?: ReactNode;
 };
 
-export const PulseHero = ({ totalAnimals }: PulseHeroProps) => {
-  const { t } = useTranslation("animals");
-
+export const PulseHero = ({ title, subtitle, headingLevel = 2, actions }: PulseHeroProps) => {
   return (
     <div className={styles.hero}>
       <div className={styles.art} aria-hidden="true">
@@ -130,15 +130,13 @@ export const PulseHero = ({ totalAnimals }: PulseHeroProps) => {
       </div>
 
       <div className={styles.content}>
-        <Title level={2} className={styles.title}>
-          {t("hero.title")}
+        <Title level={headingLevel} className={styles.title}>
+          {title}
         </Title>
 
-        <Text className={styles.stat}>
-          {totalAnimals > 0
-            ? t("hero.petsInCare", { count: totalAnimals })
-            : t("hero.emptySubtitle")}
-        </Text>
+        <Text className={styles.stat}>{subtitle}</Text>
+
+        {actions && <div className={styles.actions}>{actions}</div>}
       </div>
     </div>
   );

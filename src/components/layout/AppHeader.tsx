@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { useIsMobile } from "../../hooks/use-media-query.ts";
 import { Link, useLocation } from "react-router";
 import { Button, Layout, Menu, type MenuProps, Space } from "antd";
@@ -17,15 +17,75 @@ import { LanguageDropdown } from "../ui/LanguageDropdown.tsx";
 import { ThemeSwitch } from "../ui/ThemeSwitch.tsx";
 import { LogoutButton } from "../ui/LogoutButton.tsx";
 import { UserButton } from "../ui/UserButton.tsx";
+import { ButtonLink } from "../ui/ButtonLink.tsx";
+import {
+  AuthStatus,
+  isVisibleFor,
+  MEMBER_STATUSES,
+  useAuthStatus,
+  type AuthStatusType,
+} from "../../features/auth/hooks/use-auth-status.ts";
 import styles from "./AppHeader.module.scss";
 
 const { Header } = Layout;
+
+type NavLink = {
+  to: string;
+  label: string;
+  icon: ReactNode;
+  audiences?: AuthStatusType[];
+};
+
+const NAV_LINKS: NavLink[] = [
+  { to: Routes.Home, label: "nav.home", icon: <HomeOutlined /> },
+  { to: Routes.Animals, label: "nav.animals", icon: <TeamOutlined />, audiences: MEMBER_STATUSES },
+  {
+    to: Routes.Invoices,
+    label: "nav.invoices",
+    icon: <FileTextOutlined />,
+    audiences: MEMBER_STATUSES,
+  },
+  { to: Routes.Chat, label: "nav.chat", icon: <MessageOutlined />, audiences: MEMBER_STATUSES },
+];
+
+type AccountControlsProps = {
+  authStatus: AuthStatusType;
+  onNavigate: () => void;
+};
+
+const AccountControls = ({ authStatus, onNavigate }: AccountControlsProps) => {
+  const { t } = useTranslation("common");
+
+  if (authStatus === AuthStatus.Pending) return null;
+
+  if (authStatus === AuthStatus.Guest) {
+    return (
+      <Space size={8}>
+        <ButtonLink to={Routes.Login} type="text" onClick={onNavigate}>
+          {t("nav.login")}
+        </ButtonLink>
+        <ButtonLink to={Routes.Register} type="primary" onClick={onNavigate}>
+          {t("nav.register")}
+        </ButtonLink>
+      </Space>
+    );
+  }
+
+  return (
+    <Space size={8}>
+      <UserButton />
+      <LogoutButton onLogout={onNavigate} />
+    </Space>
+  );
+};
 
 export const AppHeader = () => {
   const { t } = useTranslation("common");
   const location = useLocation();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const isMobile = useIsMobile();
+  const authStatus = useAuthStatus();
+  const closeDrawer = () => setDrawerOpen(false);
 
   const selectedKey =
     Object.values(Routes).find(
@@ -36,44 +96,17 @@ export const AppHeader = () => {
         route !== "/",
     ) ?? (location.pathname === "/" ? Routes.Home : "");
 
-  const navItems: MenuProps["items"] = [
-    {
-      key: Routes.Home,
-      icon: <HomeOutlined />,
-      label: (
-        <Link to={Routes.Home} onClick={() => setDrawerOpen(false)}>
-          {t("nav.home")}
-        </Link>
-      ),
-    },
-    {
-      key: Routes.Animals,
-      icon: <TeamOutlined />,
-      label: (
-        <Link to={Routes.Animals} onClick={() => setDrawerOpen(false)}>
-          {t("nav.animals")}
-        </Link>
-      ),
-    },
-    {
-      key: Routes.Invoices,
-      icon: <FileTextOutlined />,
-      label: (
-        <Link to={Routes.Invoices} onClick={() => setDrawerOpen(false)}>
-          {t("nav.invoices")}
-        </Link>
-      ),
-    },
-    {
-      key: Routes.Chat,
-      icon: <MessageOutlined />,
-      label: (
-        <Link to={Routes.Chat} onClick={() => setDrawerOpen(false)}>
-          {t("nav.chat")}
-        </Link>
-      ),
-    },
-  ];
+  const navItems: MenuProps["items"] = NAV_LINKS.filter((link) =>
+    isVisibleFor(link.audiences, authStatus),
+  ).map((link) => ({
+    key: link.to,
+    icon: link.icon,
+    label: (
+      <Link to={link.to} onClick={closeDrawer}>
+        {t(link.label)}
+      </Link>
+    ),
+  }));
 
   return (
     <>
@@ -96,8 +129,7 @@ export const AppHeader = () => {
               <Space size={8} className={styles.controls}>
                 <ThemeSwitch />
                 <LanguageDropdown />
-                <UserButton />
-                <LogoutButton onLogout={() => setDrawerOpen(false)} />
+                <AccountControls authStatus={authStatus} onNavigate={closeDrawer} />
               </Space>
             </>
           )}
@@ -123,12 +155,11 @@ export const AppHeader = () => {
           />
 
           <div className={styles.drawerControls}>
-            <UserButton />
             <Space size={6}>
               <ThemeSwitch />
               <LanguageDropdown />
-              <LogoutButton onLogout={() => setDrawerOpen(false)} />
             </Space>
+            <AccountControls authStatus={authStatus} onNavigate={closeDrawer} />
           </div>
         </div>
       )}

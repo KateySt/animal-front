@@ -9,18 +9,18 @@ import {
 import { useTranslation } from "react-i18next";
 import styles from "./AppFooter.module.scss";
 import { FOOTER_SECTIONS, GITHUB_LINK, LINKEDIN_LINK } from "../../constants/footer.ts";
-import { useAuthStore } from "../../store/auth.store.ts";
+import { isVisibleFor, useAuthStatus } from "../../features/auth/hooks/use-auth-status.ts";
 
 const { Footer } = Layout;
 const { Text, Title } = Typography;
 
 export const AppFooter = () => {
   const { t } = useTranslation("common");
-  const isSuperuser = useAuthStore((state) => state.user?.is_superuser ?? false);
+  const authStatus = useAuthStatus();
 
   const sections = FOOTER_SECTIONS.map((section) => ({
     ...section,
-    links: section.links.filter((link) => !link.adminOnly || isSuperuser),
+    links: section.links.filter((link) => isVisibleFor(link.audiences, authStatus)),
   })).filter((section) => section.links.length > 0);
 
   return (

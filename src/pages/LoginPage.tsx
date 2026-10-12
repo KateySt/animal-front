@@ -1,14 +1,22 @@
 import { Button, Card, Divider, Form, Input, message, Typography } from "antd";
 import { GoogleOutlined } from "@ant-design/icons";
-import { Link } from "react-router";
+import { Link, type MetaFunction } from "react-router";
 import { useTranslation } from "react-i18next";
 import type { LoginDto } from "../features/auth/types/auth";
 import { Routes } from "../routes";
+import { APP_NAME, buildPageMeta } from "../seo/site.ts";
 import { useGoogleLogin, useLogin } from "../features/auth/hooks/use-auth.ts";
 import { loginSchema } from "../features/auth/schemas/register.schema.ts";
 import styles from "./LoginPage.module.scss";
 
 const { Title, Text } = Typography;
+
+export const meta: MetaFunction = () =>
+  buildPageMeta({
+    title: `Sign in | ${APP_NAME}`,
+    description: `Sign in to ${APP_NAME} with email or Google to manage your animals, health logs, invoices and AI assistant chats.`,
+    path: Routes.Login,
+  });
 
 const LoginPage = () => {
   const { t } = useTranslation("common");

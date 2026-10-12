@@ -13,9 +13,6 @@ const loadLocale = (language: string, namespace: string) =>
 
 if (!import.meta.env.SSR) {
   i18n.use(LanguageDetector);
-  i18n.on("languageChanged", (language) => {
-    document.documentElement.lang = language;
-  });
 }
 
 export const i18nReady = i18n

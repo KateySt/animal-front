@@ -1,0 +1,84 @@
+{
+  "hero": {
+    "title": "{{appName}}: animal health records, payments and an AI assistant in one place",
+    "subtitle": "A platform for animal shelters, veterinarians and pet owners. Keep pet profiles and health logs, pay invoices online and ask the AI assistant by text or voice.",
+    "register": "Create an account",
+    "login": "Sign in"
+  },
+  "features": {
+    "title": "What you can do",
+    "items": {
+      "pets": {
+        "title": "Pet profiles",
+        "text": "Name, gender, birth date and owner for every animal in one list."
+      },
+      "health": {
+        "title": "Health logs",
+        "text": "A history of check-ups and medical procedures for each animal."
+      },
+      "payments": {
+        "title": "Invoices and online payment",
+        "text": "Invoices for veterinary services, paid by bank card through Stripe."
+      },
+      "assistant": {
+        "title": "AI assistant",
+        "text": "Ask about your animals, health logs and invoices by text or voice."
+      },
+      "documents": {
+        "title": "Questions about documents",
+        "text": "Attach PDF documents to a chat and get answers based on their content."
+      }
+    }
+  },
+  "steps": {
+    "title": "How it works",
+    "items": {
+      "account": {
+        "title": "Create an account",
+        "text": "Sign up with email or with your Google account."
+      },
+      "pets": {
+        "title": "Add your animals",
+        "text": "Create profiles and keep a health log for each animal."
+      },
+      "assistant": {
+        "title": "Ask the assistant",
+        "text": "Open a chat, attach documents if needed and ask by text or voice."
+      }
+    }
+  },
+  "faq": {
+    "title": "Frequently asked questions",
+    "items": {
+      "who": {
+        "question": "Who is the platform for?",
+        "answer": "For animal shelters, veterinary clinics and pet owners who want to keep animal records, health history and payments in one place."
+      },
+      "assistant": {
+        "question": "What can the AI assistant do?",
+        "answer": "It answers by text or voice using your data in the app: animals, health logs and invoices. For general veterinary questions it can search the web."
+      },
+      "documents": {
+        "question": "Which documents can I attach?",
+        "answer": "PDF files up to {{maxSizeMb}} MB, up to {{maxDocuments}} documents per chat. Once a document is processed, you can ask the assistant about its content."
+      },
+      "payments": {
+        "question": "How are invoices paid?",
+        "answer": "Online by bank card through Stripe. The invoice status updates automatically after the payment is confirmed."
+      },
+      "languages": {
+        "question": "Which languages are supported?",
+        "answer": "English, Russian and Ukrainian. You can switch the language at any time in the header."
+      },
+      "signup": {
+        "question": "How do I sign up?",
+        "answer": "With an email and password or with your Google account."
+      }
+    }
+  },
+  "cta": {
+    "title": "Ready to start?",
+    "text": "Create an account and add your first animal in a couple of minutes.",
+    "register": "Create an account"
+  }
+}

@@ -141,7 +141,16 @@
 }
 
 .stat {
+  display: block;
+  max-width: 640px;
   color: var(--text-secondary);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
 }
 
 @media (prefers-reduced-motion: no-preference) {

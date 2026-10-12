@@ -1,0 +1,22 @@
+.cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 36px 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  background: var(--bg-header);
+  text-align: center;
+}
+
+.title {
+  margin: 0 !important;
+  color: var(--text-primary);
+}
+
+.text {
+  max-width: 560px;
+  margin: 0 !important;
+  color: var(--text-secondary);
+}

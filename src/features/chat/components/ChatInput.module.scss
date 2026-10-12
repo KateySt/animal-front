@@ -18,7 +18,6 @@
     border-color: var(--color-primary);
   }
 
-  // Kill antd's own textarea chrome so only the outer .composer border shows
   :global(.ant-input),
   :global(textarea.ant-input) {
     border: none !important;

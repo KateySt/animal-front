@@ -15,16 +15,27 @@ export const Routes = {
   ChatSession: "/chat/:sessionId",
 } as const;
 
+export const SeoRoutes = {
+  Robots: "/robots.txt",
+  Sitemap: "/sitemap.xml",
+  LlmsTxt: "/llms.txt",
+} as const;
+
 const rel = (path: string) => path.slice(1);
 
 export default [
+  route(rel(SeoRoutes.Robots), "./seo/robots.ts"),
+  route(rel(SeoRoutes.Sitemap), "./seo/sitemap.ts"),
+  route(rel(SeoRoutes.LlmsTxt), "./seo/llms.ts"),
+
   route(rel(Routes.Login), "./pages/LoginPage.tsx"),
   route(rel(Routes.Register), "./pages/RegisterPage.tsx"),
   route(rel(Routes.GoogleCallback), "./pages/GoogleCallbackPage.tsx"),
 
-  layout("./wrappers/AuthWrapper.tsx", [
-    layout("./components/layout/MainLayout.tsx", [
-      index("./pages/HomePage.tsx"),
+  layout("./components/layout/MainLayout.tsx", [
+    index("./pages/HomePage.tsx"),
+
+    layout("./wrappers/AuthWrapper.tsx", [
       route(rel(Routes.Animals), "./pages/AnimalsPage.tsx"),
       route(rel(Routes.AnimalDetail), "./pages/AnimalDetailPage.tsx"),
       route(rel(Routes.Profile), "./pages/ProfilePage.tsx"),

@@ -1,41 +1,27 @@
+import { useEffect } from "react";
 import { Outlet, Scripts, ScrollRestoration, Meta, Links } from "react-router";
 import { QueryClientProvider } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Spin } from "antd";
 import { queryClient } from "./lib/query-client";
-import { axiosInstance, refreshInstance } from "./lib/axios.ts";
-import { useAuthStore } from "./store/auth.store.ts";
+import { initAuthSession } from "./lib/auth-session.ts";
+import { removeAntdSsrStyle } from "./lib/antd-ssr.ts";
+import { useThemeStore } from "./store/theme.store.ts";
 import { ThemeWrapper } from "./wrappers/ThemeWrapper.tsx";
+import { Locale } from "./lib/locales.ts";
 import "./lib/i18n";
 import "./lib/clear-user-data";
+import "./lib/session-hint";
 import "./styles/global.scss";
-
-export const clientLoader = async () => {
-  const { setAccessToken, setUser, setInitialized, logout } = useAuthStore.getState();
-
-  try {
-    const refreshResponse = await refreshInstance.post("/v1/auth/refresh");
-    setAccessToken(refreshResponse.data.access_token);
-
-    const meResponse = await axiosInstance.get("/v1/users/me");
-    setUser(meResponse.data);
-  } catch {
-    logout();
-  } finally {
-    setInitialized(true);
-  }
-
-  return null;
-};
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <html lang="en">
+    <html lang={Locale.EN} data-theme="dark">
       <head>
         <meta charSet="UTF-8" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>animal-front</title>
         <Meta />
         <Links />
       </head>
@@ -62,6 +48,18 @@ export const HydrateFallback = () => {
 };
 
 const App = () => {
+  const { i18n } = useTranslation();
+
+  useEffect(() => {
+    removeAntdSsrStyle();
+    void useThemeStore.persist.rehydrate();
+    void initAuthSession();
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.lang = i18n.resolvedLanguage ?? Locale.EN;
+  }, [i18n.resolvedLanguage]);
+
   return <Outlet />;
 };
 

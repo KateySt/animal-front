@@ -12,7 +12,9 @@
     "profile": "Profile",
     "settings": "Settings",
     "logout": "Logout",
-    "chat": "Chat"
+    "chat": "Chat",
+    "login": "Sign in",
+    "register": "Register"
   },
   "footer": {
     "description": "Caring for animals, connecting communities. Your trusted platform for pet health and wellness.",
@@ -30,7 +32,9 @@
       "invoices": "Invoices",
       "helpCenter": "Help Center",
       "privacyPolicy": "Privacy Policy",
-      "termsOfService": "Terms of Service"
+      "termsOfService": "Terms of Service",
+      "login": "Sign in",
+      "register": "Register"
     },
     "copyright": "All rights reserved.",
     "madeWith": "Made with",

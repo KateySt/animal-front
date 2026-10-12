@@ -12,6 +12,12 @@ const resolveSiteUrl = (mode: string) => {
 
 export default defineConfig(({ mode }) => ({
   plugins: [reactRouter()],
+  resolve: {
+    alias: [{ find: /^@ant-design\/icons-svg\/lib\//, replacement: "@ant-design/icons-svg/es/" }],
+  },
+  ssr: {
+    noExternal: ["@ant-design/icons", "@ant-design/icons-svg"],
+  },
   define: {
     "import.meta.env.VITE_SITE_URL": JSON.stringify(resolveSiteUrl(mode)),
   },

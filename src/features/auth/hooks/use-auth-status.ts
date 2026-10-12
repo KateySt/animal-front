@@ -13,6 +13,9 @@ export type AuthStatusType = (typeof AuthStatus)[keyof typeof AuthStatus];
 
 export const MEMBER_STATUSES: AuthStatusType[] = [AuthStatus.User, AuthStatus.Admin];
 
+export const isVisibleFor = (audiences: AuthStatusType[] | undefined, status: AuthStatusType) =>
+  !audiences || audiences.includes(status);
+
 const subscribeToNothing = () => () => {};
 
 export const useAuthStatus = (): AuthStatusType => {
