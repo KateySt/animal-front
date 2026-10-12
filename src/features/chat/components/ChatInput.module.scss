@@ -57,3 +57,13 @@
   display: flex;
   gap: 8px;
 }
+
+@media (max-width: 767px) {
+  .inputBar {
+    padding: 8px;
+  }
+
+  .buttons {
+    gap: 4px;
+  }
+}

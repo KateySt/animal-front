@@ -33,7 +33,7 @@ export const ProfileCard = () => {
   return (
     <Card>
       <Flex align="center" gap={16} style={{ marginBottom: 24 }}>
-        <div style={{ position: "relative", width: 64, height: 64 }}>
+        <div style={{ position: "relative", width: 64, height: 64, flexShrink: 0 }}>
           <Avatar size={64} src={user.avatar_url ?? undefined} icon={<UserOutlined />} />
           <Button
             type="primary"
@@ -45,8 +45,8 @@ export const ProfileCard = () => {
             style={{ position: "absolute", bottom: -4, right: -4 }}
           />
         </div>
-        <div>
-          <Title level={4} style={{ margin: 0 }}>
+        <div style={{ minWidth: 0 }}>
+          <Title level={4} style={{ margin: 0, overflowWrap: "anywhere" }}>
             {user.email}
           </Title>
           <Text type="secondary">{user.is_superuser ? t("profile.admin") : t("profile.user")}</Text>

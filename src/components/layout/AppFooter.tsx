@@ -68,7 +68,7 @@ export const AppFooter = () => {
 
         <Divider className={styles.divider} />
 
-        <Row justify="space-between" align="middle">
+        <Row justify="space-between" align="middle" gutter={[16, 8]}>
           <Col>
             <Text className={styles.copyright}>
               © {new Date().getFullYear()} {import.meta.env.VITE_APP_NAME}. {t("footer.copyright")}

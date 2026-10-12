@@ -6,7 +6,8 @@
     "delete": "Delete"
   },
   "window": {
-    "emptyHint": "Send a message to start the session"
+    "emptyHint": "Send a message to start the session",
+    "back": "Back to sessions"
   },
   "input": {
     "placeholder": "Type a message… (Enter to send, Shift+Enter for new line)",

@@ -17,6 +17,7 @@ export const ChatImage = ({ url, filename, isPending = false }: ChatImageProps) 
     width={IMAGE_SIZE}
     height={IMAGE_SIZE}
     preview={!isPending}
+    rootClassName={styles.imageRoot}
     className={clsx(styles.image, isPending && styles.imagePending)}
   />
 );

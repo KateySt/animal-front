@@ -19,6 +19,7 @@ body,
   --color-accent-rgb: 235, 47, 150;
   --border-radius: 6px;
   --max-content-width: 1200px;
+  --header-height: 56px;
   --font-size-sm: 12px;
   --font-size-base: 14px;
   --font-size-lg: 16px;
@@ -66,4 +67,12 @@ html[data-theme="light"] #app {
   --msg-ai-bg: rgba(0, 0, 0, 0.04);
   --msg-ai-avatar-bg: rgba(0, 0, 0, 0.08);
   --session-active-bg: #531dab14;
+}
+
+// iOS Safari zooms the page when a focused field has font-size < 16px
+@media (max-width: 767px) {
+  input,
+  textarea {
+    font-size: 16px !important;
+  }
 }

@@ -53,7 +53,7 @@ export const HealthLogsWidget = ({ animalId }: HealthLogsWidgetProps) => {
 
   return (
     <div className={styles.widget}>
-      <Flex justify="space-between" align="center" className={styles.header}>
+      <Flex justify="space-between" align="center" wrap gap={12} className={styles.header}>
         <Title level={3} className={styles.title}>
           {t("healthLogs.title")}
         </Title>

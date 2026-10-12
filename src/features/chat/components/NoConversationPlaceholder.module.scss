@@ -15,3 +15,9 @@
 .hint {
   color: var(--text-secondary);
 }
+
+@media (max-width: 767px) {
+  .wrapper {
+    display: none;
+  }
+}

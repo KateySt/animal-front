@@ -91,10 +91,27 @@
 }
 
 .image {
+  height: auto !important;
+  aspect-ratio: 1;
   object-fit: cover;
   transition: filter 0.4s ease;
 }
 
 .imagePending {
   filter: blur(8px);
+}
+
+.imageRoot {
+  max-width: 100%;
+  height: auto !important;
+}
+
+@media (max-width: 767px) {
+  .message {
+    gap: 8px;
+  }
+
+  .bubble {
+    max-width: 85%;
+  }
 }

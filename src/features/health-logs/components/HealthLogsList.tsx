@@ -42,6 +42,7 @@ export const HealthLogsList = ({
   return (
     <Table<HealthLog>
       rowKey="id"
+      scroll={{ x: "max-content" }}
       dataSource={healthLogs}
       loading={isLoading}
       pagination={pagination}

@@ -34,7 +34,7 @@ export const PermissionsPanel = () => {
 
   return (
     <div>
-      <Flex justify="space-between" align="center" style={{ marginBottom: 16 }}>
+      <Flex justify="space-between" align="center" wrap gap={12} style={{ marginBottom: 16 }}>
         <Title level={4} style={{ margin: 0 }}>
           {t("permissions.title")}
         </Title>
@@ -45,6 +45,7 @@ export const PermissionsPanel = () => {
 
       <Table<Permission>
         rowKey="id"
+        scroll={{ x: "max-content" }}
         dataSource={data}
         loading={isLoading}
         pagination={false}

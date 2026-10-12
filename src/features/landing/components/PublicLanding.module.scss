@@ -4,3 +4,9 @@
   gap: 48px;
   padding-bottom: 24px;
 }
+
+@media (max-width: 767px) {
+  .page {
+    gap: 32px;
+  }
+}

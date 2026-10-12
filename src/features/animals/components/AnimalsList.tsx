@@ -50,6 +50,7 @@ export const AnimalsList = ({
   return (
     <Table<Animal>
       rowKey="id"
+      scroll={{ x: "max-content" }}
       dataSource={animals}
       loading={isLoading}
       pagination={pagination}

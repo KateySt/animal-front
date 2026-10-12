@@ -20,3 +20,13 @@
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
 }
+
+.backBtn {
+  margin-right: auto;
+}
+
+@media (max-width: 767px) {
+  .header {
+    padding: 4px 8px;
+  }
+}

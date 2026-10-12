@@ -3,11 +3,21 @@
 }
 
 .content {
+  --content-pad-y: 32px;
+  --content-pad-x: 24px;
+
   flex: 1;
-  padding: 32px 24px;
+  padding: var(--content-pad-y) var(--content-pad-x);
 }
 
 .contentInner {
   max-width: var(--max-content-width);
   margin: 0 auto;
+}
+
+@media (max-width: 767px) {
+  .content {
+    --content-pad-y: 16px;
+    --content-pad-x: 12px;
+  }
 }

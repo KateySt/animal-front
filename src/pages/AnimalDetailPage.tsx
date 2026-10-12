@@ -10,6 +10,7 @@ import { AnimalGenderTag } from "../features/animals/components/AnimalGenderTag.
 import { getAnimalName } from "../features/animals/utils/translations.ts";
 import { HealthLogsWidget } from "../features/health-logs/components/HealthLogsWidget.tsx";
 import { Routes } from "../routes";
+import styles from "./AnimalDetailPage.module.scss";
 
 const { Title } = Typography;
 
@@ -30,15 +31,15 @@ const AnimalDetailPage = () => {
   }
 
   return (
-    <div style={{ padding: 24 }}>
-      <Flex align="center" gap={12} style={{ marginBottom: 16 }}>
+    <div className={styles.page}>
+      <Flex align="center" gap={12} className={styles.header}>
         <Button
           type="text"
           icon={<ArrowLeftOutlined />}
           onClick={() => navigate(Routes.Animals)}
           aria-label={t("back")}
         />
-        <Title level={3} style={{ margin: 0 }}>
+        <Title level={3} className={styles.title}>
           {getAnimalName(animal.translations, i18n.language)}
         </Title>
       </Flex>

@@ -1,5 +1,4 @@
 import { useState, type ReactNode } from "react";
-import { useIsMobile } from "../../hooks/use-media-query.ts";
 import { Link, useLocation } from "react-router";
 import { Button, Layout, Menu, type MenuProps, Space } from "antd";
 import {
@@ -83,7 +82,6 @@ export const AppHeader = () => {
   const { t } = useTranslation("common");
   const location = useLocation();
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const isMobile = useIsMobile();
   const authStatus = useAuthStatus();
   const closeDrawer = () => setDrawerOpen(false);
 
@@ -117,35 +115,29 @@ export const AppHeader = () => {
             <span className={styles.logoText}>{import.meta.env.VITE_APP_NAME}</span>
           </Link>
 
-          {!isMobile && (
-            <>
-              <Menu
-                mode="horizontal"
-                selectedKeys={[selectedKey]}
-                items={navItems}
-                className={styles.nav}
-              />
+          <Menu
+            mode="horizontal"
+            selectedKeys={[selectedKey]}
+            items={navItems}
+            className={styles.nav}
+          />
 
-              <Space size={8} className={styles.controls}>
-                <ThemeSwitch />
-                <LanguageDropdown />
-                <AccountControls authStatus={authStatus} onNavigate={closeDrawer} />
-              </Space>
-            </>
-          )}
+          <Space size={8} className={styles.controls}>
+            <ThemeSwitch />
+            <LanguageDropdown />
+            <AccountControls authStatus={authStatus} onNavigate={closeDrawer} />
+          </Space>
 
-          {isMobile && (
-            <Button
-              type="text"
-              icon={drawerOpen ? <CloseOutlined /> : <MenuOutlined />}
-              className={styles.mobileBtn}
-              onClick={() => setDrawerOpen((v) => !v)}
-            />
-          )}
+          <Button
+            type="text"
+            icon={drawerOpen ? <CloseOutlined /> : <MenuOutlined />}
+            className={styles.mobileBtn}
+            onClick={() => setDrawerOpen((v) => !v)}
+          />
         </div>
       </Header>
 
-      {isMobile && drawerOpen && (
+      {drawerOpen && (
         <div className={styles.drawer}>
           <Menu
             mode="inline"

@@ -9,6 +9,7 @@ import { useAllInvoices, useDeleteInvoice, useMyInvoices } from "../hooks/use-in
 import { InvoicesTable } from "./InvoicesTable.tsx";
 import { InvoiceFormModal } from "./InvoiceFormModal.tsx";
 import type { Invoice } from "../types/stripe.ts";
+import styles from "./InvoicesWidget.module.scss";
 
 const { Title } = Typography;
 
@@ -77,9 +78,9 @@ export const InvoicesWidget = () => {
   ];
 
   return (
-    <div style={{ padding: 24 }}>
-      <Flex justify="space-between" align="center" style={{ marginBottom: 16 }}>
-        <Title level={3} style={{ margin: 0 }}>
+    <div className={styles.widget}>
+      <Flex justify="space-between" align="center" wrap gap={12} className={styles.header}>
+        <Title level={3} className={styles.title}>
           {t("invoices.title")}
         </Title>
         {canManage && (

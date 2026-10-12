@@ -35,3 +35,15 @@
   color: var(--lk-fg2);
   font-size: var(--font-size-lg);
 }
+
+@media (max-width: 767px) {
+  .voiceMode {
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .visualizer {
+    width: 180px;
+    height: 180px;
+  }
+}

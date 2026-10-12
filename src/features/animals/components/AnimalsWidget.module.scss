@@ -9,3 +9,9 @@
 .title {
   margin: 0;
 }
+
+@media (max-width: 767px) {
+  .widget {
+    padding: 0;
+  }
+}

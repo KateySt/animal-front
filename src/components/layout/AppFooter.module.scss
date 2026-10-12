@@ -76,3 +76,17 @@
 .heartIcon {
   color: var(--color-primary);
 }
+
+@media (max-width: 767px) {
+  .footer {
+    padding: 32px 16px 20px;
+  }
+
+  .brandDesc {
+    max-width: none;
+  }
+
+  .divider {
+    margin: 24px 0 16px;
+  }
+}

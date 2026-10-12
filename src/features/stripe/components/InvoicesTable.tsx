@@ -29,6 +29,7 @@ export const InvoicesTable = ({
   return (
     <Table<Invoice>
       rowKey="id"
+      scroll={{ x: "max-content" }}
       dataSource={invoices}
       loading={isLoading}
       pagination={false}

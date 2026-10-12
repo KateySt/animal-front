@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import { Button, message } from "antd";
-import { PhoneOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined, PhoneOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
+import { useIsMobile } from "../../../hooks/use-media-query.ts";
+import { Routes } from "../../../routes";
 import { useChatRoom } from "../hooks/use-chat-room";
 import type { IdleConnection } from "../hooks/use-idle-connection";
 import { useGenerateImage } from "../hooks/use-image-generation";
@@ -28,6 +31,8 @@ type ChatWindowBodyProps = {
 export const ChatWindowBody = ({ sessionId, idle }: ChatWindowBodyProps) => {
   const { setPaused, wake } = idle;
   const { t } = useTranslation("chat");
+  const navigate = useNavigate();
+  const isMobile = useIsMobile();
   const [isVoiceMode, setIsVoiceMode] = useState(false);
   const { mutateAsync: generateImage, isPending: isGeneratingImage } = useGenerateImage(sessionId);
   const { state, audioTrack } = useVoiceAssistant();
@@ -97,6 +102,15 @@ export const ChatWindowBody = ({ sessionId, idle }: ChatWindowBodyProps) => {
     <div className={styles.window}>
       <RoomAudioRenderer muted={isMuted} />
       <div className={styles.header}>
+        {isMobile && (
+          <Button
+            type="text"
+            icon={<ArrowLeftOutlined />}
+            onClick={() => navigate(Routes.Chat)}
+            aria-label={t("window.back")}
+            className={styles.backBtn}
+          />
+        )}
         <Button
           type="text"
           icon={<PhoneOutlined />}

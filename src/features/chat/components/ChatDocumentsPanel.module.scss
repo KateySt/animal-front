@@ -1,8 +1,8 @@
 .list {
   display: flex;
   flex-direction: column;
-  min-width: 260px;
-  max-width: 320px;
+  min-width: min(260px, calc(100vw - 64px));
+  max-width: min(320px, calc(100vw - 64px));
   max-height: 320px;
   overflow-y: auto;
 }
