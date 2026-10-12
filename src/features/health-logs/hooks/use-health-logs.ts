@@ -22,7 +22,7 @@ export const healthLogKeys = {
   detail: (animalId: string, id: string) => [...healthLogKeys.details(animalId), id] as const,
 };
 
-export function useHealthLogs(animalId: string, params: HealthLogsQueryParams) {
+export const useHealthLogs = (animalId: string, params: HealthLogsQueryParams) => {
   return useQuery(
     queryOptions({
       queryKey: healthLogKeys.list(animalId, params),
@@ -31,9 +31,9 @@ export function useHealthLogs(animalId: string, params: HealthLogsQueryParams) {
       placeholderData: keepPreviousData,
     }),
   );
-}
+};
 
-export function useHealthLog(animalId: string, healthLogId: string) {
+export const useHealthLog = (animalId: string, healthLogId: string) => {
   return useQuery(
     queryOptions({
       queryKey: healthLogKeys.detail(animalId, healthLogId),
@@ -41,9 +41,9 @@ export function useHealthLog(animalId: string, healthLogId: string) {
       enabled: !!animalId && !!healthLogId,
     }),
   );
-}
+};
 
-export function useCreateHealthLog(animalId: string) {
+export const useCreateHealthLog = (animalId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -53,9 +53,9 @@ export function useCreateHealthLog(animalId: string) {
       void queryClient.invalidateQueries({ queryKey: animalKeys.detail(animalId) });
     },
   });
-}
+};
 
-export function useUpdateHealthLog(animalId: string) {
+export const useUpdateHealthLog = (animalId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -67,9 +67,9 @@ export function useUpdateHealthLog(animalId: string) {
       void queryClient.invalidateQueries({ queryKey: animalKeys.detail(animalId) });
     },
   });
-}
+};
 
-export function useDeleteHealthLog(animalId: string) {
+export const useDeleteHealthLog = (animalId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -79,4 +79,4 @@ export function useDeleteHealthLog(animalId: string) {
       void queryClient.invalidateQueries({ queryKey: animalKeys.detail(animalId) });
     },
   });
-}
+};

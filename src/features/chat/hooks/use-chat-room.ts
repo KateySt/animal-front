@@ -17,14 +17,13 @@ import type { IdleConnection } from "./use-idle-connection";
 const ATTR_FINAL = "lk.transcription_final";
 const ATTR_SEGMENT_ID = "lk.segment_id";
 const AGENT_JOIN_TIMEOUT_MS = 15_000;
-// The agent only reads chat input once its session has started, i.e. after "initializing".
 const READY_AGENT_STATES = new Set(["listening", "thinking", "speaking"]);
 
 const EMPTY_MESSAGES: ChatUIMessage[] = [];
 
 type PendingMessage = { id: string; text: string; timer: ReturnType<typeof setTimeout> };
 
-export function useChatRoom(sessionId: string, { markActive, wake }: IdleConnection) {
+export const useChatRoom = (sessionId: string, { markActive, wake }: IdleConnection) => {
   const { t } = useTranslation("chat");
   const { data: session } = useSession(sessionId);
   const room = useRoomContext();
@@ -186,4 +185,4 @@ export function useChatRoom(sessionId: string, { markActive, wake }: IdleConnect
   };
 
   return { messages, setMessages, sendMessage, status, room };
-}
+};

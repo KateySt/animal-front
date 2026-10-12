@@ -7,11 +7,11 @@ export const sessionsQueryOptions = queryOptions({
   queryFn: () => chatApi.getSessions(),
 });
 
-export function useSessions() {
+export const useSessions = () => {
   return useQuery(sessionsQueryOptions);
-}
+};
 
-export function useSession(sessionId: string) {
+export const useSession = (sessionId: string) => {
   return useQuery(
     queryOptions({
       queryKey: ["session", sessionId],
@@ -20,9 +20,9 @@ export function useSession(sessionId: string) {
       refetchOnWindowFocus: false,
     }),
   );
-}
+};
 
-export function useLiveKitToken(sessionId: string) {
+export const useLiveKitToken = (sessionId: string) => {
   return useQuery(
     queryOptions({
       queryKey: ["livekit-token", sessionId],
@@ -34,9 +34,9 @@ export function useLiveKitToken(sessionId: string) {
       refetchOnReconnect: false,
     }),
   );
-}
+};
 
-export function useCreateSession() {
+export const useCreateSession = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -47,9 +47,9 @@ export function useCreateSession() {
       }));
     },
   });
-}
+};
 
-export function useDeleteSession() {
+export const useDeleteSession = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -60,4 +60,4 @@ export function useDeleteSession() {
       }));
     },
   });
-}
+};

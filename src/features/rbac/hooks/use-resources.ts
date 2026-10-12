@@ -9,7 +9,7 @@ export const resourceKeys = {
   list: () => [...resourceKeys.all, "list"] as const,
 };
 
-export function useResources() {
+export const useResources = () => {
   return useQuery(
     queryOptions({
       queryKey: resourceKeys.list(),
@@ -17,9 +17,9 @@ export function useResources() {
       select: (response) => response.data,
     }),
   );
-}
+};
 
-export function useCreateResource() {
+export const useCreateResource = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -27,9 +27,9 @@ export function useCreateResource() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: resourceKeys.list() }),
     onError: (error) => message.error(getRbacErrorMessage(error)),
   });
-}
+};
 
-export function useUpdateResource() {
+export const useUpdateResource = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -38,9 +38,9 @@ export function useUpdateResource() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: resourceKeys.list() }),
     onError: (error) => message.error(getRbacErrorMessage(error)),
   });
-}
+};
 
-export function useDeleteResource() {
+export const useDeleteResource = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -48,4 +48,4 @@ export function useDeleteResource() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: resourceKeys.list() }),
     onError: (error) => message.error(getRbacErrorMessage(error)),
   });
-}
+};

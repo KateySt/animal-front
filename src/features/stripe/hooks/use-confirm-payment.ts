@@ -15,7 +15,7 @@ type PaymentState =
 type PaymentAction =
   { type: "START" } | { type: "SUCCEED" } | { type: "FAIL"; message: string } | { type: "RESET" };
 
-function paymentReducer(state: PaymentState, action: PaymentAction): PaymentState {
+const paymentReducer = (state: PaymentState, action: PaymentAction): PaymentState => {
   switch (action.type) {
     case "START":
       return { status: PaymentStatus.Processing };
@@ -28,13 +28,13 @@ function paymentReducer(state: PaymentState, action: PaymentAction): PaymentStat
     default:
       return state;
   }
-}
+};
 
 type UseConfirmPaymentOptions = {
   invoiceId: string;
 };
 
-export function useConfirmPayment({ invoiceId }: UseConfirmPaymentOptions) {
+export const useConfirmPayment = ({ invoiceId }: UseConfirmPaymentOptions) => {
   const queryClient = useQueryClient();
 
   const [state, dispatch] = useReducer(paymentReducer, { status: PaymentStatus.Idle });
@@ -88,4 +88,4 @@ export function useConfirmPayment({ invoiceId }: UseConfirmPaymentOptions) {
     isProcessing: state.status === PaymentStatus.Processing,
     isDone: state.status === PaymentStatus.Succeeded,
   };
-}
+};

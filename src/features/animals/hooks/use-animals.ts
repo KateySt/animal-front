@@ -23,7 +23,7 @@ export const animalKeys = {
   detail: (id: string) => [...animalKeys.details(), id] as const,
 };
 
-export function useAnimals(params: AnimalsQueryParams) {
+export const useAnimals = (params: AnimalsQueryParams) => {
   return useQuery(
     queryOptions({
       queryKey: animalKeys.list(params),
@@ -31,9 +31,9 @@ export function useAnimals(params: AnimalsQueryParams) {
       placeholderData: keepPreviousData,
     }),
   );
-}
+};
 
-export function useInfiniteAnimals(itemsPerPage: number = ITEMS_PER_PAGE) {
+export const useInfiniteAnimals = (itemsPerPage: number = ITEMS_PER_PAGE) => {
   return useInfiniteQuery({
     queryKey: animalKeys.infinite(itemsPerPage),
     queryFn: ({ pageParam }) =>
@@ -41,9 +41,9 @@ export function useInfiniteAnimals(itemsPerPage: number = ITEMS_PER_PAGE) {
     initialPageParam: 1,
     getNextPageParam: (lastPage) => (lastPage.has_more ? lastPage.page + 1 : undefined),
   });
-}
+};
 
-export function useAnimal(animalId: string) {
+export const useAnimal = (animalId: string) => {
   return useQuery(
     queryOptions({
       queryKey: animalKeys.detail(animalId),
@@ -51,9 +51,9 @@ export function useAnimal(animalId: string) {
       enabled: !!animalId,
     }),
   );
-}
+};
 
-export function useCreateAnimal() {
+export const useCreateAnimal = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -62,9 +62,9 @@ export function useCreateAnimal() {
       void queryClient.invalidateQueries({ queryKey: animalKeys.lists() });
     },
   });
-}
+};
 
-export function useUpdateAnimal() {
+export const useUpdateAnimal = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -75,9 +75,9 @@ export function useUpdateAnimal() {
       void queryClient.invalidateQueries({ queryKey: animalKeys.detail(animalId) });
     },
   });
-}
+};
 
-export function useDeleteAnimal() {
+export const useDeleteAnimal = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -86,4 +86,4 @@ export function useDeleteAnimal() {
       void queryClient.invalidateQueries({ queryKey: animalKeys.lists() });
     },
   });
-}
+};

@@ -28,15 +28,15 @@ const UNIFORM_DEVICEORIENTATION = "iDeviceOrientation";
 type Vector4<T = number> = [T, T, T, T];
 type UniformType = keyof Uniforms;
 
-function isMatrixType(t: string, v: number[] | number): v is number[] {
+const isMatrixType = (t: string, v: number[] | number): v is number[] => {
   return t.includes("Matrix") && Array.isArray(v);
-}
-function isVectorListType(t: string, v: number[] | number): v is number[] {
+};
+const isVectorListType = (t: string, v: number[] | number): v is number[] => {
   return t.includes("v") && Array.isArray(v) && v.length > Number.parseInt(t.charAt(0));
-}
-function isVectorType(t: string, v: number[] | number): v is Vector4 {
+};
+const isVectorType = (t: string, v: number[] | number): v is Vector4 => {
   return !t.includes("v") && Array.isArray(v) && v.length > Number.parseInt(t.charAt(0));
-}
+};
 const processUniform = <T extends UniformType>(
   gl: WebGLRenderingContext,
   location: WebGLUniformLocation,
@@ -277,7 +277,7 @@ class Texture {
       this.isVideo = true;
       return video.play().then(() => this);
     }
-    async function loadImage() {
+    const loadImage = async () => {
       return new Promise((resolve, reject) => {
         const image = new Image();
         image.crossOrigin = "anonymous";
@@ -289,7 +289,7 @@ class Texture {
         };
         image.src = url ?? "";
       });
-    }
+    };
     let image = (await loadImage()) as HTMLImageElement;
     let isPowerOf2 =
       (image.width & (image.width - 1)) === 0 && (image.height & (image.height - 1)) === 0;
@@ -409,7 +409,7 @@ export type ReactShaderToyProps = {
   animateWhenNotVisible?: boolean;
 };
 
-export function ReactShaderToy({
+export const ReactShaderToy = ({
   fs,
   vs = BASIC_VS,
   textures = [],
@@ -425,7 +425,7 @@ export function ReactShaderToy({
   onWarning = console.warn,
   animateWhenNotVisible = false,
   ...canvasProps
-}: ReactShaderToyProps & ComponentPropsWithoutRef<"canvas">) {
+}: ReactShaderToyProps & ComponentPropsWithoutRef<"canvas">) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const glRef = useRef<WebGLRenderingContext | null>(null);
   const squareVerticesBufferRef = useRef<WebGLBuffer | null>(null);
@@ -873,7 +873,7 @@ export function ReactShaderToy({
   useEffect(() => {
     const textures = texturesArrRef.current;
 
-    function init() {
+    const init = () => {
       initWebGL();
       const gl = glRef.current;
       if (gl && canvasRef.current) {
@@ -892,7 +892,7 @@ export function ReactShaderToy({
         addEventListeners();
         onResize();
       }
-    }
+    };
 
     initFrameIdRef.current = requestAnimationFrame(init);
 
@@ -919,4 +919,4 @@ export function ReactShaderToy({
   return (
     <canvas ref={canvasRef} style={{ height: "100%", width: "100%", ...style }} {...canvasProps} />
   );
-}
+};

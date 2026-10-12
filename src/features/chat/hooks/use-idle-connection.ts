@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 export const IDLE_DISCONNECT_MS = 60_000;
 
-export function useIdleConnection(fetchToken: () => Promise<void>) {
+export const useIdleConnection = (fetchToken: () => Promise<void>) => {
   const [shouldConnect, setShouldConnect] = useState(true);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pausedRef = useRef(false);
@@ -43,6 +43,6 @@ export function useIdleConnection(fetchToken: () => Promise<void>) {
   }, [shouldConnect, markActive, clearTimer]);
 
   return { shouldConnect, markActive, setPaused, wake };
-}
+};
 
 export type IdleConnection = ReturnType<typeof useIdleConnection>;

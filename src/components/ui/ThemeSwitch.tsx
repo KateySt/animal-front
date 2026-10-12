@@ -2,7 +2,7 @@ import { MoonOutlined, SunOutlined } from "@ant-design/icons";
 import { Switch } from "antd";
 import { useThemeStore } from "../../store/theme.store.ts";
 
-const ThemeSwitch = () => {
+export const ThemeSwitch = () => {
   const { isDark, toggleTheme } = useThemeStore();
   return (
     <Switch
@@ -13,5 +13,3 @@ const ThemeSwitch = () => {
     />
   );
 };
-
-export default ThemeSwitch;

@@ -10,7 +10,7 @@ const DEFAULT_COLOR = "#1FD5F9";
 
 const MAX_SHADER_PIXEL_RATIO = 2;
 
-function hexToRgb(hexColor: string): number[] {
+const hexToRgb = (hexColor: string): number[] => {
   const rgbColor = hexColor.match(/^#([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/);
   if (rgbColor) {
     const [, r, g, b] = rgbColor;
@@ -18,7 +18,7 @@ function hexToRgb(hexColor: string): number[] {
   }
   if (hexColor !== DEFAULT_COLOR) return hexToRgb(DEFAULT_COLOR);
   return [0, 0.7, 1];
-}
+};
 
 const shaderSource = `
 const float TAU = 6.283185;
@@ -178,7 +178,7 @@ type AuraShaderProps = {
   themeMode?: "dark" | "light";
 };
 
-function AuraShader({
+const AuraShader = ({
   shape = 1.0,
   speed = 1.0,
   amplitude = 0.5,
@@ -191,7 +191,7 @@ function AuraShader({
   themeMode = "dark",
   className,
   ...props
-}: AuraShaderProps & ComponentProps<"div">) {
+}: AuraShaderProps & ComponentProps<"div">) => {
   const rgbColor = useMemo(() => hexToRgb(color), [color]);
   const devicePixelRatio = Math.min(globalThis.devicePixelRatio ?? 1, MAX_SHADER_PIXEL_RATIO);
 
@@ -226,7 +226,7 @@ function AuraShader({
       />
     </div>
   );
-}
+};
 
 const SIZE_TO_CLASSNAME = {
   icon: styles.icon,
@@ -246,7 +246,7 @@ export type AgentAudioVisualizerAuraProps = {
   volume?: number;
 };
 
-export function AgentAudioVisualizerAura({
+export const AgentAudioVisualizerAura = ({
   size = "lg",
   state = "connecting",
   color = DEFAULT_COLOR,
@@ -256,7 +256,7 @@ export function AgentAudioVisualizerAura({
   themeMode,
   className,
   ...props
-}: AgentAudioVisualizerAuraProps & ComponentProps<"div">) {
+}: AgentAudioVisualizerAuraProps & ComponentProps<"div">) => {
   const { speed, scale, amplitude, frequency, brightness } = useAgentAudioVisualizerAura(
     state,
     audioTrack,
@@ -279,4 +279,4 @@ export function AgentAudioVisualizerAura({
       {...props}
     />
   );
-}
+};

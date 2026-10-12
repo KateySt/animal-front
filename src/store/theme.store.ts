@@ -13,7 +13,7 @@ export const useThemeStore = create<ThemeState>()(
         isDark: true,
         toggleTheme: () => set((s) => ({ isDark: !s.isDark }), false, "toggleTheme"),
       }),
-      { name: "theme" },
+      { name: "theme", skipHydration: true },
     ),
     { name: "ThemeStore" },
   ),

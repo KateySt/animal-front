@@ -4,7 +4,7 @@ import styles from "./NoConversationPlaceholder.module.scss";
 
 const { Title, Text } = Typography;
 
-const NoConversationPlaceholder = () => {
+export const NoConversationPlaceholder = () => {
   const { t } = useTranslation("chat");
 
   return (
@@ -16,5 +16,3 @@ const NoConversationPlaceholder = () => {
     </div>
   );
 };
-
-export default NoConversationPlaceholder;

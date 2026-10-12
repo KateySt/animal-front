@@ -61,6 +61,8 @@ export default [
       "no-console": ["warn", { allow: ["warn", "error"] }],
       "no-duplicate-imports": "error",
       "prefer-const": "error",
+      "func-style": ["error", "expression"],
+      "prefer-arrow-callback": "error",
       "no-undef": "off",
       eqeqeq: ["error", "always"],
     },

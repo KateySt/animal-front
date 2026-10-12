@@ -2,7 +2,7 @@ import { Button, Typography } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router";
-import SessionItem from "./SessionItem.tsx";
+import { SessionItem } from "./SessionItem.tsx";
 import { useCreateSession, useDeleteSession, useSessions } from "../hooks/use-sessions.ts";
 import { Routes } from "../../../routes";
 import styles from "./ChatSidebar.module.scss";

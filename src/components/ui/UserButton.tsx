@@ -8,7 +8,7 @@ import styles from "./UserButton.module.scss";
 
 const { Text } = Typography;
 
-const UserButton = () => {
+export const UserButton = () => {
   const { t } = useTranslation("common");
   const { user } = useAuthStore((state) => state);
 
@@ -43,5 +43,3 @@ const UserButton = () => {
     </Dropdown>
   );
 };
-
-export default UserButton;

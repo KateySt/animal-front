@@ -9,7 +9,11 @@ const STREAM_IDLE_TIMEOUT_MS = 20_000;
 
 const isBusy = (status: ChatStatus) => status === "submitted" || status === "streaming";
 
-export function useReplyWatchdog(sessionId: string, status: ChatStatus, messages: ChatUIMessage[]) {
+export const useReplyWatchdog = (
+  sessionId: string,
+  status: ChatStatus,
+  messages: ChatUIMessage[],
+) => {
   const { t } = useTranslation("chat");
   const setStatus = useChatStore((s) => s.setStatus);
 
@@ -37,4 +41,4 @@ export function useReplyWatchdog(sessionId: string, status: ChatStatus, messages
     );
     return () => clearTimeout(timer);
   }, [sessionId, status, messages, setStatus, t]);
-}
+};

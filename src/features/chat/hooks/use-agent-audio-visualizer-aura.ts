@@ -27,7 +27,7 @@ const DEFAULT_PULSE_TRANSITION: ValueAnimationTransition = {
   repeatType: "mirror",
 };
 
-function getSpeedForState(state: AgentState | undefined) {
+const getSpeedForState = (state: AgentState | undefined) => {
   switch (state) {
     case "listening":
     case "pre-connect-buffering":
@@ -41,9 +41,9 @@ function getSpeedForState(state: AgentState | undefined) {
     default:
       return DEFAULT_SPEED;
   }
-}
+};
 
-function useAnimatedValue<T>(initialValue: T) {
+const useAnimatedValue = <T>(initialValue: T) => {
   const [value, setValue] = useState(initialValue);
   const motionValue = useMotionValue(initialValue);
   const controlsRef = useRef<AnimationPlaybackControlsWithThen | null>(null);
@@ -57,13 +57,13 @@ function useAnimatedValue<T>(initialValue: T) {
   );
 
   return { value, motionValue, controls: controlsRef, animate: animateFn };
-}
+};
 
-export function useAgentAudioVisualizerAura(
+export const useAgentAudioVisualizerAura = (
   state: AgentState | undefined,
   audioTrack?: LocalAudioTrack | RemoteAudioTrack | TrackReferenceOrPlaceholder,
   volumeProp?: number,
-) {
+) => {
   const speed = getSpeedForState(state);
   const {
     value: scale,
@@ -135,4 +135,4 @@ export function useAgentAudioVisualizerAura(
     frequency,
     brightness,
   };
-}
+};

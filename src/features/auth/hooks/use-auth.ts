@@ -7,7 +7,7 @@ import { useAuthStore } from "../../../store/auth.store";
 import { Routes } from "../../../routes";
 import type { LoginDto, RegisterDto, User } from "../types/auth";
 
-export function useLogin() {
+export const useLogin = () => {
   const setAccessToken = useAuthStore((state) => state.setAccessToken);
   const navigate = useNavigate();
   const { mutateAsync: getMe } = useMe();
@@ -20,9 +20,9 @@ export function useLogin() {
       navigate(Routes.Home);
     },
   });
-}
+};
 
-export function useMe(onSuccess?: () => void | Promise<void>) {
+export const useMe = (onSuccess?: () => void | Promise<void>) => {
   const { setUser } = useAuthStore((state) => state);
   const navigate = useNavigate();
 
@@ -37,9 +37,9 @@ export function useMe(onSuccess?: () => void | Promise<void>) {
       navigate(Routes.Login, { replace: true });
     },
   });
-}
+};
 
-export function useRegister() {
+export const useRegister = () => {
   const loginMutation = useLogin();
 
   return useMutation({
@@ -51,9 +51,9 @@ export function useRegister() {
       });
     },
   });
-}
+};
 
-export function useLogout() {
+export const useLogout = () => {
   const logout = useAuthStore((state) => state.logout);
   const navigate = useNavigate();
 
@@ -64,13 +64,13 @@ export function useLogout() {
       navigate(Routes.Login, { replace: true });
     },
   });
-}
+};
 
-export function useGoogleLogin() {
+export const useGoogleLogin = () => {
   return () => authApi.googleLogin();
-}
+};
 
-export function useUploadAvatar() {
+export const useUploadAvatar = () => {
   const setUser = useAuthStore((state) => state.setUser);
 
   return useMutation({
@@ -80,9 +80,9 @@ export function useUploadAvatar() {
     },
     onError: (error) => message.error(getAuthErrorMessage(error)),
   });
-}
+};
 
-export function useRemoveAvatar() {
+export const useRemoveAvatar = () => {
   const user = useAuthStore((state) => state.user);
   const setUser = useAuthStore((state) => state.setUser);
 
@@ -93,4 +93,4 @@ export function useRemoveAvatar() {
     },
     onError: (error) => message.error(getAuthErrorMessage(error)),
   });
-}
+};

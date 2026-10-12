@@ -18,15 +18,15 @@ export const chatDocumentsQueryOptions = (sessionId: string) =>
     refetchInterval: (query) => (hasEmbedding(query.state.data) ? DOCUMENT_STATUS_POLL_MS : false),
   });
 
-export function useChatDocuments(sessionId: string) {
+export const useChatDocuments = (sessionId: string) => {
   const query = useQuery(chatDocumentsQueryOptions(sessionId));
   const documents = query.data?.documents ?? [];
   const isEmbedding = hasEmbedding(query.data);
 
   return { ...query, documents, isEmbedding };
-}
+};
 
-export function useUploadDocument(sessionId: string) {
+export const useUploadDocument = (sessionId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -44,9 +44,9 @@ export function useUploadDocument(sessionId: string) {
       }));
     },
   });
-}
+};
 
-export function useDeleteDocument(sessionId: string) {
+export const useDeleteDocument = (sessionId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -57,4 +57,4 @@ export function useDeleteDocument(sessionId: string) {
       }));
     },
   });
-}
+};

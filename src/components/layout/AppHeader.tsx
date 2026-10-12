@@ -13,10 +13,10 @@ import {
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { Routes } from "../../routes";
-import LanguageDropdown from "../ui/LanguageDropdown.tsx";
-import ThemeSwitch from "../ui/ThemeSwitch.tsx";
-import LogoutButton from "../ui/LogoutButton.tsx";
-import UserButton from "../ui/UserButton.tsx";
+import { LanguageDropdown } from "../ui/LanguageDropdown.tsx";
+import { ThemeSwitch } from "../ui/ThemeSwitch.tsx";
+import { LogoutButton } from "../ui/LogoutButton.tsx";
+import { UserButton } from "../ui/UserButton.tsx";
 import styles from "./AppHeader.module.scss";
 
 const { Header } = Layout;

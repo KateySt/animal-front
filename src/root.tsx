@@ -5,12 +5,12 @@ import { Spin } from "antd";
 import { queryClient } from "./lib/query-client";
 import { axiosInstance, refreshInstance } from "./lib/axios.ts";
 import { useAuthStore } from "./store/auth.store.ts";
-import ThemeWrapper from "./wrappers/ThemeWrapper.tsx";
+import { ThemeWrapper } from "./wrappers/ThemeWrapper.tsx";
 import "./lib/i18n";
 import "./lib/clear-user-data";
 import "./styles/global.scss";
 
-export async function clientLoader() {
+export const clientLoader = async () => {
   const { setAccessToken, setUser, setInitialized, logout } = useAuthStore.getState();
 
   try {
@@ -26,9 +26,9 @@ export async function clientLoader() {
   }
 
   return null;
-}
+};
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
       <head>
@@ -49,9 +49,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </body>
     </html>
   );
-}
+};
 
-export function HydrateFallback() {
+export const HydrateFallback = () => {
   return (
     <div
       style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}
@@ -59,8 +59,10 @@ export function HydrateFallback() {
       <Spin size="large" />
     </div>
   );
-}
+};
 
-export default function App() {
+const App = () => {
   return <Outlet />;
-}
+};
+
+export default App;

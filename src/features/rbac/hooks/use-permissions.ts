@@ -9,7 +9,7 @@ export const permissionKeys = {
   list: () => [...permissionKeys.all, "list"] as const,
 };
 
-export function usePermissions() {
+export const usePermissions = () => {
   return useQuery(
     queryOptions({
       queryKey: permissionKeys.list(),
@@ -17,9 +17,9 @@ export function usePermissions() {
       select: (response) => response,
     }),
   );
-}
+};
 
-export function useCreatePermission() {
+export const useCreatePermission = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -27,9 +27,9 @@ export function useCreatePermission() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: permissionKeys.list() }),
     onError: (error) => message.error(getRbacErrorMessage(error)),
   });
-}
+};
 
-export function useDeletePermission() {
+export const useDeletePermission = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -37,4 +37,4 @@ export function useDeletePermission() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: permissionKeys.list() }),
     onError: (error) => message.error(getRbacErrorMessage(error)),
   });
-}
+};

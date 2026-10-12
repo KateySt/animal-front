@@ -7,7 +7,7 @@ type ThemeWrapperProps = {
   children: ReactNode;
 };
 
-const ThemeWrapper = ({ children }: ThemeWrapperProps) => {
+export const ThemeWrapper = ({ children }: ThemeWrapperProps) => {
   const isDark = useThemeStore((state) => state.isDark);
   const colors = isDark ? styleConfig.dark : styleConfig.light;
 
@@ -53,5 +53,3 @@ const ThemeWrapper = ({ children }: ThemeWrapperProps) => {
     </ConfigProvider>
   );
 };
-
-export default ThemeWrapper;

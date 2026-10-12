@@ -9,7 +9,7 @@ import {
   useLocaleFlag,
 } from "../../features/stripe/hooks/use-locale-flag.ts";
 
-const LanguageDropdown = () => {
+export const LanguageDropdown = () => {
   const { isDark } = useThemeStore();
   const colors = isDark ? styleConfig.dark : styleConfig.light;
 
@@ -45,5 +45,3 @@ const LanguageDropdown = () => {
     </Dropdown>
   );
 };
-
-export default LanguageDropdown;

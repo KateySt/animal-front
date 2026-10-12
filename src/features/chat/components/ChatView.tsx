@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { ChatMessage } from "./ChatMessage";
 import { ChatInput } from "./ChatInput";
-import EmptyChartState from "./EmptyChartState.tsx";
+import { EmptyChartState } from "./EmptyChartState.tsx";
 import styles from "./ChatView.module.scss";
 import type { ChatUIMessage } from "../types/chat.types";
 

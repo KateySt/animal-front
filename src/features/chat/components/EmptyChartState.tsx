@@ -5,7 +5,7 @@ import styles from "./EmptyChartState.module.scss";
 
 const { Text } = Typography;
 
-const EmptyChartState = () => {
+export const EmptyChartState = () => {
   const { t } = useTranslation("chat");
 
   return (
@@ -15,5 +15,3 @@ const EmptyChartState = () => {
     </div>
   );
 };
-
-export default EmptyChartState;

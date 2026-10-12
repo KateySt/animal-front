@@ -4,7 +4,7 @@ import {
   MAX_DOCUMENT_SIZE_BYTES,
 } from "../../../constants";
 
-export function validateDocumentFile(file: File, currentDocumentCount: number): string | null {
+export const validateDocumentFile = (file: File, currentDocumentCount: number): string | null => {
   if (
     !file.name.toLowerCase().endsWith(".pdf") ||
     !ALLOWED_DOCUMENT_MIME_TYPES.includes(file.type)
@@ -18,4 +18,4 @@ export function validateDocumentFile(file: File, currentDocumentCount: number): 
     return "document_limit_reached";
   }
   return null;
-}
+};

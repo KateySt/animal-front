@@ -13,7 +13,7 @@ export const invoiceKeys = {
   detail: (id: string) => [...invoiceKeys.details(), id] as const,
 };
 
-export function useInvoice(invoiceId: string) {
+export const useInvoice = (invoiceId: string) => {
   return useQuery(
     queryOptions({
       queryKey: invoiceKeys.detail(invoiceId),
@@ -23,4 +23,4 @@ export function useInvoice(invoiceId: string) {
         query.state.data?.status === InvoiceStatus.Processing ? POLL_INTERVAL_MS : false,
     }),
   );
-}
+};

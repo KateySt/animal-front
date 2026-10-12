@@ -7,7 +7,7 @@ type LogoutButtonProps = {
   onLogout: () => void;
 };
 
-const LogoutButton = ({ onLogout }: LogoutButtonProps) => {
+export const LogoutButton = ({ onLogout }: LogoutButtonProps) => {
   const { t } = useTranslation("common");
 
   const { mutate: logout } = useLogout();
@@ -27,5 +27,3 @@ const LogoutButton = ({ onLogout }: LogoutButtonProps) => {
     />
   );
 };
-
-export default LogoutButton;

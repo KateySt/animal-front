@@ -26,7 +26,7 @@ axiosInstance.interceptors.request.use((config) => {
 
 let refreshPromise: Promise<string> | null = null;
 
-export function refreshAccessToken(): Promise<string> {
+export const refreshAccessToken = (): Promise<string> => {
   if (!refreshPromise) {
     refreshPromise = refreshInstance
       .post("/v1/auth/refresh")
@@ -45,7 +45,7 @@ export function refreshAccessToken(): Promise<string> {
       });
   }
   return refreshPromise;
-}
+};
 
 axiosInstance.interceptors.response.use(
   (response) => response,

@@ -61,6 +61,8 @@ Layout nesting: `AuthWrapper` (requires auth) wraps everything except Login/Regi
 - **Always `type`, never `interface`** — no exceptions currently in the codebase (auth types are all `type`)
 - `TimeStamp = { created_at: string; updated_at: string }` — extend with `& TimeStamp`
 - Const objects as enums: `const Foo = { A: "a" } as const; type FooType = (typeof Foo)[keyof typeof Foo]`
+- **Arrow functions only** — components, hooks, utils: `export const useFoo = () => {}`, never `function` (enforced by ESLint `func-style: expression` + `prefer-arrow-callback`). Generics in `.tsx`: `<T,>(x: T) =>`
+- **Named exports** for components; `export default` only for route modules referenced in `routes.ts` (`pages/*`, `wrappers/AuthWrapper`, `wrappers/AdminWrapper`, `components/layout/MainLayout`) and `root.tsx`
 
 ## i18n
 

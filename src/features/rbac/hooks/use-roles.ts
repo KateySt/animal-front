@@ -11,7 +11,7 @@ export const roleKeys = {
   detail: (id: string) => [...roleKeys.details(), id] as const,
 };
 
-export function useRoles() {
+export const useRoles = () => {
   return useQuery(
     queryOptions({
       queryKey: roleKeys.list(),
@@ -19,9 +19,9 @@ export function useRoles() {
       select: (response) => response.data,
     }),
   );
-}
+};
 
-export function useRole(roleId: string) {
+export const useRole = (roleId: string) => {
   return useQuery(
     queryOptions({
       queryKey: roleKeys.detail(roleId),
@@ -29,9 +29,9 @@ export function useRole(roleId: string) {
       enabled: !!roleId,
     }),
   );
-}
+};
 
-export function useCreateRole() {
+export const useCreateRole = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -39,9 +39,9 @@ export function useCreateRole() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: roleKeys.list() }),
     onError: (error) => message.error(getRbacErrorMessage(error)),
   });
-}
+};
 
-export function useUpdateRole() {
+export const useUpdateRole = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -53,9 +53,9 @@ export function useUpdateRole() {
     },
     onError: (error) => message.error(getRbacErrorMessage(error)),
   });
-}
+};
 
-export function useDeleteRole() {
+export const useDeleteRole = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -63,9 +63,9 @@ export function useDeleteRole() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: roleKeys.list() }),
     onError: (error) => message.error(getRbacErrorMessage(error)),
   });
-}
+};
 
-export function useSetRolePermissions() {
+export const useSetRolePermissions = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -77,4 +77,4 @@ export function useSetRolePermissions() {
     },
     onError: (error) => message.error(getRbacErrorMessage(error)),
   });
-}
+};

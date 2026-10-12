@@ -8,16 +8,16 @@ export const rbacUserKeys = {
   list: () => [...rbacUserKeys.all, "list"] as const,
 };
 
-export function useRbacUsers() {
+export const useRbacUsers = () => {
   return useQuery(
     queryOptions({
       queryKey: rbacUserKeys.list(),
       queryFn: () => rbacUsersApi.getUsers(),
     }),
   );
-}
+};
 
-export function useAssignUserRoles() {
+export const useAssignUserRoles = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -26,4 +26,4 @@ export function useAssignUserRoles() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: rbacUserKeys.list() }),
     onError: (error) => message.error(getRbacErrorMessage(error)),
   });
-}
+};

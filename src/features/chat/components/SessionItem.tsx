@@ -15,7 +15,7 @@ type SessionItemProps = {
   onDelete: (id: string) => void;
 };
 
-const SessionItem = ({ session, isActive, onSelect, onDelete }: SessionItemProps) => {
+export const SessionItem = ({ session, isActive, onSelect, onDelete }: SessionItemProps) => {
   const { t } = useTranslation("chat");
 
   const handleDelete = (event: MouseEvent<HTMLElement>) => {
@@ -44,5 +44,3 @@ const SessionItem = ({ session, isActive, onSelect, onDelete }: SessionItemProps
     </div>
   );
 };
-
-export default SessionItem;

@@ -5,16 +5,16 @@ import { getStripeErrorMessage } from "../utils/errors.ts";
 import { invoiceKeys } from "./use-invoice.ts";
 import type { InvoiceCreateDto, InvoiceUpdateDto } from "../types/stripe.ts";
 
-export function useMyInvoices() {
+export const useMyInvoices = () => {
   return useQuery(
     queryOptions({
       queryKey: invoiceKeys.mine(),
       queryFn: () => stripeApi.getMyInvoices(),
     }),
   );
-}
+};
 
-export function useAllInvoices(enabled: boolean) {
+export const useAllInvoices = (enabled: boolean) => {
   return useQuery(
     queryOptions({
       queryKey: invoiceKeys.everyone(),
@@ -22,9 +22,9 @@ export function useAllInvoices(enabled: boolean) {
       enabled,
     }),
   );
-}
+};
 
-export function useCreateInvoice() {
+export const useCreateInvoice = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -32,9 +32,9 @@ export function useCreateInvoice() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: invoiceKeys.lists() }),
     onError: (error) => message.error(getStripeErrorMessage(error)),
   });
-}
+};
 
-export function useUpdateInvoice() {
+export const useUpdateInvoice = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -46,9 +46,9 @@ export function useUpdateInvoice() {
     },
     onError: (error) => message.error(getStripeErrorMessage(error)),
   });
-}
+};
 
-export function useDeleteInvoice() {
+export const useDeleteInvoice = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -59,4 +59,4 @@ export function useDeleteInvoice() {
     },
     onError: (error) => message.error(getStripeErrorMessage(error)),
   });
-}
+};
