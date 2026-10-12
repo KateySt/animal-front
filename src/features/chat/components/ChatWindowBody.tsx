@@ -70,9 +70,8 @@ export const ChatWindowBody = ({ sessionId, idle }: ChatWindowBodyProps) => {
   };
 
   const exitVoiceMode = () => {
-    interruptSpeech();
     setIsVoiceMode(false);
-    useChatStore.getState().setStatus(sessionId, "ready");
+    if (state === "listening") useChatStore.getState().setStatus(sessionId, "ready");
   };
 
   const handleGenerateImage = async (description: string) => {
