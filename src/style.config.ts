@@ -25,16 +25,13 @@ export const styleConfig = {
   defaultTheme: theme.darkAlgorithm,
   stripeTheme: "night" as const,
 
-  // Brand
   colorPrimary: palette.primary,
   colorAccent: palette.accent,
   borderRadius: 6,
 
-  // Layout
   maxAppWidth: 1440,
   maxContentWidth: 1200,
 
-  // Typography
   fontFamily:
     "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
   fontSizeBase: 14,
