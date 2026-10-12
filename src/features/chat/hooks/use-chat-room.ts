@@ -47,6 +47,7 @@ export const useChatRoom = (sessionId: string, { markActive, wake }: IdleConnect
   useReplyWatchdog(sessionId, status, messages);
 
   const streamMessageIds = useRef<Map<string, string>>(new Map());
+  const streamTexts = useRef<Map<string, string>>(new Map());
   const userSegmentMessageIds = useRef<Map<string, string>>(new Map());
   const userTurnRef = useRef<{
     messageId: string;
@@ -59,11 +60,19 @@ export const useChatRoom = (sessionId: string, { markActive, wake }: IdleConnect
   const hydratedSessionRef = useRef<string | null>(null);
 
   useEffect(() => {
-    if (prevAgentStateRef.current === "listening" && agentState !== "listening") {
+    const prevState = prevAgentStateRef.current;
+    if (prevState === "listening" && agentState !== "listening") {
       userTurnRef.current = null;
     }
+
+    if (prevState !== "listening" && agentState === "listening") {
+      const currentStatus = useChatStore.getState().getStatus(sessionId);
+      if (currentStatus === "submitted" || currentStatus === "streaming") {
+        setStatus(sessionId, "ready");
+      }
+    }
     prevAgentStateRef.current = agentState;
-  }, [agentState]);
+  }, [agentState, sessionId, setStatus]);
 
   useEffect(() => {
     const hasStoreMessages = useChatStore.getState().messagesBySession[sessionId]?.length;
@@ -107,6 +116,9 @@ export const useChatRoom = (sessionId: string, { markActive, wake }: IdleConnect
         return;
       }
 
+      if (streamTexts.current.get(streamKey) === stream.text) return;
+      streamTexts.current.set(streamKey, stream.text);
+
       const isFinal = stream.streamInfo.attributes?.[ATTR_FINAL] === "true";
       let messageId = streamMessageIds.current.get(streamKey);
       const isNew = messageId === undefined;
@@ -115,7 +127,12 @@ export const useChatRoom = (sessionId: string, { markActive, wake }: IdleConnect
         streamMessageIds.current.set(streamKey, messageId);
       }
       setAssistantMessageText(sessionId, messageId, stream.text, isNew);
-      setStatus(sessionId, isFinal ? "ready" : "streaming");
+
+      const isReplyClosed =
+        prevAgentStateRef.current === "listening" &&
+        useChatStore.getState().getStatus(sessionId) === "ready";
+      if (isFinal) setStatus(sessionId, "ready");
+      else if (!isReplyClosed) setStatus(sessionId, "streaming");
     });
   }, [transcriptions, localParticipant, sessionId]);
 

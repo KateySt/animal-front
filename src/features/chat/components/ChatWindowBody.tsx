@@ -23,6 +23,8 @@ import {
 } from "@livekit/components-react";
 import { ConnectionState } from "livekit-client";
 
+const INTERRUPT_SPEECH_RPC = "interrupt_speech";
+
 type ChatWindowBodyProps = {
   sessionId: string;
   idle: IdleConnection;
@@ -35,15 +37,10 @@ export const ChatWindowBody = ({ sessionId, idle }: ChatWindowBodyProps) => {
   const isMobile = useIsMobile();
   const [isVoiceMode, setIsVoiceMode] = useState(false);
   const { mutateAsync: generateImage, isPending: isGeneratingImage } = useGenerateImage(sessionId);
-  const { state, audioTrack } = useVoiceAssistant();
+  const { state, audioTrack, agent } = useVoiceAssistant();
   const connectionState = useConnectionState();
   const { lastMicrophoneError } = useLocalParticipant();
-  const [isMuted, setIsMuted] = useState(false);
   const { messages, setMessages, sendMessage, status, room } = useChatRoom(sessionId, idle);
-
-  useEffect(() => {
-    if (state !== "speaking") setIsMuted(false);
-  }, [state]);
 
   useEffect(() => {
     if (connectionState !== ConnectionState.Connected) return;
@@ -59,6 +56,23 @@ export const ChatWindowBody = ({ sessionId, idle }: ChatWindowBodyProps) => {
   const enterVoiceMode = () => {
     setIsVoiceMode(true);
     wake().catch(() => message.error(t("errors.sendFailed")));
+  };
+
+  const interruptSpeech = () => {
+    if (!agent || state !== "speaking") return;
+    room.localParticipant
+      .performRpc({
+        destinationIdentity: agent.identity,
+        method: INTERRUPT_SPEECH_RPC,
+        payload: "",
+      })
+      .catch(() => undefined);
+  };
+
+  const exitVoiceMode = () => {
+    interruptSpeech();
+    setIsVoiceMode(false);
+    useChatStore.getState().setStatus(sessionId, "ready");
   };
 
   const handleGenerateImage = async (description: string) => {
@@ -100,7 +114,7 @@ export const ChatWindowBody = ({ sessionId, idle }: ChatWindowBodyProps) => {
 
   return (
     <div className={styles.window}>
-      <RoomAudioRenderer muted={isMuted} />
+      <RoomAudioRenderer muted={!isVoiceMode} />
       <div className={styles.header}>
         {isMobile && (
           <Button
@@ -125,10 +139,8 @@ export const ChatWindowBody = ({ sessionId, idle }: ChatWindowBodyProps) => {
           audioTrack={audioTrack}
           isError={idle.shouldConnect && connectionState === ConnectionState.Disconnected}
           isMicDenied={!!lastMicrophoneError}
-          onExit={() => {
-            setIsVoiceMode(false);
-            useChatStore.getState().setStatus(sessionId, "ready");
-          }}
+          onInterrupt={interruptSpeech}
+          onExit={exitVoiceMode}
         />
       ) : (
         <ChatView

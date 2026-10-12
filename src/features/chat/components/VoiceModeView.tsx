@@ -19,6 +19,7 @@ type VoiceModeViewProps = {
   audioTrack: TrackReference | undefined;
   isError: boolean;
   isMicDenied: boolean;
+  onInterrupt: () => void;
   onExit: () => void;
 };
 
@@ -27,6 +28,7 @@ export const VoiceModeView = ({
   audioTrack,
   isError,
   isMicDenied,
+  onInterrupt,
   onExit,
 }: VoiceModeViewProps) => {
   const { t } = useTranslation("chat");
@@ -53,6 +55,7 @@ export const VoiceModeView = ({
         type="button"
         className={clsx(styles.visualizer, isInterruptible && styles.interruptible)}
         disabled={!isInterruptible}
+        onClick={onInterrupt}
         aria-label="voice visualizer"
       >
         <AgentAudioVisualizerAura
